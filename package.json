@@ -5,10 +5,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ehgoodenough/pomodoro-farm"
+    "url": "https://github.com/ehgoodenough/ld36"
   },
   "dependencies": {
     "afloop": "^1.0.2",
+    "keyb": "^1.0.4",
     "pixi.js": "^4.0.0-rc3"
   },
   "devDependencies": {

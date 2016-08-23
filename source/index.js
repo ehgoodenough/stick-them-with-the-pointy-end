@@ -12,6 +12,9 @@ var Pixi = require("pixi.js")
 // We're importing Afloop for the main loop.
 var Afloop = require("afloop")
 
+// We're importing Keyb for input polling.
+var Keyb = require("keyb")
+
 // All of these dependencies are listed in
 // our package.json, and are automatically
 // downloaded when you run `npm install`.
@@ -54,12 +57,6 @@ document.body.appendChild(renderer.view)
 var RED_TEXTURE = Pixi.Texture.fromImage(require("images/red-starship.png"))
 var BLUE_TEXTURE = Pixi.Texture.fromImage(require("images/blue-starship.png"))
 
-// Let's make a sprite! We have to give it a texture.
-var sprite = new Pixi.Sprite(RED_TEXTURE)
-
-// But that's so boring! Let's just subclass
-// the sprite and add our own functionality!
-
 class Hero extends Pixi.Sprite {
     // Because we inheriting from sprite, we're
     // responsible for adding a `super` call to
@@ -73,13 +70,23 @@ class Hero extends Pixi.Sprite {
         this.position.y = HEIGHT * 0.5
         this.anchor.x = 0.5
         this.anchor.y = 0.5
+
+        this.speed = 0.1
     }
     // We'll add a method to run
     // each frame to update the sprite.
     update(delta) {
         // This will move our sprite
         // across the screen! Why not?
-        this.position.x += 0.1 * delta
+        if(Keyb.isDown("<up>")) {
+            this.position.y -= this.speed * delta
+        } if(Keyb.isDown("<down>")) {
+            this.position.y += this.speed * delta
+        } if(Keyb.isDown("<left>")) {
+            this.position.x -= this.speed * delta
+        } if(Keyb.isDown("<right>")) {
+            this.position.x += this.speed * delta
+        }
     }
 }
 
@@ -91,7 +98,6 @@ var hero = new Hero(BLUE_TEXTURE)
 // Pixi.Container, which we'll call our "game."
 
 var game = new Pixi.Container()
-game.addChild(sprite)
 game.addChild(hero)
 
 //////////////////////////////////
