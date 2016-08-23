@@ -56,6 +56,10 @@ document.body.appendChild(renderer.view)
 // load these textures from our `images` directory.
 var RED_TEXTURE = Pixi.Texture.fromImage(require("images/red-starship.png"))
 var BLUE_TEXTURE = Pixi.Texture.fromImage(require("images/blue-starship.png"))
+var GREEN_TEXTURE = Pixi.Texture.fromImage(require("images/green-starship.png"))
+var YELLOW_TEXTURE = Pixi.Texture.fromImage(require("images/yellow-starship.png"))
+
+var spaceshipTextures = [RED_TEXTURE, BLUE_TEXTURE, GREEN_TEXTURE, YELLOW_TEXTURE]
 
 class Hero extends Pixi.Sprite {
     // Because we inheriting from sprite, we're
@@ -72,6 +76,7 @@ class Hero extends Pixi.Sprite {
         this.anchor.y = 0.5
 
         this.speed = 0.1
+        this.textureIndex = 0
     }
     // We'll add a method to run
     // each frame to update the sprite.
@@ -87,6 +92,15 @@ class Hero extends Pixi.Sprite {
         } if(Keyb.isDown("<right>")) {
             this.position.x += this.speed * delta
         }
+
+        // This will change the sprite's texture
+        if(Keyb.isJustDown("<shift>")) {
+            this.changeTexture()
+        }
+    }
+    changeTexture() {
+        this.textureIndex = (this.textureIndex + 1) % spaceshipTextures.length
+        this.texture = spaceshipTextures[this.textureIndex]
     }
 }
 
