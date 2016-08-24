@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    cursor: default;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    box-sizing: border-box;
+    -ms-interpolation-mode: nearest-neighbor;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: pixelated;
+}
+
+html {
+    color: #EEE;
+    background-color: #111;
+}
+
+/*
+    The below code is for resizing the
+    canvas to ALWAYS be 16x9, regardless
+    of the browser size.
+*/
+
+canvas {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: auto;
+    position: fixed;
+    overflow: hidden;
+}
+
+@media(min-aspect-ratio: 16/9) {
+    canvas {
+        font-size: 11.11vh;
+        width: 177.777778vh;
+        height: 100vh;
+    }
+}
+
+@media(max-aspect-ratio: 16/9) {
+    canvas {
+        font-size: 6.25vw;
+        height: 56.25vw;
+        width: 100vw;
+    }
+}
