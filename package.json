@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "afloop": "^1.0.2",
-    "keyb": "^1.0.4",
+    "keyb": "^1.1.0",
     "pixi.js": "^4.0.0-rc3"
   },
   "devDependencies": {

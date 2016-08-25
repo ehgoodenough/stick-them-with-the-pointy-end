@@ -59,7 +59,40 @@ var BLUE_TEXTURE = Pixi.Texture.fromImage(require("images/blue-starship.png"))
 var GREEN_TEXTURE = Pixi.Texture.fromImage(require("images/green-starship.png"))
 var YELLOW_TEXTURE = Pixi.Texture.fromImage(require("images/yellow-starship.png"))
 
-var spaceshipTextures = [RED_TEXTURE, BLUE_TEXTURE, GREEN_TEXTURE, YELLOW_TEXTURE]
+var SPACESHIPS = [
+    {
+        speed: 0.05,
+        texture: RED_TEXTURE,
+        onShootSpeed: 100,
+        onShoot: function() {
+            console.log("BANG")
+        }
+    },
+    {
+        speed: 0.1,
+        texture: BLUE_TEXTURE,
+        onShootSpeed: 200,
+        onShoot: function() {
+            console.log("BOOM")
+        }
+    },
+    {
+        speed: 0.025,
+        texture: GREEN_TEXTURE,
+        onShootSpeed: 50,
+        onShoot: function() {
+            console.log("BZAP")
+        }
+    },
+    {
+        speed: 0.1,
+        texture: YELLOW_TEXTURE,
+        onShootSpeed: 75,
+        onShoot: function() {
+            console.log("BOOF")
+        }
+    }
+]
 
 class Hero extends Pixi.Sprite {
     // Because we inheriting from sprite, we're
@@ -75,8 +108,10 @@ class Hero extends Pixi.Sprite {
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.speed = 0.1
-        this.textureIndex = 0
+        this.spaceshipIndex = 0
+        this.setSpaceship(SPACESHIPS[this.spaceshipIndex])
+
+        this.onShootTimer = 0
     }
     // We'll add a method to run
     // each frame to update the sprite.
@@ -93,14 +128,27 @@ class Hero extends Pixi.Sprite {
             this.position.x += this.speed * delta
         }
 
-        // This will change the sprite's texture
-        if(Keyb.isJustDown("<shift>")) {
-            this.changeTexture()
+        // This will change the sprite's texture, speed, and more.
+        if(Keyb.isJustDown("<shift>", delta)) {
+            // Use some modulo logic to toggle to the next spaceship.
+            this.spaceshipIndex = (this.spaceshipIndex + 1) % SPACESHIPS.length
+            var spaceship = SPACESHIPS[this.spaceshipIndex]
+
+            // Set the spaceship.
+            this.setSpaceship(spaceship)
+        }
+
+        this.onShootTimer += delta
+        if(this.onShootTimer > this.onShootSpeed) {
+            this.onShootTimer = 0
+            this.onShoot()
         }
     }
-    changeTexture() {
-        this.textureIndex = (this.textureIndex + 1) % spaceshipTextures.length
-        this.texture = spaceshipTextures[this.textureIndex]
+    setSpaceship(spaceship) {
+        this.texture = spaceship.texture
+        this.speed = spaceship.speed
+        this.onShoot = spaceship.onShoot
+        this.onShootSpeed = spaceship.onShootSpeed
     }
 }
 
