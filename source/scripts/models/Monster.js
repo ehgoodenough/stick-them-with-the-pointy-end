@@ -1,10 +1,11 @@
 import Pixi from "pixi.js"
 import Geometry from "scripts/utility/Geometry.js"
+import Tile from "scripts/models/Tile.js"
 
 import config from "config.js"
 
 var MONSTER_TEXTURE = Pixi.Texture.fromImage(require("images/monster1.png"))
-var MAXIMUM_VELOCITY = 1
+var MAXIMUM_VELOCITY = .5
 
 export default class Monster extends Pixi.Sprite {
 
@@ -26,9 +27,10 @@ export default class Monster extends Pixi.Sprite {
         var positionRelativeToHeroY = this.theHero.position.y - this.position.y
         this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
         var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
-        var velocity = {x: positionRelativeToHeroX/magnitudeOfRelativePosition, y: positionRelativeToHeroY/magnitudeOfRelativePosition}
-        this.targetPosition.x += velocity.x
-        this.targetPosition.y += velocity.y
+        this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition
+        this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition
+        this.targetPosition.x += this.velocity.x
+        this.targetPosition.y += this.velocity.y
 
         //Max velocity check
         var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
@@ -37,9 +39,28 @@ export default class Monster extends Pixi.Sprite {
             this.velocity.y *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
         }
 
+        // Collide with tiles
+        this.game.tiles.children.forEach((child) => {
+            if(child instanceof Tile) {
+                var tile = child
+                if(tile.containsPoint({
+                    x: this.position.x + this.velocity.x,
+                    y: this.position.y
+                })) {
+                    this.velocity.x = 0
+                }
+                if(tile.containsPoint({
+                    x: this.position.x,
+                    y: this.position.y + this.velocity.y
+                })) {
+                    this.velocity.y = 0
+                }
+            }
+        })
+
         //Translation
-        this.position.x += velocity.x
-        this.position.y += velocity.y
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
 
         //Collision detection
         if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + this.game.hero.radius) {
