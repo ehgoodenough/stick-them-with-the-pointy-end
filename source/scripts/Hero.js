@@ -2,6 +2,7 @@ import Pixi from "pixi.js"
 import Keyb from "keyb"
 
 import Geometry from "scripts/Geometry.js"
+import Tile from "scripts/Tile.js"
 var GAMEPAD_THRESHOLD = 0.05
 
 var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero.png"))
@@ -10,8 +11,8 @@ export default class Hero extends Pixi.Sprite {
     constructor() {
         super(HERO_TEXTURE)
 
-        this.position.x = 20
-        this.position.y = 20
+        this.position.x = 32
+        this.position.y = 32
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
@@ -35,24 +36,24 @@ export default class Hero extends Pixi.Sprite {
         }
 
         // Collide with tiles
-        // this.parent.children.forEach((child) => {
-        //     if(child instanceof Tile) {
-        //         var tile = child
-        //         tile.hasPoint(this.position)
-        //         // if(tile.hasPoint({
-        //         //     x: this.position.x + this.velocity.x,
-        //         //     y: this.position.y
-        //         // })) {
-        //         //     this.velocity.x = 0
-        //         // }
-        //         // if(tile.hasPoint({
-        //         //     x: this.position.x + this.velocity.x,
-        //         //     y: this.position.y + this.velocity.y
-        //         // })) {
-        //         //     this.velocity.y = 0
-        //         // }
-        //     }
-        // })
+        this.parent.children.forEach((child) => {
+            if(child instanceof Tile) {
+                var tile = child
+                tile.hasPoint(this.position)
+                if(tile.hasPoint({
+                    x: this.position.x + this.velocity.x,
+                    y: this.position.y
+                })) {
+                    this.velocity.x = 0
+                }
+                if(tile.hasPoint({
+                    x: this.position.x + this.velocity.x,
+                    y: this.position.y + this.velocity.y
+                })) {
+                    this.velocity.y = 0
+                }
+            }
+        })
 
         this.position.y += this.velocity.y
         this.position.x += this.velocity.x
@@ -61,7 +62,7 @@ export default class Hero extends Pixi.Sprite {
 
         var gamepads = navigator.getGamepads()
         if(gamepads[0] != undefined) {
-            var axes = gamepads[0].axes.slice();
+            var axes = gamepads[0].axes.slice()
             if(axes.length == 5){
                 axes.shift()
             }
