@@ -15,10 +15,13 @@ export default class Monster extends Pixi.Sprite {
         this.position.y = this.spawnPosition.y * config.tile.size
         this.anchor.x = 0.5
         this.anchor.y = 0.5
-        // For collision
-        this.radius = 16
+
         this.velocity = new Pixi.Point(0, 0)
         this.targetPosition = {x: this.position.x, y: this.position.y}
+
+        // For collision
+        this.radius = 16
+        this.attackDamage = 1
     }
     update(){
         this.theHero = this.parent.parent.hero
@@ -43,7 +46,10 @@ export default class Monster extends Pixi.Sprite {
 
         //Collision detection
         if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + this.game.hero.radius) {
-            console.log("COLLISION!!")
+            this.game.hero.beAttacked({
+                velocity: this.velocity,
+                damage: this.attackDamage,
+            })
         }
     }
 }

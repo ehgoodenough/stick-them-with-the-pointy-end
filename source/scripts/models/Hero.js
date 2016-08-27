@@ -27,6 +27,9 @@ export default class Hero extends Pixi.Sprite {
         this.friction = 2
 
         this.mode = "GAME MODE"
+
+        this.radius = 16
+        this.beAttackedCooldown = 0
     }
     update(delta) {
         // Poll inputs
@@ -35,8 +38,8 @@ export default class Hero extends Pixi.Sprite {
         var y = Input.getY()
         if(Geometry.getMagnitude(x, y) > GAMEPAD_THRESHOLD) {
             this.rotation = Geometry.getAngle(x, y)
-            this.velocity.y = y * this.maxVelocity * delta
-            this.velocity.x = x * this.maxVelocity * delta
+            this.velocity.y = y * this.maxVelocity * delta.f
+            this.velocity.x = x * this.maxVelocity * delta.f
         }
 
         if(Keyb.isJustDown("1")) {
@@ -157,9 +160,17 @@ export default class Hero extends Pixi.Sprite {
         } else if(this.mode == "GAME MODE") {
             this.tint = 0xFFFFFF
         }
+
+        // Cooldowns
+        if(this.beAttackedCooldown > 0) {
+            this.beAttackedCooldown -= delta.s
+        }
     }
     focus() {
         this.parent.targetposition.x = -1 * (this.position.x - (config.frame.width / 2))
         this.parent.targetposition.y = -1 * (this.position.y - (config.frame.height / 2))
+    }
+    beAttacked() {
+        console.log("ouch")
     }
 }

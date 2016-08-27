@@ -49,9 +49,9 @@ export default class GameContainer extends Pixi.Container {
     }
     update(delta) {
         this.hero.update(delta)
-        for(var i=0; i<this.monsters.children.length; i++){
-            this.monsters.children[i].update(delta)
-        }
+        this.monsters.children.forEach((monster) => {
+            monster.update(delta)
+        })
 
         this.position.x += (this.targetposition.x - this.position.x) / (1 / CAMERA_TRANSITION_FRICTION)
         this.position.y += (this.targetposition.y - this.position.y) / (1 / CAMERA_TRANSITION_FRICTION)
