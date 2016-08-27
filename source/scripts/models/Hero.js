@@ -137,7 +137,6 @@ export default class Hero extends Pixi.Sprite {
                         ty: Math.min(this.firstposition.ty, secondposition.ty),
                         tw: Math.abs(this.firstposition.tx - secondposition.tx) + 1,
                         th: Math.abs(this.firstposition.ty - secondposition.ty) + 1,
-                        color: 0xCC0CC,
                     }))
                     delete this.firstposition
                 }

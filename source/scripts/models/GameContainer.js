@@ -6,65 +6,31 @@ import Hero from "scripts/models/Hero.js"
 import Tile from "scripts/models/Tile.js"
 import Camera from "scripts/models/Camera.js"
 
-var WORLD = {
-    CAMERAS: [
-        {
-            name: "alpha",
-            tx: 0, ty: 0,
-            tw: 14, th: 8,
-            color: 0xCC0000,
-        },
-        {
-            name: "omega",
-            tx: 0, ty: 8,
-            tw: 14, th: 16,
-            color: 0x00CC00,
-        },
-        {
-            name: "beta",
-            tx: 13, ty: 1,
-            tw: 4, th: 4,
-            color: 0x0000CC,
-        },
-    ]
-}
+var world = require("data/world.json")
 
 export default class GameContainer extends Pixi.Container {
     constructor() {
         super()
 
-        // Instantiate the tiles
-        this.tiles = new Pixi.Container()
-        var LEVEL = require("raw!levels/dungeon.txt")
-        var tiles = LEVEL.split("\n").map((row) => {
-            return row.split("")
-        })
-        for(var ty = 0; ty < tiles.length; ty += 1) {
-            for(var tx = 0; tx < tiles[ty].length; tx+= 1) {
-                var tile = tiles[ty][tx]
-                if(tile == "#") {
-                    this.tiles.addChild(new Tile({
-                        tx: tx, ty: ty
-                    }))
-                }
-            }
-        }
-        this.addChild(this.tiles)
+        this.superposition = new Pixi.Point()
 
-        // Instantiate the cameras
-        this.cameras = new Pixi.Container()
-        WORLD.CAMERAS.forEach((camera) => {
-            camera = new Camera(camera)
-            this.cameras.addChild(camera)
-        })
-        this.addChild(this.cameras)
-
-        // Instantiate the hero
         this.hero = new Hero()
+        this.tiles = new Pixi.Container()
+        this.cameras = new Pixi.Container()
+
+        this.addChild(this.tiles)
+        this.addChild(this.cameras)
         this.addChild(this.hero)
 
+        world.tiles.forEach((tile) => {
+            this.tiles.addChild(new Tile(tile))
+        })
+        world.cameras.forEach((camera) => {
+            this.cameras.addChild(new Camera(camera))
+        })
 
-        this.superposition = new Pixi.Point()
+        console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
+        console.log("To copy the world to your clipboard, run copy(game.data)")
     }
     update(delta) {
         this.hero.update(delta)
@@ -72,5 +38,28 @@ export default class GameContainer extends Pixi.Container {
         // TODO: TWEEN THIS
         this.position.x = this.superposition.x
         this.position.y = this.superposition.y
+    }
+    get data() {
+        var data = {
+            tiles: [],
+            cameras: [],
+            monsters: [],
+            savepoints: [],
+        }
+
+        this.tiles.children.forEach((tile) => {
+            data.tiles.push({
+                tx: tile.tx, ty: tile.ty
+            })
+        })
+
+        this.cameras.children.forEach((camera) => {
+            data.cameras.push({
+                tx: camera.tx, ty: camera.ty,
+                tw: camera.tw, th: camera.th
+            })
+        })
+
+        return data
     }
 }
