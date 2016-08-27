@@ -23,7 +23,7 @@ document.body.appendChild(renderer.view)
 ///// Establishing the Game State /////
 //////////////////////////////////////
 
-import GameContainer from "scripts/GameContainer.js"
+import GameContainer from "scripts/models/GameContainer.js"
 
 var game = new GameContainer()
 

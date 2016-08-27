@@ -3,10 +3,10 @@ import Keyb from "keyb"
 
 import config from "config.js"
 
-import Geometry from "scripts/Geometry.js"
+import Geometry from "scripts/utility/Geometry.js"
 import Input from "scripts/utility/Input.js"
 
-import Tile from "scripts/Tile.js"
+import Tile from "scripts/models/Tile.js"
 
 var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero1.png"))
 var GAMEPAD_THRESHOLD = 0.05
@@ -16,8 +16,8 @@ export default class Hero extends Pixi.Sprite {
     constructor() {
         super(HERO_TEXTURE)
 
-        this.position.x = 32
-        this.position.y = 32
+        this.position.x = 7 * 32
+        this.position.y = 4 * 32
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
@@ -75,6 +75,29 @@ export default class Hero extends Pixi.Sprite {
         this.velocity.y *= (1 / this.friction)
         this.velocity.x *= (1 / this.friction)
 
+        // Camera
+        if(this.mode == "GAME MODE") {
+            // If you are currently within a camera zone, focus on that.
+            if(this.camera && this.camera.containsPoint(this.position)) {
+                this.camera.focus()
+            } else {
+                // If you are no longer within a camera zone, find a new zone!
+                this.camera = this.parent.cameras.children.find((camera) => {
+                    if(camera.containsPoint(this.position)) {
+                        camera.focus()
+                        return true
+                    }
+                })
+                // If you couldn't find any camera
+                // zones, just center the camera on you.
+                if(this.camera == undefined) {
+                    this.focus()
+                }
+            }
+        } else if(this.mode == "DEV MODE") {
+            this.focus()
+        }
+
         // Enable dev mode
         if(this.mode == "DEV MODE") {
             this.tint = 0x0000CC
@@ -87,5 +110,9 @@ export default class Hero extends Pixi.Sprite {
         } else if(this.mode == "GAME MODE") {
             this.tint = 0xFFFFFF
         }
+    }
+    focus() {
+        this.parent.superposition.x = -1 * (this.position.x - (config.frame.width / 2))
+        this.parent.superposition.y = -1 * (this.position.y - (config.frame.height / 2))
     }
 }

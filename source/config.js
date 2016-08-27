@@ -1,9 +1,9 @@
 export default {
     frame: {
-        width: 160 * 2,
-        height: 90 * 2,
+        width: 32 * 14.5,
+        height: 32 * 8.5,
     },
     tile: {
-        size: 16 * 2,
+        size: 32,
     },
 }
