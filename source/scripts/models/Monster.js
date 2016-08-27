@@ -63,12 +63,14 @@ export default class Monster extends Pixi.Sprite {
         })
 
         //Collision detection with Hero
-        if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + this.game.hero.radius) {
+        var heroRadiusForCollision = this.game.hero.radius
+        heroRadiusForCollision *= .6
+        if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + heroRadiusForCollision) {
             this.game.hero.beAttacked({
                 velocity: this.velocity,
                 damage: this.attackDamage,
             })
-            //this.velocity = {x: 0, y: 0}
+            this.velocity = {x: 0, y: 0}
         }
 
         //Translation
