@@ -13,8 +13,14 @@ export default class Monster extends Pixi.Sprite {
         console.log(this.spawnPosition)
         this.position.x = this.spawnPosition.x * TEXTURE_LENGTH
         this.position.y = this.spawnPosition.y * TEXTURE_LENGTH
+        this.anchor.x = 0.5
+        this.anchor.y = 0.5
     }
     update(){
-
+        var positionRelativeToHero = {x: 0, y: 0}
+        var theHero = this.parent.parent.hero
+        positionRelativeToHero.x = theHero.position.x - this.position.x
+        positionRelativeToHero.y = theHero.position.y - this.position.y
+        this.rotation = Geometry.getAngle(positionRelativeToHero.x, positionRelativeToHero.y)
     }
 }
