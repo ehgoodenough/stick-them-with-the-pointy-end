@@ -9,6 +9,8 @@ import Input from "scripts/utility/Input.js"
 import Tile from "scripts/models/Tile.js"
 import Camera from "scripts/models/Camera.js"
 
+import Spear from "scripts/models/Spear.js"
+
 var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero1.png"))
 var GAMEPAD_THRESHOLD = 0.05
 var MAXIMUM_VELOCITY = 1
@@ -36,6 +38,11 @@ export default class Hero extends Pixi.Sprite {
         this.spawnposition.x = this.position.x
         this.spawnposition.y = this.position.y
         this.spawnhealth = this.health
+
+        this.spear = null
+        this.isAttacking = false
+        this.attackCooldownTime = 0.5
+        this.timeSinceAttack = this.attackCooldownTime
     }
     update(delta) {
         // Poll inputs
@@ -57,6 +64,12 @@ export default class Hero extends Pixi.Sprite {
         } if(Keyb.isJustDown("3")) {
             this.mode = "DEV MODE: CAMERAS"
             console.log(this.mode)
+        }
+
+        if(Input.getButton() && !this.isAttacking){
+            this.attack()
+        } else if(this.isAttacking){
+            this.spear.update()
         }
 
         // Collide with tiles
@@ -168,6 +181,14 @@ export default class Hero extends Pixi.Sprite {
         if(this.beAttackedCooldown > 0) {
             this.beAttackedCooldown -= delta.s
         }
+        if(this.isAttacking){
+            if(this.timeSinceAttack < this.attackCooldownTime){
+                this.timeSinceAttack += delta.s
+            }else{
+                this.spear.visible = false;
+                this.isAttacking = false;
+            }
+        }
     }
     focus() {
         this.parent.targetposition.x = -1 * (this.position.x - (config.frame.width / 2))
@@ -188,6 +209,13 @@ export default class Hero extends Pixi.Sprite {
 
             return 0xFFFFFF
         }
+    }
+    attack(){
+        var spear = new Spear({x: 0, y: 0})
+        this.spear = spear
+        this.addChild(spear)
+        this.isAttacking = true
+        this.timeSinceAttack = 0
     }
     beAttacked(attack) {
         if(this.beAttackedCooldown <= 0) {
