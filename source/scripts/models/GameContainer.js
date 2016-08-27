@@ -3,6 +3,7 @@ import Pixi from "pixi.js"
 import config from "config.js"
 
 import Hero from "scripts/models/Hero.js"
+import Monster from "scripts/models/Monster.js"
 import Tile from "scripts/models/Tile.js"
 import Camera from "scripts/models/Camera.js"
 
@@ -61,15 +62,23 @@ export default class GameContainer extends Pixi.Container {
         })
         this.addChild(this.cameras)
 
+        // Instantiate monsters
+        this.monsters = new Pixi.Container()
+        var monster1 = new Monster(4, 4)
+        this.monsters.addChild(monster1)
+        this.addChild(this.monsters)
+
         // Instantiate the hero
         this.hero = new Hero()
         this.addChild(this.hero)
-
 
         this.superposition = new Pixi.Point()
     }
     update(delta) {
         this.hero.update(delta)
+        for(var i=0; i<this.monsters.children.length; i++){
+            this.monsters.children[i].update(delta)
+        }
 
         // TODO: TWEEN THIS
         this.position.x += (this.superposition.x - this.position.x)/(1/CAMERA_TRANSITION_FRICTION)
