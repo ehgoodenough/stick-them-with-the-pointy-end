@@ -48,16 +48,17 @@ rimraf("./builds/web", function() {
         module: {
             preLoaders: [
                 {
-                    test: /.js/,
+                    test: /\.js$/,
                     exclude: /(node_modules)/i,
                     loader: "eslint-loader"
                 },
-            ],
-            loaders: [
                 {
                     test: /\.json$/i,
+                    exclude: /(node_modules)/i,
                     loader: "json-loader",
                 },
+            ],
+            loaders: [
                 {
                     test: /\.js$/i,
                     exclude: /(node_modules)/i,

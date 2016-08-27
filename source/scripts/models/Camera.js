@@ -53,9 +53,6 @@ export default class Camera extends Pixi.Sprite {
             th: this.th
         }
     }
-    get game() {
-        return this.parent.parent
-    }
     containsPoint(point) {
         return point.x > this.x1
             && point.y > this.y1

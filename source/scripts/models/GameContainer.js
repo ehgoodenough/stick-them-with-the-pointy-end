@@ -1,25 +1,16 @@
 import Pixi from "pixi.js"
 
 import config from "config.js"
+var world = require("data/world.json")
 
 import Hero from "scripts/models/Hero.js"
+import Monster from "scripts/models/Monster.js"
 import Tile from "scripts/models/Tile.js"
 import Camera from "scripts/models/Camera.js"
 
-var world = require("data/world.json")
+import KeyContainer from "scripts/utility/KeyContainer.js"
 
 const CAMERA_TRANSITION_FRICTION = 0.05
-
-class KeyContainer extends Pixi.Container {
-    addChild(child) {
-        super.addChild(child)
-    }
-    get data() {
-        return this.children.map((child) => {
-            return child.data
-        })
-    }
-}
 
 export default class GameContainer extends Pixi.Container {
     constructor() {
@@ -28,9 +19,11 @@ export default class GameContainer extends Pixi.Container {
         this.hero = new Hero()
         this.tiles = new KeyContainer()
         this.cameras = new KeyContainer()
+        this.monsters = new KeyContainer()
 
         this.addChild(this.tiles)
         this.addChild(this.cameras)
+        this.addChild(this.monsters)
         this.addChild(this.hero)
 
         world.tiles.forEach((tile) => {
@@ -40,6 +33,9 @@ export default class GameContainer extends Pixi.Container {
             this.cameras.addChild(new Camera(camera))
         })
 
+        var monster1 = new Monster(4, 4)
+        this.monsters.addChild(monster1)
+
         this.targetposition = new Pixi.Point()
         this.hero.update()
         this.position.copy(this.targetposition)
@@ -47,8 +43,15 @@ export default class GameContainer extends Pixi.Container {
         console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
         console.log("To copy the world to your clipboard, run copy(game.data)")
     }
+    addChild(child) {
+        super.addChild(child)
+        child.game = this
+    }
     update(delta) {
         this.hero.update(delta)
+        for(var i=0; i<this.monsters.children.length; i++){
+            this.monsters.children[i].update(delta)
+        }
 
         this.position.x += (this.targetposition.x - this.position.x) / (1 / CAMERA_TRANSITION_FRICTION)
         this.position.y += (this.targetposition.y - this.position.y) / (1 / CAMERA_TRANSITION_FRICTION)
