@@ -54,7 +54,6 @@ rimraf("./builds/web", function() {
                 },
                 {
                     test: /\.json$/i,
-                    exclude: /(node_modules)/i,
                     loader: "json-loader",
                 },
             ],
@@ -91,6 +90,9 @@ rimraf("./builds/web", function() {
                 require("precss"),
                 require("autoprefixer"),
             ]
+        },
+        node: {
+            fs: "empty"
         },
         plugins: [
             new WebpackProgressBarPlugin({

@@ -24,7 +24,7 @@ export default class Monster extends Pixi.Sprite {
         this.radius = 16
 
         this.attack = {
-            damage: 2, // halfheart
+            damage: 1, // halfhearts
             cooldown: 1.5 // seconds
         }
     }
@@ -36,8 +36,6 @@ export default class Monster extends Pixi.Sprite {
         var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
         this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
         this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition || 0
-        // this.targetPosition.x += this.velocity.x
-        // this.targetPosition.y += this.velocity.y
 
         //Max velocity check
         var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
@@ -70,7 +68,6 @@ export default class Monster extends Pixi.Sprite {
         heroRadiusForCollision *= .6
         if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + heroRadiusForCollision) {
             this.game.hero.beAttacked({
-                velocity: this.velocity,
                 damage: this.attack.damage,
                 cooldown: this.attack.cooldown,
             })

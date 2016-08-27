@@ -51,8 +51,8 @@ export default class GameContainer extends Pixi.Container {
         this.hero.update()
         this.position.copy(this.targetposition)
 
-        console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
-        console.log("To copy the world to your clipboard, run copy(game.data)")
+        // console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
+        // console.log("To copy the world to your clipboard, run copy(game.data)")
     }
     addChild(child) {
         super.addChild(child)

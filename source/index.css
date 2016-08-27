@@ -12,13 +12,7 @@ html {
     background-color: #111;
 }
 
-/*
-    The below code is for resizing the
-    canvas to ALWAYS be 16x9, regardless
-    of the browser size.
-*/
-
-canvas {
+#frame {
     top: 0px;
     left: 0px;
     right: 0px;
@@ -29,7 +23,7 @@ canvas {
 }
 
 @media(min-aspect-ratio: 16/9) {
-    canvas {
+    #frame {
         font-size: 11.11vh;
         width: 177.777778vh;
         height: 100vh;
@@ -37,9 +31,40 @@ canvas {
 }
 
 @media(max-aspect-ratio: 16/9) {
-    canvas {
+    #frame {
         font-size: 6.25vw;
         height: 56.25vw;
         width: 100vw;
     }
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#uihud {
+    top: 0em;
+    left: 0em;
+    z-index: 99;
+    position: absolute;
+}
+
+#hearts {
+    padding: 0.5em;
+}
+
+.heart {
+    width: 1em;
+    height: 1em;
+    float: left;
+    margin-right: 0.25em;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("images/heart.png");
+}
+
+.half.heart {
+    background-image: url("images/halfheart.png");
 }
