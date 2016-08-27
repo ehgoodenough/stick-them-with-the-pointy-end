@@ -8,6 +8,8 @@ import Camera from "scripts/models/Camera.js"
 
 var world = require("data/world.json")
 
+const CAMERA_TRANSITION_FRICTION = 0.05
+
 export default class GameContainer extends Pixi.Container {
     constructor() {
         super()
@@ -36,8 +38,8 @@ export default class GameContainer extends Pixi.Container {
         this.hero.update(delta)
 
         // TODO: TWEEN THIS
-        this.position.x = this.superposition.x
-        this.position.y = this.superposition.y
+        this.position.x += (this.superposition.x - this.position.x)/(1/CAMERA_TRANSITION_FRICTION)
+        this.position.y += (this.superposition.y - this.position.y)/(1/CAMERA_TRANSITION_FRICTION)
     }
     get data() {
         var data = {
