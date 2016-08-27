@@ -159,7 +159,7 @@ export default class Hero extends Pixi.Sprite {
         }
     }
     focus() {
-        this.parent.superposition.x = -1 * (this.position.x - (config.frame.width / 2))
-        this.parent.superposition.y = -1 * (this.position.y - (config.frame.height / 2))
+        this.parent.targetposition.x = -1 * (this.position.x - (config.frame.width / 2))
+        this.parent.targetposition.y = -1 * (this.position.y - (config.frame.height / 2))
     }
 }

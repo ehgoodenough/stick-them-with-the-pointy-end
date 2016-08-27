@@ -1,13 +1,14 @@
 import Pixi from "pixi.js"
 
 import config from "config.js"
+var world = require("data/world.json")
 
 import Hero from "scripts/models/Hero.js"
 import Monster from "scripts/models/Monster.js"
 import Tile from "scripts/models/Tile.js"
 import Camera from "scripts/models/Camera.js"
 
-var world = require("data/world.json")
+import KeyContainer from "scripts/utility/KeyContainer.js"
 
 const CAMERA_TRANSITION_FRICTION = 0.05
 
@@ -15,15 +16,10 @@ export default class GameContainer extends Pixi.Container {
     constructor() {
         super()
 
-        this.superposition = new Pixi.Point()
-
         this.hero = new Hero()
-        this.tiles = new Pixi.Container()
-        this.cameras = new Pixi.Container()
-        this.monsters = new Pixi.Container()
-
-        var monster1 = new Monster(4, 4)
-        this.monsters.addChild(monster1)
+        this.tiles = new KeyContainer()
+        this.cameras = new KeyContainer()
+        this.monsters = new KeyContainer()
 
         this.addChild(this.tiles)
         this.addChild(this.cameras)
@@ -37,8 +33,19 @@ export default class GameContainer extends Pixi.Container {
             this.cameras.addChild(new Camera(camera))
         })
 
+        var monster1 = new Monster(4, 4)
+        this.monsters.addChild(monster1)
+
+        this.targetposition = new Pixi.Point()
+        this.hero.update()
+        this.position.copy(this.targetposition)
+
         console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
         console.log("To copy the world to your clipboard, run copy(game.data)")
+    }
+    addChild(child) {
+        super.addChild(child)
+        child.game = this
     }
     update(delta) {
         this.hero.update(delta)
@@ -46,31 +53,15 @@ export default class GameContainer extends Pixi.Container {
             this.monsters.children[i].update(delta)
         }
 
-        // TODO: TWEEN THIS
-        this.position.x += (this.superposition.x - this.position.x)/(1/CAMERA_TRANSITION_FRICTION)
-        this.position.y += (this.superposition.y - this.position.y)/(1/CAMERA_TRANSITION_FRICTION)
+        this.position.x += (this.targetposition.x - this.position.x) / (1 / CAMERA_TRANSITION_FRICTION)
+        this.position.y += (this.targetposition.y - this.position.y) / (1 / CAMERA_TRANSITION_FRICTION)
     }
     get data() {
-        var data = {
-            tiles: [],
-            cameras: [],
+        return {
+            tiles: this.tiles.data,
+            cameras: this.cameras.data,
             monsters: [],
             savepoints: [],
         }
-
-        this.tiles.children.forEach((tile) => {
-            data.tiles.push({
-                tx: tile.tx, ty: tile.ty
-            })
-        })
-
-        this.cameras.children.forEach((camera) => {
-            data.cameras.push({
-                tx: camera.tx, ty: camera.ty,
-                tw: camera.tw, th: camera.th
-            })
-        })
-
-        return data
     }
 }

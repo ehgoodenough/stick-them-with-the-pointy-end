@@ -1,20 +1,22 @@
 import Pixi from "pixi.js"
 import Geometry from "scripts/utility/Geometry.js"
 
+import config from "config.js"
+
 var MONSTER_TEXTURE = Pixi.Texture.fromImage(require("images/monster1.png"))
 var MAXIMUM_VELOCITY = 1
-const TEXTURE_LENGTH = 32
 
 export default class Monster extends Pixi.Sprite {
 
-    constructor(spawnPositionX, spawnPositionY){
+    constructor(spawnPositionX, spawnPositionY) {
         super(MONSTER_TEXTURE)
         this.spawnPosition = {x: spawnPositionX, y: spawnPositionY}
-        console.log(this.spawnPosition)
-        this.position.x = this.spawnPosition.x * TEXTURE_LENGTH
-        this.position.y = this.spawnPosition.y * TEXTURE_LENGTH
+        this.position.x = this.spawnPosition.x * config.tile.size
+        this.position.y = this.spawnPosition.y * config.tile.size
         this.anchor.x = 0.5
         this.anchor.y = 0.5
+        // For collision
+        this.radius = 16
         this.velocity = new Pixi.Point(0, 0)
         this.targetPosition = {x: this.position.x, y: this.position.y}
     }
@@ -38,5 +40,10 @@ export default class Monster extends Pixi.Sprite {
         //Translation
         this.position.x += velocity.x
         this.position.y += velocity.y
+
+        //Collision detection
+        if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + this.game.hero.radius) {
+            console.log("COLLISION!!")
+        }
     }
 }

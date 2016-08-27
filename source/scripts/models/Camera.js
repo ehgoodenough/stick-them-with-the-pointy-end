@@ -45,8 +45,13 @@ export default class Camera extends Pixi.Sprite {
     get th() {
         return Math.floor(this.height / config.tile.size)
     }
-    get game() {
-        return this.parent.parent
+    get data() {
+        return {
+            tx: this.tx,
+            ty: this.ty,
+            tw: this.tw,
+            th: this.th
+        }
     }
     containsPoint(point) {
         return point.x > this.x1
@@ -57,31 +62,31 @@ export default class Camera extends Pixi.Sprite {
     focus() {
         // this.x
         if(this.width < config.frame.width) {
-            this.game.superposition.x = -1 * (this.x - (config.frame.width / 2))
+            this.game.targetposition.x = -1 * (this.x - (config.frame.width / 2))
         } else {
-            this.game.superposition.x = this.game.hero.position.x - (config.frame.width / 2)
-            if(this.game.superposition.x < this.x1 - (config.tile.size / 4)) {
-                this.game.superposition.x = this.x1 - (config.tile.size / 4)
+            this.game.targetposition.x = this.game.hero.position.x - (config.frame.width / 2)
+            if(this.game.targetposition.x < this.x1 - (config.tile.size / 4)) {
+                this.game.targetposition.x = this.x1 - (config.tile.size / 4)
             }
-            if(this.game.superposition.x > this.x2 - config.frame.width + (config.tile.size / 4)) {
-                this.game.superposition.x = this.x2 - config.frame.width + (config.tile.size / 4)
+            if(this.game.targetposition.x > this.x2 - config.frame.width + (config.tile.size / 4)) {
+                this.game.targetposition.x = this.x2 - config.frame.width + (config.tile.size / 4)
             }
-            this.game.superposition.x *= -1
+            this.game.targetposition.x *= -1
         }
 
         // If the zone is smaller than the screen
         if(this.height < config.frame.height) {
             // Then
-            this.game.superposition.y = -1 * (this.position.y - (config.frame.height / 2))
+            this.game.targetposition.y = -1 * (this.position.y - (config.frame.height / 2))
         } else {
-            this.game.superposition.y = this.game.hero.position.y - (config.frame.height / 2)
-            if(this.game.superposition.y < this.y1 - (config.tile.size / 4)) {
-                this.game.superposition.y = this.y1 - (config.tile.size / 4)
+            this.game.targetposition.y = this.game.hero.position.y - (config.frame.height / 2)
+            if(this.game.targetposition.y < this.y1 - (config.tile.size / 4)) {
+                this.game.targetposition.y = this.y1 - (config.tile.size / 4)
             }
-            if(this.game.superposition.y > this.y2 - config.frame.height + (config.tile.size / 4)) {
-                this.game.superposition.y = this.y2 - config.frame.height + (config.tile.size / 4)
+            if(this.game.targetposition.y > this.y2 - config.frame.height + (config.tile.size / 4)) {
+                this.game.targetposition.y = this.y2 - config.frame.height + (config.tile.size / 4)
             }
-            this.game.superposition.y *= -1
+            this.game.targetposition.y *= -1
         }
     }
 }
