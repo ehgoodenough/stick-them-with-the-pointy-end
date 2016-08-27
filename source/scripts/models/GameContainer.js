@@ -16,15 +16,24 @@ export default class GameContainer extends Pixi.Container {
     constructor() {
         super()
 
-        this.hero = new Hero()
+        // Instantiate the objects.
+
+        this.hero = new Hero({
+            tx: 7, ty: 4
+        })
+
         this.tiles = new KeyContainer()
         this.cameras = new KeyContainer()
         this.monsters = new KeyContainer()
+
+        // Add to the container.
 
         this.addChild(this.tiles)
         this.addChild(this.cameras)
         this.addChild(this.monsters)
         this.addChild(this.hero)
+
+        // Load from the data.
 
         world.tiles.forEach((tile) => {
             this.tiles.addChild(new Tile(tile))
@@ -35,6 +44,8 @@ export default class GameContainer extends Pixi.Container {
 
         var monster1 = new Monster(4, 4)
         this.monsters.addChild(monster1)
+
+        // Setup the camera.
 
         this.targetposition = new Pixi.Point()
         this.hero.update()

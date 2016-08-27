@@ -22,7 +22,11 @@ export default class Monster extends Pixi.Sprite {
 
         // For collision
         this.radius = 16
-        this.attackDamage = 1
+
+        this.attack = {
+            damage: 2, // halfheart
+            cooldown: 1.5 // seconds
+        }
     }
     update(){
         this.theHero = this.parent.parent.hero
@@ -69,7 +73,8 @@ export default class Monster extends Pixi.Sprite {
         if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + this.game.hero.radius) {
             this.game.hero.beAttacked({
                 velocity: this.velocity,
-                damage: this.attackDamage,
+                damage: this.attack.damage,
+                cooldown: this.attack.cooldown,
             })
         }
     }

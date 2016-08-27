@@ -14,13 +14,17 @@ var GAMEPAD_THRESHOLD = 0.05
 var MAXIMUM_VELOCITY = 1
 
 export default class Hero extends Pixi.Sprite {
-    constructor() {
+    constructor(hero) {
         super(HERO_TEXTURE)
 
-        this.position.x = 7 * 32
-        this.position.y = 4 * 32
+        this.position.x = hero.tx * config.tile.size
+        this.position.y = hero.ty * config.tile.size
         this.anchor.x = 0.5
         this.anchor.y = 0.5
+
+        this.spawnposition = new Pixi.Point()
+        this.spawnposition.x = this.position.x
+        this.spawnposition.y = this.position.y
 
         this.maxVelocity = MAXIMUM_VELOCITY
         this.velocity = new Pixi.Point(0,0)
@@ -28,8 +32,9 @@ export default class Hero extends Pixi.Sprite {
 
         this.mode = "GAME MODE"
 
-        this.radius = 16
-        this.beAttackedCooldown = 0
+        this.radius = 16 // pixels
+        this.beAttackedCooldown = 0 // seconds
+        this.health = 6 // halfhearts
     }
     update(delta) {
         // Poll inputs
@@ -185,7 +190,13 @@ export default class Hero extends Pixi.Sprite {
     }
     beAttacked(attack) {
         if(this.beAttackedCooldown <= 0) {
-            this.beAttackedCooldown = attack.cooldown || 1.5
+            this.beAttackedCooldown = attack.cooldown || 1
+
+            this.health -= attack.damage || 1
+            console.log(this.health, "halfhearts")
+            if(this.health <= 0) {
+                console.log("YOU DIE")
+            }
         }
     }
 }
