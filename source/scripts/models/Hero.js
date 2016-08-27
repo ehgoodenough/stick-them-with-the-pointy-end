@@ -14,13 +14,17 @@ var GAMEPAD_THRESHOLD = 0.05
 var MAXIMUM_VELOCITY = 1
 
 export default class Hero extends Pixi.Sprite {
-    constructor() {
+    constructor(hero) {
         super(HERO_TEXTURE)
 
-        this.position.x = 7 * 32
-        this.position.y = 4 * 32
+        this.position.x = hero.tx * config.tile.size
+        this.position.y = hero.ty * config.tile.size
         this.anchor.x = 0.5
         this.anchor.y = 0.5
+
+        this.spawnposition = new Pixi.Point()
+        this.spawnposition.x = this.position.x
+        this.spawnposition.y = this.position.y
 
         this.maxVelocity = MAXIMUM_VELOCITY
         this.velocity = new Pixi.Point(0,0)
@@ -28,8 +32,9 @@ export default class Hero extends Pixi.Sprite {
 
         this.mode = "GAME MODE"
 
-        this.radius = 16
-        this.beAttackedCooldown = 0
+        this.radius = 16 // pixels
+        this.beAttackedCooldown = 0 // seconds
+        this.health = 6 // halfhearts
     }
     update(delta) {
         // Poll inputs
@@ -128,7 +133,6 @@ export default class Hero extends Pixi.Sprite {
                 })
             }
         } else if(this.mode == "DEV MODE: CAMERAS") {
-            this.tint = 0x00CC00
             if(Input.getButton()) {
                 if(this.firstposition == undefined) {
                     console.log("1")
@@ -157,8 +161,6 @@ export default class Hero extends Pixi.Sprite {
                     }
                 })
             }
-        } else if(this.mode == "GAME MODE") {
-            this.tint = 0xFFFFFF
         }
 
         // Cooldowns
@@ -170,7 +172,31 @@ export default class Hero extends Pixi.Sprite {
         this.parent.targetposition.x = -1 * (this.position.x - (config.frame.width / 2))
         this.parent.targetposition.y = -1 * (this.position.y - (config.frame.height / 2))
     }
-    beAttacked() {
-        console.log("ouch")
+    get tint() {
+        if(this.mode == "DEV MODE: TILES") {
+            return 0x0000CC
+        } if(this.mode == "DEV MODE: CAMERAS") {
+            return 0x00CC00
+        }
+
+        if(this.mode == "GAME MODE") {
+            if(this.beAttackedCooldown > 0
+            && Math.floor(this.beAttackedCooldown * 10) % 2 == 0) {
+                return 0xCC0000
+            }
+
+            return 0xFFFFFF
+        }
+    }
+    beAttacked(attack) {
+        if(this.beAttackedCooldown <= 0) {
+            this.beAttackedCooldown = attack.cooldown || 1
+
+            this.health -= attack.damage || 1
+            console.log(this.health, "halfhearts")
+            if(this.health <= 0) {
+                console.log("YOU DIE")
+            }
+        }
     }
 }
