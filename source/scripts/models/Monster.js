@@ -29,54 +29,57 @@ export default class Monster extends Pixi.Sprite {
         }
     }
     update(){
-        this.theHero = this.parent.parent.hero
-        var positionRelativeToHeroX = this.theHero.position.x - this.position.x
-        var positionRelativeToHeroY = this.theHero.position.y - this.position.y
-        this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
-        var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
-        this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
-        this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition || 0
+        if(this.game.hero.mode == "GAME MODE") {
+            this.theHero = this.parent.parent.hero
+            var positionRelativeToHeroX = this.theHero.position.x - this.position.x
+            var positionRelativeToHeroY = this.theHero.position.y - this.position.y
+            this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
+            var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
+            this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
+            this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition || 0
 
-        //Max velocity check
-        var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
-        if(magnitudeOfVelocity > MAXIMUM_VELOCITY){
-            this.velocity.x *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
-            this.velocity.y *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
-        }
 
-        // Collide with tiles
-        this.game.tiles.children.forEach((child) => {
-            if(child instanceof Tile) {
-                var tile = child
-                if(tile.containsPoint({
-                    x: this.position.x + this.velocity.x,
-                    y: this.position.y
-                })) {
-                    this.velocity.x = 0
-                }
-                if(tile.containsPoint({
-                    x: this.position.x,
-                    y: this.position.y + this.velocity.y
-                })) {
-                    this.velocity.y = 0
-                }
+            //Max velocity check
+            var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
+            if(magnitudeOfVelocity > MAXIMUM_VELOCITY){
+                this.velocity.x *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
+                this.velocity.y *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
             }
-        })
 
-        //Collision detection with Hero
-        var heroRadiusForCollision = this.game.hero.radius
-        heroRadiusForCollision *= .6
-        if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + heroRadiusForCollision) {
-            this.game.hero.beAttacked({
-                damage: this.attack.damage,
-                cooldown: this.attack.cooldown,
+            // Collide with tiles
+            this.game.tiles.children.forEach((child) => {
+                if(child instanceof Tile) {
+                    var tile = child
+                    if(tile.containsPoint({
+                        x: this.position.x + this.velocity.x,
+                        y: this.position.y
+                    })) {
+                        this.velocity.x = 0
+                    }
+                    if(tile.containsPoint({
+                        x: this.position.x,
+                        y: this.position.y + this.velocity.y
+                    })) {
+                        this.velocity.y = 0
+                    }
+                }
             })
-            this.velocity = {x: 0, y: 0}
-        }
 
-        //Translation
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
+            //Collision detection with Hero
+            var heroRadiusForCollision = this.game.hero.radius
+            heroRadiusForCollision *= .6
+            if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + heroRadiusForCollision) {
+                this.game.hero.beAttacked({
+                    damage: this.attack.damage,
+                    cooldown: this.attack.cooldown,
+                })
+                this.velocity = {x: 0, y: 0}
+            }
+
+            //Translation
+            this.position.x += this.velocity.x
+            this.position.y += this.velocity.y
+        }
     }
     beAttacked(){
         console.log("blegh")
