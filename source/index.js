@@ -9,7 +9,9 @@ import Afloop from "afloop"
 ///// Instantiating the Renderer /////
 /////////////////////////////////////
 
-var WIDTH = 160, HEIGHT = 90
+import config from "config.js"
+const WIDTH = config.frame.width
+const HEIGHT = config.frame.height
 
 var renderer = new Pixi.CanvasRenderer(WIDTH, HEIGHT)
 renderer.backgroundColor = 0x222222
