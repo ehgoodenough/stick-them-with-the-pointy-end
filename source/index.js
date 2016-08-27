@@ -33,22 +33,24 @@ class Hero extends Pixi.Sprite {
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.speed = 0.5
+        this.maxVelocity = .5
+        this.velocity = new Pixi.Point(0,0)
+        this.friction = 2
     }
     update(delta) {
-        if(Keyb.isDown("<up>") || Keyb.isDown("W")) {
-            this.position.y -= this.speed * delta
-            //this.rotation = 180 * (Math.PI / 180)
-        } if(Keyb.isDown("<down>") || Keyb.isDown("S")) {
-            this.position.y += this.speed * delta
-            // this.rotation = 0 * (Math.PI / 180)
-        } if(Keyb.isDown("<left>") || Keyb.isDown("A")) {
-            this.position.x -= this.speed * delta
-            // this.rotation = 90 * (Math.PI / 180)
-        } if(Keyb.isDown("<right>") || Keyb.isDown("D")) {
-            this.position.x += this.speed * delta
-            // this.rotation = 270 * (Math.PI / 180)
+        if(Keyb.isDown("<up>")) {
+            this.velocity.y = this.maxVelocity * -1 * delta
+        } if(Keyb.isDown("<down>")) {
+            this.velocity.y = this.maxVelocity * delta
+        } if(Keyb.isDown("<left>")) {
+            this.velocity.x = this.maxVelocity * -1 * delta
+        } if(Keyb.isDown("<right>")) {
+            this.velocity.x = this.maxVelocity * delta
         }
+        this.position.y += this.velocity.y
+        this.position.x += this.velocity.x
+        this.velocity.y *= (1/this.friction)
+        this.velocity.x *= (1/this.friction)
 
         var gamepads = navigator.getGamepads()
         if(gamepads[0] != undefined) {
@@ -57,21 +59,9 @@ class Hero extends Pixi.Sprite {
 
             var magnitude = Math.sqrt(x*x + y*y)
             if(magnitude > 0.05) {
+                console.log("!!")
                 this.rotation
             }
-        }
-
-        if(Keyb.isJustDown("<shift>", delta)) {
-            this.spaceshipIndex = (this.spaceshipIndex + 1) % SPACESHIPS.length
-            var spaceship = SPACESHIPS[this.spaceshipIndex]
-
-            this.setSpaceship(spaceship)
-        }
-
-        this.onShootTimer += delta
-        if(this.onShootTimer > this.onShootSpeed) {
-            this.onShootTimer = 0
-            this.onShoot()
         }
     }
 }
@@ -87,7 +77,6 @@ game.addChild(hero)
 
 var loop = Afloop(function(delta) {
     delta = delta / (1000 / 60)
-
 
     hero.update(delta)
 
