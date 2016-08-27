@@ -23,6 +23,7 @@ export default class Monster extends Pixi.Sprite {
         // For collision
         this.radius = 16
         this.attackDamage = 1
+
     }
     update(){
         this.theHero = this.parent.parent.hero
@@ -30,10 +31,10 @@ export default class Monster extends Pixi.Sprite {
         var positionRelativeToHeroY = this.theHero.position.y - this.position.y
         this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
         var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
-        this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition
-        this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition
-        this.targetPosition.x += this.velocity.x
-        this.targetPosition.y += this.velocity.y
+        this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
+        this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition || 0
+        // this.targetPosition.x += this.velocity.x
+        // this.targetPosition.y += this.velocity.y
 
         //Max velocity check
         var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
@@ -61,16 +62,20 @@ export default class Monster extends Pixi.Sprite {
             }
         })
 
-        //Translation
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
-
-        //Collision detection
+        //Collision detection with Hero
         if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + this.game.hero.radius) {
             this.game.hero.beAttacked({
                 velocity: this.velocity,
                 damage: this.attackDamage,
             })
+            //this.velocity = {x: 0, y: 0}
         }
+
+        //Translation
+        this.position.x += this.velocity.x
+        this.position.y += this.velocity.y
+    }
+    beAttacked(){
+        console.log("blegh")
     }
 }
