@@ -4,20 +4,15 @@
 
 import Pixi from "pixi.js"
 import Afloop from "afloop"
+import React from "react"
+import ReactDOM from "react-dom"
 
 ///////////////////////////////////////
 ///// Instantiating the Renderer /////
 /////////////////////////////////////
 
-import config from "config.js"
-const WIDTH = config.frame.width
-const HEIGHT = config.frame.height
-
-var renderer = new Pixi.CanvasRenderer(WIDTH, HEIGHT)
-renderer.backgroundColor = 0x222222
-renderer.roundPixels = true
-
-document.body.appendChild(renderer.view)
+import Mount from "scripts/render/Mount.js"
+var render = ReactDOM.render(<Mount/>, document.getElementById("mount"))
 
 ////////////////////////////////////////
 ///// Establishing the Game State /////
@@ -46,5 +41,7 @@ var loop = Afloop(function(delta) {
 
     game.update(delta)
 
-    renderer.render(game)
+    render.setState({
+        game: game
+    })
 })

@@ -120,7 +120,6 @@ export default class Hero extends Pixi.Sprite {
 
         // Enable dev mode
         if(this.mode == "DEV MODE: TILES") {
-            this.tint = 0x0000CC
             if(Input.getButton()) {
                 this.parent.tiles.addChild(new Tile({
                     tx: Math.floor(this.position.x / config.tile.size),
@@ -193,7 +192,6 @@ export default class Hero extends Pixi.Sprite {
         if(this.beAttackedCooldown <= 0) {
 
             this.health -= attack.damage || 1
-            console.log(this.health, "halfhearts")
             if(this.health <= 0) {
                 this.position.copy(this.spawnposition)
                 this.health = this.spawnhealth
