@@ -15,8 +15,8 @@ export default class Tile extends Pixi.Sprite {
         // I'm only scaling down the
         // tiles because the image that
         // I've imported is waaay too big.
-        this.scale.x /= 4
-        this.scale.y /= 4
+        this.scale.x /= 2
+        this.scale.y /= 2
 
         // Used for collision
         this.radius = 8

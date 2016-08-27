@@ -31,6 +31,19 @@ export default class Input {
             return 0
         }
     }
+    static getButton() {
+        if(Keyb.isDown("<space>")) {
+            return true
+        } else if(!!this.gamepads[0]) {
+            for(var i = 0; i < 4; i++) {
+                if(this.gamepads[0].buttons[i].pressed) {
+                    return true
+                }
+            }
+        } else {
+            return false
+        }
+    }
     static update() {
         this.gamepads = navigator.getGamepads()
     }

@@ -8,9 +8,9 @@ import Input from "scripts/utility/Input.js"
 
 import Tile from "scripts/Tile.js"
 
-var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero.png"))
+var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero1.png"))
 var GAMEPAD_THRESHOLD = 0.05
-var MAXIMUM_VELOCITY = 0.5
+var MAXIMUM_VELOCITY = 1
 
 export default class Hero extends Pixi.Sprite {
     constructor() {
@@ -78,7 +78,7 @@ export default class Hero extends Pixi.Sprite {
         // Enable dev mode
         if(this.mode == "DEV MODE") {
             this.tint = 0x0000CC
-            if(Keyb.isDown("<space>")) {
+            if(Input.getButton()) {
                 this.parent.tiles.addChild(new Tile({
                     tx: Math.floor(this.position.x / config.tile.size),
                     ty: Math.floor(this.position.y / config.tile.size),
