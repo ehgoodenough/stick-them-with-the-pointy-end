@@ -33,4 +33,10 @@ export default class Tile extends Pixi.Sprite {
     get ty() {
         return Math.floor(this.position.y / config.tile.size)
     }
+    get data() {
+        return {
+            tx: this.tx,
+            ty: this.ty
+        }
+    }
 }
