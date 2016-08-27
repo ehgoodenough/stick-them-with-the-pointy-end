@@ -38,7 +38,11 @@ window.game = game
 ////////////////////////////////
 
 var loop = Afloop(function(delta) {
-    delta = delta / (1000 / 60)
+    delta = {
+        ms: delta, // in milliseconds
+        s: delta / 1000, // in seconds
+        f: delta / (1000 / 60), // in frames
+    }
 
     game.update(delta)
 
