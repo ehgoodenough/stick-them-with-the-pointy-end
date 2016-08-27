@@ -21,29 +21,15 @@ document.body.appendChild(renderer.view)
 ///// Establishing the Game State /////
 //////////////////////////////////////
 
-import Hero from "scripts/Hero.js"
-import Tile from "scripts/Tile.js"
+import GameContainer from "scripts/GameContainer.js"
 
-class GameContainer extends Pixi.Container {
-    addChild(child) {
-        super.addChild(child)
+var game = new GameContainer()
 
-        if(child instanceof Hero) {
-            this.hero = hero
-        }
-    }
-}
-
-window.game = new GameContainer()
-
-game.addChild(new Tile({tx: 0, ty: 0}))
-game.addChild(new Tile({tx: 1, ty: 0}))
-game.addChild(new Tile({tx: 0, ty: 1}))
-
-var hero = new Hero()
-game.addChild(hero)
-
-hero.parent == game
+// We're only exposing this as
+// a global variable so we can
+// read it from the console! Do
+// not try to use this in code.
+window.game = game
 
 //////////////////////////////////
 ///// Running the Game Loop /////
@@ -52,7 +38,7 @@ hero.parent == game
 var loop = Afloop(function(delta) {
     delta = delta / (1000 / 60)
 
-    hero.update(delta)
+    game.update(delta)
 
     renderer.render(game)
 })
