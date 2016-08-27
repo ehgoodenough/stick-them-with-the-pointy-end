@@ -1,11 +1,14 @@
 import Pixi from "pixi.js"
 import Keyb from "keyb"
 
+import config from "config.js"
+
 import Geometry from "scripts/Geometry.js"
 import Tile from "scripts/Tile.js"
-var GAMEPAD_THRESHOLD = 0.05
 
 var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero.png"))
+var GAMEPAD_THRESHOLD = 0.05
+var MAXIMUM_VELOCITY = 0.5
 
 export default class Hero extends Pixi.Sprite {
     constructor() {
@@ -16,15 +19,14 @@ export default class Hero extends Pixi.Sprite {
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.maxVelocity = .5
+        this.maxVelocity = MAXIMUM_VELOCITY
         this.velocity = new Pixi.Point(0,0)
         this.friction = 2
 
-        // Used for collision
-        this.radius = 8
+        this.mode = "GAME MODE"
     }
     update(delta) {
-        // Poll inputs
+        // Poll gamepad inputs
         var gamepads = navigator.getGamepads()
         if(gamepads[0] != undefined) {
             var axes = gamepads[0].axes.slice()
@@ -42,6 +44,7 @@ export default class Hero extends Pixi.Sprite {
             }
         }
 
+        // Poll keyboard input
         if(Keyb.isDown("<up>")) {
             this.rotation = Math.PI
             this.velocity.y = this.maxVelocity * -1 * delta
@@ -55,30 +58,54 @@ export default class Hero extends Pixi.Sprite {
             this.rotation = 3/2 * Math.PI
             this.velocity.x = this.maxVelocity * delta
         }
+        if(Keyb.isJustDown("1")) {
+            this.mode = "GAME MODE"
+            console.log(this.mode)
+        } if(Keyb.isJustDown("2")) {
+            this.mode = "DEV MODE"
+            console.log(this.mode)
+        }
 
         // Collide with tiles
-        this.parent.children.forEach((child) => {
-            if(child instanceof Tile) {
-                var tile = child
-                tile.containsPoint(this.position)
-                if(tile.containsPoint({
-                    x: this.position.x + this.velocity.x,
-                    y: this.position.y
-                })) {
-                    this.velocity.x = 0
+        if(this.mode == "GAME MODE") {
+            this.parent.tiles.children.forEach((child) => {
+                if(child instanceof Tile) {
+                    var tile = child
+                    if(tile.containsPoint({
+                        x: this.position.x + this.velocity.x,
+                        y: this.position.y
+                    })) {
+                        this.velocity.x = 0
+                    }
+                    if(tile.containsPoint({
+                        x: this.position.x,
+                        y: this.position.y + this.velocity.y
+                    })) {
+                        this.velocity.y = 0
+                    }
                 }
-                if(tile.containsPoint({
-                    x: this.position.x + this.velocity.x,
-                    y: this.position.y + this.velocity.y
-                })) {
-                    this.velocity.y = 0
-                }
-            }
-        })
+            })
+        }
 
+        // Translation
         this.position.y += this.velocity.y
         this.position.x += this.velocity.x
+
+        // Deceleration
         this.velocity.y *= (1 / this.friction)
         this.velocity.x *= (1 / this.friction)
+
+        // Enable dev mode
+        if(this.mode == "DEV MODE") {
+            this.tint = 0x0000CC
+            if(Keyb.isDown("<space>")) {
+                this.parent.tiles.addChild(new Tile({
+                    tx: Math.floor(this.position.x / config.tile.size),
+                    ty: Math.floor(this.position.y / config.tile.size),
+                }))
+            }
+        } else if(this.mode == "GAME MODE") {
+            this.tint = 0xFFFFFF
+        }
     }
 }

@@ -1,6 +1,7 @@
 import Pixi from "pixi.js"
 
-var TILE_SIZE = 16
+import config from "config.js"
+
 var WALL_TEXTURE = Pixi.Texture.fromImage(require("images/wall1.png"))
 
 export default class Tile extends Pixi.Sprite {
@@ -8,8 +9,8 @@ export default class Tile extends Pixi.Sprite {
         super(WALL_TEXTURE)
         this.anchor.x = 0.5
         this.anchor.y = 0.5
-        this.position.x = (tile.tx + this.anchor.x) * TILE_SIZE
-        this.position.y = (tile.ty + this.anchor.y) * TILE_SIZE
+        this.position.x = (tile.tx + this.anchor.x) * config.tile.size
+        this.position.y = (tile.ty + this.anchor.y) * config.tile.size
 
         // I'm only scaling down the
         // tiles because the image that
@@ -21,7 +22,7 @@ export default class Tile extends Pixi.Sprite {
         this.radius = 8
     }
     containsPoint(point) {
-        return Math.floor(this.position.x / TILE_SIZE) == Math.floor(point.x / TILE_SIZE)
-            && Math.floor(this.position.y / TILE_SIZE) == Math.floor(point.y / TILE_SIZE)
+        return Math.floor(this.position.x / config.tile.size) == Math.floor(point.x / config.tile.size)
+            && Math.floor(this.position.y / config.tile.size) == Math.floor(point.y / config.tile.size)
     }
 }
