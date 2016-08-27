@@ -128,7 +128,6 @@ export default class Hero extends Pixi.Sprite {
                 })
             }
         } else if(this.mode == "DEV MODE: CAMERAS") {
-            this.tint = 0x00CC00
             if(Input.getButton()) {
                 if(this.firstposition == undefined) {
                     console.log("1")
@@ -157,8 +156,6 @@ export default class Hero extends Pixi.Sprite {
                     }
                 })
             }
-        } else if(this.mode == "GAME MODE") {
-            this.tint = 0xFFFFFF
         }
 
         // Cooldowns
@@ -170,7 +167,25 @@ export default class Hero extends Pixi.Sprite {
         this.parent.targetposition.x = -1 * (this.position.x - (config.frame.width / 2))
         this.parent.targetposition.y = -1 * (this.position.y - (config.frame.height / 2))
     }
-    beAttacked() {
-        console.log("ouch")
+    get tint() {
+        if(this.mode == "DEV MODE: TILES") {
+            return 0x0000CC
+        } if(this.mode == "DEV MODE: CAMERAS") {
+            return 0x00CC00
+        }
+
+        if(this.mode == "GAME MODE") {
+            if(this.beAttackedCooldown > 0
+            && Math.floor(this.beAttackedCooldown * 10) % 2 == 0) {
+                return 0xCC0000
+            }
+
+            return 0xFFFFFF
+        }
+    }
+    beAttacked(attack) {
+        if(this.beAttackedCooldown <= 0) {
+            this.beAttackedCooldown = attack.cooldown || 1.5
+        }
     }
 }
