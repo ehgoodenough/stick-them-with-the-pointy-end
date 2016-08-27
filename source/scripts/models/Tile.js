@@ -24,7 +24,13 @@ export default class Tile extends Pixi.Sprite {
         this.radius = 8
     }
     containsPoint(point) {
-        return Math.floor(this.position.x / config.tile.size) == Math.floor(point.x / config.tile.size)
-            && Math.floor(this.position.y / config.tile.size) == Math.floor(point.y / config.tile.size)
+        return this.tx == Math.floor(point.x / config.tile.size)
+            && this.ty == Math.floor(point.y / config.tile.size)
+    }
+    get tx() {
+        return Math.floor(this.position.x / config.tile.size)
+    }
+    get ty() {
+        return Math.floor(this.position.y / config.tile.size)
     }
 }

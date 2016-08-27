@@ -19,11 +19,7 @@ export default class Camera extends Pixi.Sprite {
         this.name = camera.name || "no-name"
     }
     get alpha() {
-        if(this.game.hero.mode == "DEV MODE") {
-            return 0.25
-        } else {
-            return 0
-        }
+        return this.game.hero.mode.startsWith("DEV MODE") ? 0.25 : 0
     }
     get x1() {
         return this.x - (this.width / 2)
@@ -36,6 +32,18 @@ export default class Camera extends Pixi.Sprite {
     }
     get y2() {
         return this.y + (this.height / 2)
+    }
+    get tx() {
+        return Math.floor(this.x1 / config.tile.size)
+    }
+    get ty() {
+        return Math.floor(this.y1 / config.tile.size)
+    }
+    get tw() {
+        return Math.floor(this.width / config.tile.size)
+    }
+    get th() {
+        return Math.floor(this.height / config.tile.size)
     }
     get game() {
         return this.parent.parent
