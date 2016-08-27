@@ -71,6 +71,13 @@ export default class Hero extends Pixi.Sprite {
             })
         }
 
+        //Max velocity check
+        var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
+        if(magnitudeOfVelocity > MAXIMUM_VELOCITY){
+            this.velocity.x *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
+            this.velocity.y *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
+        }
+
         // Translation
         this.position.y += this.velocity.y
         this.position.x += this.velocity.x
