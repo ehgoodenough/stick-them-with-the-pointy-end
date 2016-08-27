@@ -23,16 +23,6 @@ export default class Hero extends Pixi.Sprite {
         this.radius = 8
     }
     update(delta) {
-        // Poll inputs
-        if(Keyb.isDown("<up>")) {
-            this.velocity.y = this.maxVelocity * -1 * delta
-        } if(Keyb.isDown("<down>")) {
-            this.velocity.y = this.maxVelocity * delta
-        } if(Keyb.isDown("<left>")) {
-            this.velocity.x = this.maxVelocity * -1 * delta
-        } if(Keyb.isDown("<right>")) {
-            this.velocity.x = this.maxVelocity * delta
-        }
 
         // Collide with tiles
         // this.parent.children.forEach((child) => {
@@ -71,7 +61,23 @@ export default class Hero extends Pixi.Sprite {
             var magnitude = Math.sqrt(x*x + y*y)
             if(magnitude > GAMEPAD_THRESHOLD) {
                 this.rotation = Geometry.getAngle(x, y)
+                this.velocity.y = y * this.maxVelocity * delta
+                this.velocity.x = x * this.maxVelocity * delta
             }
+        }
+        // Poll inputs
+        if(Keyb.isDown("<up>")) {
+            this.rotation = Math.PI
+            this.velocity.y = this.maxVelocity * -1 * delta
+        } if(Keyb.isDown("<down>")) {
+            this.rotation = 0
+            this.velocity.y = this.maxVelocity * delta
+        } if(Keyb.isDown("<left>")) {
+            this.rotation = Math.PI/2
+            this.velocity.x = this.maxVelocity * -1 * delta
+        } if(Keyb.isDown("<right>")) {
+            this.rotation = 3/2 * Math.PI
+            this.velocity.x = this.maxVelocity * delta
         }
     }
 }
