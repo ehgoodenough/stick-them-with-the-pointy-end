@@ -24,32 +24,7 @@ export default class Hero extends Pixi.Sprite {
         this.radius = 8
     }
     update(delta) {
-
-        // Collide with tiles
-        this.parent.children.forEach((child) => {
-            if(child instanceof Tile) {
-                var tile = child
-                tile.hasPoint(this.position)
-                if(tile.hasPoint({
-                    x: this.position.x + this.velocity.x,
-                    y: this.position.y
-                })) {
-                    this.velocity.x = 0
-                }
-                if(tile.hasPoint({
-                    x: this.position.x + this.velocity.x,
-                    y: this.position.y + this.velocity.y
-                })) {
-                    this.velocity.y = 0
-                }
-            }
-        })
-
-        this.position.y += this.velocity.y
-        this.position.x += this.velocity.x
-        this.velocity.y *= (1 / this.friction)
-        this.velocity.x *= (1 / this.friction)
-
+        // Poll inputs
         var gamepads = navigator.getGamepads()
         if(gamepads[0] != undefined) {
             var axes = gamepads[0].axes.slice()
@@ -66,7 +41,7 @@ export default class Hero extends Pixi.Sprite {
                 this.velocity.x = x * this.maxVelocity * delta
             }
         }
-        // Poll inputs
+
         if(Keyb.isDown("<up>")) {
             this.rotation = Math.PI
             this.velocity.y = this.maxVelocity * -1 * delta
@@ -80,5 +55,30 @@ export default class Hero extends Pixi.Sprite {
             this.rotation = 3/2 * Math.PI
             this.velocity.x = this.maxVelocity * delta
         }
+
+        // Collide with tiles
+        this.parent.children.forEach((child) => {
+            if(child instanceof Tile) {
+                var tile = child
+                tile.containsPoint(this.position)
+                if(tile.containsPoint({
+                    x: this.position.x + this.velocity.x,
+                    y: this.position.y
+                })) {
+                    this.velocity.x = 0
+                }
+                if(tile.containsPoint({
+                    x: this.position.x + this.velocity.x,
+                    y: this.position.y + this.velocity.y
+                })) {
+                    this.velocity.y = 0
+                }
+            }
+        })
+
+        this.position.y += this.velocity.y
+        this.position.x += this.velocity.x
+        this.velocity.y *= (1 / this.friction)
+        this.velocity.x *= (1 / this.friction)
     }
 }

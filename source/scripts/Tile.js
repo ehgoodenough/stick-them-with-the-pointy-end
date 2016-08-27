@@ -20,7 +20,7 @@ export default class Tile extends Pixi.Sprite {
         // Used for collision
         this.radius = 8
     }
-    hasPoint(point) {
+    containsPoint(point) {
         return Math.floor(this.position.x / TILE_SIZE) == Math.floor(point.x / TILE_SIZE)
             && Math.floor(this.position.y / TILE_SIZE) == Math.floor(point.y / TILE_SIZE)
     }

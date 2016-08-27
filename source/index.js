@@ -24,7 +24,17 @@ document.body.appendChild(renderer.view)
 import Hero from "scripts/Hero.js"
 import Tile from "scripts/Tile.js"
 
-var game = new Pixi.Container()
+class GameContainer extends Pixi.Container {
+    addChild(child) {
+        super.addChild(child)
+
+        if(child instanceof Hero) {
+            this.hero = hero
+        }
+    }
+}
+
+window.game = new GameContainer()
 
 game.addChild(new Tile({tx: 0, ty: 0}))
 game.addChild(new Tile({tx: 1, ty: 0}))
@@ -32,6 +42,8 @@ game.addChild(new Tile({tx: 0, ty: 1}))
 
 var hero = new Hero()
 game.addChild(hero)
+
+hero.parent == game
 
 //////////////////////////////////
 ///// Running the Game Loop /////
