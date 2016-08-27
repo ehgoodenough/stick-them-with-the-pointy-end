@@ -22,45 +22,7 @@ document.body.appendChild(renderer.view)
 ///// Establishing the Game State /////
 //////////////////////////////////////
 
-var RED_TEXTURE = Pixi.Texture.fromImage(require("images/red-starship.png"))
-var BLUE_TEXTURE = Pixi.Texture.fromImage(require("images/blue-starship.png"))
-var GREEN_TEXTURE = Pixi.Texture.fromImage(require("images/green-starship.png"))
-var YELLOW_TEXTURE = Pixi.Texture.fromImage(require("images/yellow-starship.png"))
-
-var SPACESHIPS = [
-    {
-        speed: 0.05,
-        texture: RED_TEXTURE,
-        onShootSpeed: 100,
-        onShoot: function() {
-            console.log("BANG")
-        }
-    },
-    {
-        speed: 0.1,
-        texture: BLUE_TEXTURE,
-        onShootSpeed: 200,
-        onShoot: function() {
-            console.log("BOOM")
-        }
-    },
-    {
-        speed: 0.025,
-        texture: GREEN_TEXTURE,
-        onShootSpeed: 50,
-        onShoot: function() {
-            console.log("BZAP")
-        }
-    },
-    {
-        speed: 0.1,
-        texture: YELLOW_TEXTURE,
-        onShootSpeed: 75,
-        onShoot: function() {
-            console.log("BOOF")
-        }
-    }
-]
+var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero.png"))
 
 class Hero extends Pixi.Sprite {
     constructor(image) {
@@ -71,20 +33,32 @@ class Hero extends Pixi.Sprite {
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.spaceshipIndex = 0
-        this.setSpaceship(SPACESHIPS[this.spaceshipIndex])
-
-        this.onShootTimer = 0
+        this.speed = 0.5
     }
     update(delta) {
-        if(Keyb.isDown("<up>")) {
+        if(Keyb.isDown("<up>") || Keyb.isDown("W")) {
             this.position.y -= this.speed * delta
-        } if(Keyb.isDown("<down>")) {
+            //this.rotation = 180 * (Math.PI / 180)
+        } if(Keyb.isDown("<down>") || Keyb.isDown("S")) {
             this.position.y += this.speed * delta
-        } if(Keyb.isDown("<left>")) {
+            // this.rotation = 0 * (Math.PI / 180)
+        } if(Keyb.isDown("<left>") || Keyb.isDown("A")) {
             this.position.x -= this.speed * delta
-        } if(Keyb.isDown("<right>")) {
+            // this.rotation = 90 * (Math.PI / 180)
+        } if(Keyb.isDown("<right>") || Keyb.isDown("D")) {
             this.position.x += this.speed * delta
+            // this.rotation = 270 * (Math.PI / 180)
+        }
+
+        var gamepads = navigator.getGamepads()
+        if(gamepads[0] != undefined) {
+            var x = gamepads[0].axes[0]
+            var y = gamepads[0].axes[1]
+
+            var magnitude = Math.sqrt(x*x + y*y)
+            if(magnitude > 0.05) {
+                this.rotation
+            }
         }
 
         if(Keyb.isJustDown("<shift>", delta)) {
@@ -100,15 +74,9 @@ class Hero extends Pixi.Sprite {
             this.onShoot()
         }
     }
-    setSpaceship(spaceship) {
-        this.texture = spaceship.texture
-        this.speed = spaceship.speed
-        this.onShoot = spaceship.onShoot
-        this.onShootSpeed = spaceship.onShootSpeed
-    }
 }
 
-var hero = new Hero(BLUE_TEXTURE)
+var hero = new Hero(HERO_TEXTURE)
 
 var game = new Pixi.Container()
 game.addChild(hero)
@@ -118,6 +86,8 @@ game.addChild(hero)
 ////////////////////////////////
 
 var loop = Afloop(function(delta) {
+    delta = delta / (1000 / 60)
+
 
     hero.update(delta)
 
