@@ -22,10 +22,6 @@ export default class Hero extends Pixi.Sprite {
         this.anchor.x = 0.5
         this.anchor.y = 0.5
 
-        this.spawnposition = new Pixi.Point()
-        this.spawnposition.x = this.position.x
-        this.spawnposition.y = this.position.y
-
         this.maxVelocity = MAXIMUM_VELOCITY
         this.velocity = new Pixi.Point(0,0)
         this.friction = 2
@@ -35,6 +31,11 @@ export default class Hero extends Pixi.Sprite {
         this.radius = 16 // pixels
         this.beAttackedCooldown = 0 // seconds
         this.health = 6 // halfhearts
+
+        this.spawnposition = new Pixi.Point()
+        this.spawnposition.x = this.position.x
+        this.spawnposition.y = this.position.y
+        this.spawnhealth = this.health
     }
     update(delta) {
         // Poll inputs
@@ -190,12 +191,14 @@ export default class Hero extends Pixi.Sprite {
     }
     beAttacked(attack) {
         if(this.beAttackedCooldown <= 0) {
-            this.beAttackedCooldown = attack.cooldown || 1
 
             this.health -= attack.damage || 1
             console.log(this.health, "halfhearts")
             if(this.health <= 0) {
-                console.log("YOU DIE")
+                this.position.copy(this.spawnposition)
+                this.health = this.spawnhealth
+            } else {
+                this.beAttackedCooldown = attack.cooldown || 1
             }
         }
     }
