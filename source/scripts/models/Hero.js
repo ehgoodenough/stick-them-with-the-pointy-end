@@ -7,6 +7,7 @@ import Geometry from "scripts/utility/Geometry.js"
 import Input from "scripts/utility/Input.js"
 
 import Tile from "scripts/models/Tile.js"
+import Camera from "scripts/models/Camera.js"
 
 var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero1.png"))
 var GAMEPAD_THRESHOLD = 0.05
@@ -42,7 +43,10 @@ export default class Hero extends Pixi.Sprite {
             this.mode = "GAME MODE"
             console.log(this.mode)
         } if(Keyb.isJustDown("2")) {
-            this.mode = "DEV MODE"
+            this.mode = "DEV MODE: TILES"
+            console.log(this.mode)
+        } if(Keyb.isJustDown("3")) {
+            this.mode = "DEV MODE: CAMERAS"
             console.log(this.mode)
         }
 
@@ -94,18 +98,55 @@ export default class Hero extends Pixi.Sprite {
                     this.focus()
                 }
             }
-        } else if(this.mode == "DEV MODE") {
+        } else if(this.mode.startsWith("DEV MODE")) {
             this.focus()
         }
 
         // Enable dev mode
-        if(this.mode == "DEV MODE") {
+        if(this.mode == "DEV MODE: TILES") {
             this.tint = 0x0000CC
             if(Input.getButton()) {
                 this.parent.tiles.addChild(new Tile({
                     tx: Math.floor(this.position.x / config.tile.size),
                     ty: Math.floor(this.position.y / config.tile.size),
                 }))
+            } if(Input.getAltButton()) {
+                this.parent.tiles.children.forEach((tile) => {
+                    if(tile.containsPoint(this.position)) {
+                        this.parent.tiles.removeChild(tile)
+                    }
+                })
+            }
+        } else if(this.mode == "DEV MODE: CAMERAS") {
+            this.tint = 0x00CC00
+            if(Input.getButton()) {
+                if(this.firstposition == undefined) {
+                    console.log("1")
+                    this.firstposition = {
+                        tx: Math.floor(this.position.x / config.tile.size),
+                        ty: Math.floor(this.position.y / config.tile.size)
+                    }
+                } else {
+                    console.log("2")
+                    var secondposition = {
+                        tx: Math.floor(this.position.x / config.tile.size),
+                        ty: Math.floor(this.position.y / config.tile.size)
+                    }
+                    this.parent.cameras.addChild(new Camera({
+                        tx: Math.min(this.firstposition.tx, secondposition.tx),
+                        ty: Math.min(this.firstposition.ty, secondposition.ty),
+                        tw: Math.abs(this.firstposition.tx - secondposition.tx) + 1,
+                        th: Math.abs(this.firstposition.ty - secondposition.ty) + 1,
+                        color: 0xCC0CC,
+                    }))
+                    delete this.firstposition
+                }
+            } if(Input.getAltButton()) {
+                this.parent.cameras.children.forEach((cameras) => {
+                    if(cameras.containsPoint(this.position)) {
+                        this.parent.cameras.removeChild(cameras)
+                    }
+                })
             }
         } else if(this.mode == "GAME MODE") {
             this.tint = 0xFFFFFF
