@@ -4,6 +4,8 @@ import Keyb from "keyb"
 import config from "config.js"
 
 import Geometry from "scripts/Geometry.js"
+import Input from "scripts/utility/Input.js"
+
 import Tile from "scripts/Tile.js"
 
 var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero.png"))
@@ -26,38 +28,16 @@ export default class Hero extends Pixi.Sprite {
         this.mode = "GAME MODE"
     }
     update(delta) {
-        // Poll gamepad inputs
-        var gamepads = navigator.getGamepads()
-        if(gamepads[0] != undefined) {
-            var axes = gamepads[0].axes.slice()
-            if(axes.length == 5){
-                axes.shift()
-            }
-            var x = axes[0]
-            var y = axes[1]
-
-            var magnitude = Math.sqrt(x*x + y*y)
-            if(magnitude > GAMEPAD_THRESHOLD) {
-                this.rotation = Geometry.getAngle(x, y)
-                this.velocity.y = y * this.maxVelocity * delta
-                this.velocity.x = x * this.maxVelocity * delta
-            }
+        // Poll inputs
+        Input.update()
+        var x = Input.getX()
+        var y = Input.getY()
+        if(Geometry.getMagnitude(x, y) > GAMEPAD_THRESHOLD) {
+            this.rotation = Geometry.getAngle(x, y)
+            this.velocity.y = y * this.maxVelocity * delta
+            this.velocity.x = x * this.maxVelocity * delta
         }
 
-        // Poll keyboard input
-        if(Keyb.isDown("<up>")) {
-            this.rotation = Math.PI
-            this.velocity.y = this.maxVelocity * -1 * delta
-        } if(Keyb.isDown("<down>")) {
-            this.rotation = 0
-            this.velocity.y = this.maxVelocity * delta
-        } if(Keyb.isDown("<left>")) {
-            this.rotation = Math.PI/2
-            this.velocity.x = this.maxVelocity * -1 * delta
-        } if(Keyb.isDown("<right>")) {
-            this.rotation = 3/2 * Math.PI
-            this.velocity.x = this.maxVelocity * delta
-        }
         if(Keyb.isJustDown("1")) {
             this.mode = "GAME MODE"
             console.log(this.mode)

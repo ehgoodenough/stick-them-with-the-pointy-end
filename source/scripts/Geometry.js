@@ -1,8 +1,7 @@
 export default class Geometry{
-    static getMagnitude(vector){
-        return Math.sqrt(vector.y*vector.y + vector.x*vector.x)
+    static getMagnitude(x, y){
+        return Math.sqrt(x*x + y*y)
     }
-
     static getAngle(x, y){
         var angle = Math.atan2(y, x)
         if(angle < 0){
