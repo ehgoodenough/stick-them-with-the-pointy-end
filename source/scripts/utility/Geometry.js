@@ -1,6 +1,9 @@
 export default class Geometry {
     static getMagnitude(x, y) {
-        return Math.sqrt(x*x + y*y)
+        if(x != 0 || y != 0){
+            return Math.sqrt(x*x + y*y)
+        }
+        else return 0;
     }
     static getDistance(point1, point2) {
         var vector = {x: point2.x - point1.x, y: point2.y - point1.y}
