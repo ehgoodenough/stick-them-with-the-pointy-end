@@ -19,7 +19,7 @@ export default class GameContainer extends Pixi.Container {
         // Instantiate the objects.
 
         this.hero = new Hero({
-            tx: 7, ty: 4
+            tx: 4, ty: 4
         })
 
         this.tiles = new KeyContainer()

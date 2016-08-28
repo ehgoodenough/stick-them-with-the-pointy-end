@@ -64,6 +64,11 @@ export default class Input {
     static update() {
         this.gamepads = navigator.getGamepads()
     }
+    static get gamepad() {
+        if(!!this.gamepads) {
+            return this.gamepads[0]
+        }
+    }
 }
 
 // if(gamepads[0] != undefined) {
