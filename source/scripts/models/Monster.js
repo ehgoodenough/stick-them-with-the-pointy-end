@@ -25,21 +25,55 @@ export default class Monster extends Pixi.Sprite {
         this.position.x = (this.spawnposition.tx + this.anchor.x) * config.tile.size
         this.position.y = (this.spawnposition.ty + this.anchor.y) * config.tile.size
 
-        this.velocity = new Pixi.Point(0, 0)
-        this.targetPosition = {x: this.position.x, y: this.position.y}
-
-        // For collision
-        this.radius = 16 * (monster.scale || 1)
-        this.maxvelocity = monster.speed || 0.5
-
         this.spawnhealth = monster.health || 2
         this.health = this.spawnhealth
         this.attack = {
             damage: monster.attack && monster.attack.damage || 1, // halfhearts
             cooldown: monster.attack && monster.attack.cooldown || 1.5 // seconds
         }
+
         this.scale.x = monster.scale || 1
         this.scale.y = monster.scale || 1
+
+        this.maxvelocity = monster.speed || 0.5
+
+        this.rank = monster.rank
+
+        if(this.rank == "grunt"){
+            this.maxvelocity = 1
+            this.scale.x = 0.5
+            this.scale.y = 0.5
+            this.attack.damage = 1
+            this.health = 1
+            this.spawnHealth = 1
+        }else if(this.rank == "warrior"){
+            this.maxvelocity = 0.5
+            this.scale.x = 0.8
+            this.scale.y = 0.8
+            this.attack.damage = 1
+            this.health = 1
+            this.spawnHealth = 2
+        }else if(this.rank == "tank"){
+            this.maxvelocity = 0.5
+            this.scale.x = 1.25
+            this.scale.y = 1.25
+            this.attack.damage = 1
+            this.health = 2
+            this.spawnHealth = 2
+        }else if(this.rank == "elite"){
+            this.maxvelocity = 0.5
+            this.scale.x = 1.8
+            this.scale.y = 1.8
+            this.attack.damage = 2
+            this.health = 2
+            this.spawnHealth =2
+        }
+
+        this.velocity = new Pixi.Point(0, 0)
+        this.targetPosition = {x: this.position.x, y: this.position.y}
+
+        // For collision
+        this.radius = 16 * (this.scale.x|| 1)
 
         this.isAngered = false
         this.IsDead = false
@@ -217,6 +251,7 @@ export default class Monster extends Pixi.Sprite {
         return {
             tx: this.spawnposition.tx,
             ty: this.spawnposition.ty,
+            rank: this.rank,
             attack: this.attack,
             health: this.health,
             scale: this.scale.x

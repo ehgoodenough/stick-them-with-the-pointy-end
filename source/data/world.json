@@ -376,67 +376,83 @@
   "monsters": [
     {
       "tx": 4,
-      "ty": 15
+      "ty": 15,
+      "rank": "grunt"
     },
     {
       "tx": 1,
-      "ty": 12
+      "ty": 12,
+      "rank": "warrior"
     },
     {
       "tx": 7,
-      "ty": 12
+      "ty": 12,
+      "rank": "tank"
     },
     {
       "tx": 10,
-      "ty": 16
+      "ty": 16,
+      "rank": "elite"
     },
     {
       "tx": 9,
-      "ty": 16
+      "ty": 16,
+      "rank": "grunt"
     },
     {
       "tx": 10,
-      "ty": 15
+      "ty": 15,
+      "rank": "warrior"
     },
     {
       "tx": 10,
-      "ty": 8
+      "ty": 8,
+      "rank": "tank"
     },
     {
       "tx": -1,
-      "ty": 20
+      "ty": 20,
+      "rank": "elite"
     },
     {
       "tx": 0,
-      "ty": 21
+      "ty": 21,
+      "rank": "grunt"
     },
     {
       "tx": -0,
-      "ty": 22
+      "ty": 22,
+      "rank": "warrior"
     },
     {
       "tx": -1,
-      "ty": 23
+      "ty": 23,
+      "rank": "grunt"
     },
     {
       "tx": -0,
-      "ty": 24
+      "ty": 24,
+      "rank": "grunt"
     },
     {
       "tx": -1,
-      "ty": 25
+      "ty": 25,
+      "rank": "grunt"
     },
     {
       "tx": -0,
-      "ty": 25
+      "ty": 25,
+      "rank": "grunt"
     },
     {
       "tx": -0,
-      "ty": 26
+      "ty": 26,
+      "rank": "grunt"
     },
     {
       "tx": 0,
-      "ty": 24
+      "ty": 24,
+      "rank": "grunt"
     }
   ],
   "floors": [
