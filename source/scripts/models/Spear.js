@@ -11,22 +11,29 @@ export default class Spear extends Pixi.Sprite {
         super(SPEAR_TEXTURE)
         this.position.x = spear.x
         this.position.y = spear.y
-        this.anchor.y = 0.25
-        this.sampleIntervalLength = this.height/NUMBER_OF_COLLISION_SAMPLES
+        this.anchor.y = .5
+        this.anchor.x = .5
+        this.sampleIntervalLength = this.height*2/NUMBER_OF_COLLISION_SAMPLES
     }
 
     update(){
-        var samplePoints = []
-        for(var i = 0; i < NUMBER_OF_COLLISION_SAMPLES; i++){
-            var samplePoint = new Pixi.Point(0,0)
-            samplePoint.x = this.parent.position.x - Math.cos(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
-            samplePoint.y = this.parent.position.y - Math.sin(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
-            samplePoints[i] = samplePoint
+        if(!this.parent.attackHasVictim){
+            var samplePoints = []
+            for(var i = 0; i < NUMBER_OF_COLLISION_SAMPLES && !this.parent.attackHasVictim; i++){
+                var samplePoint = new Pixi.Point(0,0)
+                samplePoint.x = this.parent.position.x - Math.cos(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
+                samplePoint.y = this.parent.position.y - Math.sin(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
+                samplePoints[i] = samplePoint
+                var shouldBreak = false
 
-            for(var j = 0; j < this.parent.game.monsters.children.length; j++){
-                var currentMonster = this.parent.game.monsters.children[j]
-                if(Geometry.getDistance(currentMonster.position, samplePoints[i]) < currentMonster.radius){
-                    currentMonster.beAttacked()
+                for(var j = 0; j < this.parent.game.monsters.children.length && !this.parent.attackHasVictim; j++){
+                    var currentMonster = this.parent.game.monsters.children[j]
+                    if(currentMonster.visible &&
+                    Geometry.getDistance(currentMonster.position, samplePoints[i])
+                    < currentMonster.radius){
+                        currentMonster.beAttacked()
+                        this.parent.attackHasVictim = true
+                    }
                 }
             }
         }
