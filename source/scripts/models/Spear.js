@@ -11,8 +11,9 @@ export default class Spear extends Pixi.Sprite {
         super(SPEAR_TEXTURE)
         this.position.x = spear.x
         this.position.y = spear.y
-        this.anchor.y = 0.25
-        this.sampleIntervalLength = this.height/NUMBER_OF_COLLISION_SAMPLES
+        this.anchor.y = .5
+        this.anchor.x = .5
+        this.sampleIntervalLength = this.height*2/NUMBER_OF_COLLISION_SAMPLES
     }
 
     update(){
@@ -27,6 +28,8 @@ export default class Spear extends Pixi.Sprite {
                 var currentMonster = this.parent.game.monsters.children[j]
                 if(Geometry.getDistance(currentMonster.position, samplePoints[i]) < currentMonster.radius){
                     currentMonster.beAttacked()
+                    console.log('doinit')
+                    break;
                 }
             }
         }

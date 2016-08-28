@@ -13,6 +13,7 @@ import Camera from "scripts/models/Camera.js"
 import Spear from "scripts/models/Spear.js"
 
 var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero1.png"))
+var ATTACKING_TEXTURE = Pixi.Texture.fromImage(require("images/hero1attacking.png"))
 var GAMEPAD_THRESHOLD = 0.05
 var MAXIMUM_VELOCITY = 1
 
@@ -198,6 +199,7 @@ export default class Hero extends Pixi.Sprite {
             if(this.timeSinceAttack < this.attackCooldownTime){
                 this.timeSinceAttack += delta.s
             }else{
+                this.texture = HERO_TEXTURE
                 this.spear.visible = false
                 this.isAttacking = false
             }
@@ -228,10 +230,11 @@ export default class Hero extends Pixi.Sprite {
         }
     }
     attack(){
-        var spear = new Spear({x: 0, y: 0})
+        var spear = new Spear({x: 0, y: 32})
         this.spear = spear
         this.addChild(spear)
         this.isAttacking = true
+        this.texture = ATTACKING_TEXTURE
         this.timeSinceAttack = 0
     }
     beAttacked(attack) {
