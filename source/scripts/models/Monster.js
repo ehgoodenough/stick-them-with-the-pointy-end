@@ -5,11 +5,14 @@ import Tile from "scripts/models/Tile.js"
 import config from "config.js"
 
 var MONSTER_TEXTURE = Pixi.Texture.fromImage(require("images/monster1.png"))
-var MAXIMUM_VELOCITY = 0.5
 var STUTTER = 12
 
-export default class Monster extends Pixi.Sprite {
+var BLOOD_TEXTURES = [
+    Pixi.Texture.fromImage(require("images/blood1.png")),
+    Pixi.Texture.fromImage(require("images/blood2.png")),
+]
 
+export default class Monster extends Pixi.Sprite {
     constructor(monster) {
         super(MONSTER_TEXTURE)
         this.spawnposition = {tx: monster.tx, ty: monster.ty}
@@ -23,7 +26,8 @@ export default class Monster extends Pixi.Sprite {
         this.targetPosition = {x: this.position.x, y: this.position.y}
 
         // For collision
-        this.radius = 16
+        this.radius = 16 * (monster.scale || 1)
+        this.maxvelocity = monster.speed || 0.5
 
         this.spawnhealth = monster.health || 2
         this.health = this.spawnhealth
@@ -61,14 +65,14 @@ export default class Monster extends Pixi.Sprite {
                 if(!this.isReadyToPounce && !this.isPouncing && !this.isCoolingDown && this.kickbackCooldown <= 0) {
                     // Set velocity toward hero
                     this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
-                    this.velocity.x = velocityUnitVector.x * MAXIMUM_VELOCITY
-                    this.velocity.y = velocityUnitVector.y * MAXIMUM_VELOCITY
+                    this.velocity.x = velocityUnitVector.x * this.maxvelocity
+                    this.velocity.y = velocityUnitVector.y * this.maxvelocity
 
                     // Max velocity check
                     var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
-                    if(magnitudeOfVelocity > MAXIMUM_VELOCITY){
-                        this.velocity.x *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
-                        this.velocity.y *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
+                    if(magnitudeOfVelocity > this.maxvelocity){
+                        this.velocity.x *= (1/magnitudeOfVelocity)*this.maxvelocity
+                        this.velocity.y *= (1/magnitudeOfVelocity)*this.maxvelocity
                     }
                 }
 
@@ -165,6 +169,10 @@ export default class Monster extends Pixi.Sprite {
         this.health -= attack.damage || 1
         if(this.health <= 0) {
             this.IsDead = true
+
+            this.alpha = Math.random() * 0.5 + 0.5
+            this.rotation = Math.random() * Math.PI * 2
+            this.texture = BLOOD_TEXTURES[Math.floor(Math.random() * BLOOD_TEXTURES.length)]
         }
     }
     getReadyToPounce(pounceVector) {
@@ -202,9 +210,6 @@ export default class Monster extends Pixi.Sprite {
             return 0xFFFFFF
         }
     }
-    get visible() {
-        return this.IsDead != true
-    }
     get data() {
         return {
             tx: this.spawnposition.tx,
@@ -225,6 +230,9 @@ export default class Monster extends Pixi.Sprite {
 
         this.leavePounceStates()
         this.kickbackCooldown = 0
+        this.alpha = 1
+
+        this.texture = MONSTER_TEXTURE
 
         this.position.x = (this.spawnposition.tx + this.anchor.x) * config.tile.size
         this.position.y = (this.spawnposition.ty + this.anchor.y) * config.tile.size

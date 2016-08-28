@@ -44,9 +44,6 @@ export default class GameContainer extends Pixi.Container {
         world.monsters.forEach((monster) => {
             this.monsters.addChild(new Monster(monster))
         })
-        this.monsters.addChild(new Monster({
-            tx: 2, ty: 2, scale: 2
-        }))
 
         // Setup the camera.
 
