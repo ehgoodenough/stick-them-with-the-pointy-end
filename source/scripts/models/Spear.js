@@ -17,19 +17,23 @@ export default class Spear extends Pixi.Sprite {
     }
 
     update(){
-        var samplePoints = []
-        for(var i = 0; i < NUMBER_OF_COLLISION_SAMPLES; i++){
-            var samplePoint = new Pixi.Point(0,0)
-            samplePoint.x = this.parent.position.x - Math.cos(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
-            samplePoint.y = this.parent.position.y - Math.sin(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
-            samplePoints[i] = samplePoint
+        if(!this.parent.attackHasVictim){
+            var samplePoints = []
+            for(var i = 0; i < NUMBER_OF_COLLISION_SAMPLES && !this.parent.attackHasVictim; i++){
+                var samplePoint = new Pixi.Point(0,0)
+                samplePoint.x = this.parent.position.x - Math.cos(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
+                samplePoint.y = this.parent.position.y - Math.sin(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
+                samplePoints[i] = samplePoint
+                var shouldBreak = false
 
-            for(var j = 0; j < this.parent.game.monsters.children.length; j++){
-                var currentMonster = this.parent.game.monsters.children[j]
-                if(Geometry.getDistance(currentMonster.position, samplePoints[i]) < currentMonster.radius){
-                    currentMonster.beAttacked()
-                    console.log('doinit')
-                    break;
+                for(var j = 0; j < this.parent.game.monsters.children.length && !this.parent.attackHasVictim; j++){
+                    var currentMonster = this.parent.game.monsters.children[j]
+                    if(currentMonster.visible &&
+                    Geometry.getDistance(currentMonster.position, samplePoints[i])
+                    < currentMonster.radius){
+                        currentMonster.beAttacked()
+                        this.parent.attackHasVictim = true
+                    }
                 }
             }
         }

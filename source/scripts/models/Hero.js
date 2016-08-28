@@ -46,6 +46,7 @@ export default class Hero extends Pixi.Sprite {
         this.attackCooldownTime = 0.1
         this.timeBetweenAttacks = 0.5
         this.timeSinceAttack = this.attackCooldownTime
+        this.attackHasVictim = false
     }
     update(delta) {
         // Poll inputs
@@ -59,16 +60,16 @@ export default class Hero extends Pixi.Sprite {
             this.velocity.x = x * this.maxVelocity * delta.f
         }
 
-        if(Keyb.isJustDown("1") || Input.gamepad.buttons[12].pressed) {
+        if(Keyb.isJustDown("1")) {
             this.mode = "GAME MODE"
             console.log(this.mode)
-        } if(Keyb.isJustDown("2") || Input.gamepad.buttons[13].pressed) {
+        } if(Keyb.isJustDown("2")) {
             this.mode = "DEV MODE: TILES"
             console.log(this.mode)
-        } if(Keyb.isJustDown("3") || Input.gamepad.buttons[14].pressed) {
+        } if(Keyb.isJustDown("3")) {
             this.mode = "DEV MODE: CAMERAS"
             console.log(this.mode)
-        } if(Keyb.isJustDown("4") || Input.gamepad.buttons[15].pressed) {
+        } if(Keyb.isJustDown("4")) {
             this.mode = "DEV MODE: MONSTERS"
             console.log(this.mode)
         }
@@ -239,6 +240,7 @@ export default class Hero extends Pixi.Sprite {
         this.isAttacking = true
         this.texture = ATTACKING_TEXTURE
         this.timeSinceAttack = 0
+        this.attackHasVictim = false;
     }
     beAttacked(attack) {
         if(this.beAttackedCooldown <= 0) {
