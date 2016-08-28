@@ -249,12 +249,12 @@ export default class Monster extends Pixi.Sprite {
     }
     get data() {
         return {
+            rank: this.rank,
             tx: this.spawnposition.tx,
             ty: this.spawnposition.ty,
-            rank: this.rank,
-            attack: this.attack,
-            health: this.health,
-            scale: this.scale.x
+            // attack: this.attack,
+            // health: this.health,
+            // scale: this.scale.x
         }
     }
     containsPoint(point) {

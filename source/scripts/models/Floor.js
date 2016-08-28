@@ -11,7 +11,7 @@ var FLOOR_TEXTURES = [
     // Pixi.Texture.fromImage(require("images/hero.png"))
 ]
 
-export default class Hero extends Pixi.Sprite {
+export default class Floor extends Pixi.Sprite {
     constructor(floor) {
         super(FLOOR_TEXTURES[floor.textureIndex])
         this.textureIndex = floor.textureIndex
@@ -21,7 +21,11 @@ export default class Hero extends Pixi.Sprite {
         this.position.x = (floor.tx + this.anchor.x) * config.tile.size
         this.position.y = (floor.ty + this.anchor.y) * config.tile.size
     }
-    getData(){
-        return {tx: this.spawnPosition.tx, ty: this.spawnPosition.ty, textureIndex: this.textureIndex}
+    get data(){
+        return {
+            tx: this.spawnPosition.tx,
+            ty: this.spawnPosition.ty,
+            textureIndex: this.textureIndex
+        }
     }
 }

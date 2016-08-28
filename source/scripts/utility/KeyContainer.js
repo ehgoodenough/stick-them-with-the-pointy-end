@@ -6,12 +6,14 @@ export default class KeyContainer extends Pixi.Container {
         this.childrenByKey = {}
     }
     addChild(child) {
-        super.addChild(child)
         child.game = this.game
-
         if(child.key != undefined) {
+            if(this.childrenByKey[child.key] != undefined) {
+                this.removeChild(this.childrenByKey[child.key])
+            }
             this.childrenByKey[child.key] = child
         }
+        super.addChild(child)
     }
     get data() {
         return this.children.map((child) => {

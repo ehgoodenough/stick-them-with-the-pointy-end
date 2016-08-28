@@ -280,4 +280,10 @@ export default class Hero extends Pixi.Sprite {
 
         this.game.jumpCameraToHero()
     }
+    get data() {
+        return {
+            tx: Math.floor(this.spawnposition.x / config.tile.size),
+            ty: Math.floor(this.spawnposition.y / config.tile.size)
+        }
+    }
 }

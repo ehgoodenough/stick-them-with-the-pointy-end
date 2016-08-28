@@ -1,4 +1,5 @@
 import Pixi from "pixi.js"
+import Keyb from "keyb"
 
 import config from "config.js"
 var world = require("data/world.json")
@@ -19,9 +20,7 @@ export default class GameContainer extends Pixi.Container {
 
         // Instantiate the objects.
 
-        this.hero = new Hero({
-            tx: 4, ty: 4
-        })
+        this.hero = new Hero(world.hero)
 
         this.tiles = new KeyContainer()
         this.cameras = new KeyContainer()
@@ -30,8 +29,8 @@ export default class GameContainer extends Pixi.Container {
 
         // Add to the container.
 
-        this.addChild(this.tiles)
         this.addChild(this.floors)
+        this.addChild(this.tiles)
         this.addChild(this.cameras)
         this.addChild(this.monsters)
         this.addChild(this.hero)
@@ -70,6 +69,12 @@ export default class GameContainer extends Pixi.Container {
         child.game = this
     }
     update(delta) {
+        if(this.hero.mode != "GAME MODE") {
+            if(Keyb.isDown("R")) {
+                this.hero.beKilled()
+            }
+        }
+
         this.hero.update(delta)
         this.monsters.children.forEach((monster) => {
             monster.update(delta)
@@ -81,10 +86,11 @@ export default class GameContainer extends Pixi.Container {
     }
     get data() {
         return {
+            hero: this.hero.data,
             tiles: this.tiles.data,
+            floors: this.floors.data,
             cameras: this.cameras.data,
             monsters: this.monsters.data,
-            savepoints: [],
         }
     }
 }
