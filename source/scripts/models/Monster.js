@@ -111,7 +111,7 @@ export default class Monster extends Pixi.Sprite {
                 }
 
                 // Stuttering effect
-                if(!this.isReadyToPounce) {
+                if(!this.isReadyToPounce && !this.isPouncing && !this.isCoolingDown) {
                     this.rotation += (Math.random() * (Math.PI / STUTTER)) - (Math.PI / (STUTTER * 2))
                 }
 
@@ -183,6 +183,7 @@ export default class Monster extends Pixi.Sprite {
     }
     beginCooldown() {
         this.isPouncing = false
+        this.timeSincePounceCooldown = 0
         this.velocity = {x: 0, y:0}
         this.isCoolingDown = true
     }
