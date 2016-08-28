@@ -46,6 +46,8 @@ export default class Hero extends Pixi.Sprite {
         this.attackCooldownTime = 0.15
         this.timeBetweenAttacks = 0.3
         this.timeSinceAttack = this.attackCooldownTime
+
+        this.monsterRank = "warrior"
     }
     update(delta) {
         // Poll inputs
@@ -70,7 +72,7 @@ export default class Hero extends Pixi.Sprite {
             console.log(this.mode)
         } if(Keyb.isJustDown("4")) {
             this.mode = "DEV MODE: MONSTERS"
-            console.log(this.mode)
+            console.log(this.mode, this.monsterRank)
         }
 
         // Collide with tiles
@@ -160,10 +162,24 @@ export default class Hero extends Pixi.Sprite {
                 })
             }
         } else if(this.mode == "DEV MODE: MONSTERS"){
+            if(Keyb.isDown("Z")){
+                this.monsterRank = "warrior"
+                console.log(this.mode, this.monsterRank)
+            } if(Keyb.isDown("X")){
+                this.monsterRank = "grunt"
+                console.log(this.mode, this.monsterRank)
+            } if(Keyb.isDown("C")){
+                this.monsterRank = "tank"
+                console.log(this.mode, this.monsterRank)
+            } if(Keyb.isDown("V")){
+                this.monsterRank = "elite"
+                console.log(this.mode, this.monsterRank)
+            }
             if(Input.getButton()) {
                 this.parent.monsters.addChild(new Monster({
                     tx: Math.floor(this.position.x / config.monster.size),
                     ty: Math.floor(this.position.y / config.monster.size),
+                    rank: this.monsterRank
                 }))
             } if(Input.getAltButton()) {
                 this.parent.monsters.children.forEach((monster) => {
