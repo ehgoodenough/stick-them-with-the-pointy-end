@@ -3,7 +3,6 @@ import Geometry from "scripts/utility/Geometry.js"
 
 import config from "config.js"
 
-
 var SPEAR_TEXTURE = Pixi.Texture.fromImage(require("images/spear.png"))
 var NUMBER_OF_COLLISION_SAMPLES = 4
 export default class Spear extends Pixi.Sprite {
@@ -25,10 +24,14 @@ export default class Spear extends Pixi.Sprite {
 
                 for(var j = 0; j < this.parent.game.monsters.children.length && !this.attackHasVictim; j++){
                     var currentMonster = this.parent.game.monsters.children[j]
-                    if(currentMonster.hasBeenKilled != true
+                    if(currentMonster.IsDead != true
                     && Geometry.getDistance(currentMonster.position, samplePoint) < currentMonster.radius) {
-                        currentMonster.beAttacked()
                         this.attackHasVictim = true
+                        currentMonster.beAttacked({
+                            direction: this.parent.rotation,
+                            duration: 0.05,
+                            force: 15
+                        })
                     }
                 }
             }

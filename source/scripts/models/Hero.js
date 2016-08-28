@@ -178,15 +178,15 @@ export default class Hero extends Pixi.Sprite {
         if(this.beAttackedCooldown > 0) {
             this.beAttackedCooldown -= delta.s
         }
-        if(this.isAttacking){
-            if(this.timeSinceAttack < this.attackCooldownTime){
+        if(this.isAttacking) {
+            if(this.timeSinceAttack < this.attackCooldownTime) {
                 this.timeSinceAttack += delta.s
-            }else{
+            } else {
                 this.texture = HERO_TEXTURE
                 this.spear.visible = false
                 this.isAttacking = false
             }
-        } else if(this.timeSinceAttack < this.timeBetweenAttacks){
+        } else if(this.timeSinceAttack < this.timeBetweenAttacks) {
             this.timeSinceAttack += delta.s
         }
     }
@@ -259,11 +259,7 @@ export default class Hero extends Pixi.Sprite {
         this.health = this.spawnhealth
 
         this.game.monsters.children.forEach((monster) => {
-            monster.hasBeenAngered = false
-            monster.hasBeenKilled = false
-
-            monster.position.x = (monster.spawnPosition.x + monster.anchor.x) * config.tile.size
-            monster.position.y = (monster.spawnPosition.y + monster.anchor.y) * config.tile.size
+            monster.reset()
         })
 
         this.game.jumpCameraToHero()
