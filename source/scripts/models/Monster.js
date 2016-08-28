@@ -29,10 +29,11 @@ export default class Monster extends Pixi.Sprite {
         }
 
         this.hasBeenAngered = false
+        this.hasBeenKilled = false
     }
     update(delta) {
         if(this.game.hero.mode == "GAME MODE") {
-            if(this.hasBeenAngered == true && this.isDead != true) {
+            if(this.hasBeenAngered == true && this.hasBeenKilled != true) {
                 this.theHero = this.parent.parent.hero
                 var positionRelativeToHeroX = this.theHero.position.x - this.position.x
                 var positionRelativeToHeroY = this.theHero.position.y - this.position.y
@@ -93,9 +94,9 @@ export default class Monster extends Pixi.Sprite {
     }
     beAttacked(){
         console.log("blegh! i'm dead :(")
-        this.isDead = true
+        this.hasBeenKilled = true
     }
     get visible() {
-        return this.isDead != true
+        return this.hasBeenKilled != true
     }
 }
