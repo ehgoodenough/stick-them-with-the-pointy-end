@@ -116,27 +116,7 @@ export default class Hero extends Pixi.Sprite {
         this.velocity.x *= (1 / this.friction)
 
         // Camera
-        if(this.mode == "GAME MODE") {
-            // If you are currently within a camera zone, focus on that.
-            if(this.camera && this.camera.containsPoint(this.position)) {
-                this.camera.focus()
-            } else {
-                // If you are no longer within a camera zone, find a new zone!
-                this.camera = this.parent.cameras.children.find((camera) => {
-                    if(camera.containsPoint(this.position)) {
-                        camera.focus()
-                        return true
-                    }
-                })
-                // If you couldn't find any camera
-                // zones, just center the camera on you.
-                if(this.camera == undefined) {
-                    this.focus()
-                }
-            }
-        } else if(this.mode.startsWith("DEV MODE")) {
-            this.focus()
-        }
+        this.considerTheCamera()
 
         // Enable dev mode
         if(this.mode == "DEV MODE: TILES") {
@@ -210,6 +190,29 @@ export default class Hero extends Pixi.Sprite {
             this.timeSinceAttack += delta.s
         }
     }
+    considerTheCamera() {
+        if(this.mode == "GAME MODE") {
+            // If you are currently within a camera zone, focus on that.
+            if(this.camera && this.camera.containsPoint(this.position)) {
+                this.camera.focus()
+            } else {
+                // If you are no longer within a camera zone, find a new zone!
+                this.camera = this.parent.cameras.children.find((camera) => {
+                    if(camera.containsPoint(this.position)) {
+                        camera.focus()
+                        return true
+                    }
+                })
+                // If you couldn't find any camera
+                // zones, just center the camera on you.
+                if(this.camera == undefined) {
+                    this.focus()
+                }
+            }
+        } else if(this.mode.startsWith("DEV MODE")) {
+            this.focus()
+        }
+    }
     focus() {
         this.parent.targetposition.x = -1 * (this.position.x - (config.frame.width / 2))
         this.parent.targetposition.y = -1 * (this.position.y - (config.frame.height / 2))
@@ -256,12 +259,13 @@ export default class Hero extends Pixi.Sprite {
         this.health = this.spawnhealth
 
         this.game.monsters.children.forEach((monster) => {
-            console.log(monster)
             monster.hasBeenAngered = false
             monster.hasBeenKilled = false
 
-            monster.position.x = monster.spawnPosition.x * config.tile.size
-            monster.position.y = monster.spawnPosition.y * config.tile.size
+            monster.position.x = (monster.spawnPosition.x + monster.anchor.x) * config.tile.size
+            monster.position.y = (monster.spawnPosition.y + monster.anchor.y) * config.tile.size
         })
+
+        this.game.jumpCameraToHero()
     }
 }
