@@ -11,7 +11,7 @@ export default class Monster extends Pixi.Sprite {
 
     constructor(monster) {
         super(MONSTER_TEXTURE)
-        this.spawnPosition = {x: monster.tx, y: monster.ty}
+        this.spawnPosition = {x: monster.tx + 0.5, y: monster.ty + 0.5}
         this.position.x = this.spawnPosition.x * config.tile.size
         this.position.y = this.spawnPosition.y * config.tile.size
         this.anchor.x = 0.5

@@ -6,4 +6,10 @@ export default {
     tile: {
         size: 32,
     },
+    monster: {
+        size: 32,
+    },
+    hero: {
+        size: 32,
+    },
 }

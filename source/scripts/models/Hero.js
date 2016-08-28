@@ -7,6 +7,7 @@ import Geometry from "scripts/utility/Geometry.js"
 import Input from "scripts/utility/Input.js"
 
 import Tile from "scripts/models/Tile.js"
+import Monster from "scripts/models/Monster.js"
 import Camera from "scripts/models/Camera.js"
 
 import Spear from "scripts/models/Spear.js"
@@ -65,6 +66,9 @@ export default class Hero extends Pixi.Sprite {
             console.log(this.mode)
         } if(Keyb.isJustDown("3")) {
             this.mode = "DEV MODE: CAMERAS"
+            console.log(this.mode)
+        } if(Keyb.isJustDown("4")) {
+            this.mode = "DEV MODE: MONSTERS"
             console.log(this.mode)
         }
 
@@ -176,6 +180,14 @@ export default class Hero extends Pixi.Sprite {
                     }
                 })
             }
+        } else if(this.mode == "DEV MODE: MONSTERS"){
+            if(Input.getButton()) {
+                console.log(config.monster.size/2)
+                this.parent.monsters.addChild(new Monster({
+                    tx: Math.floor(this.position.x / config.monster.size),
+                    ty: Math.floor(this.position.y / config.monster.size),
+                }))
+            }
         }
 
         // Cooldowns
@@ -202,6 +214,8 @@ export default class Hero extends Pixi.Sprite {
             return 0x0000CC
         } if(this.mode == "DEV MODE: CAMERAS") {
             return 0x00CC00
+        } if(this.mode == "DEV MODE: MONSTERS") {
+            return 0xCC0000
         }
 
         if(this.mode == "GAME MODE") {
