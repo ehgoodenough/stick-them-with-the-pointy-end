@@ -74,6 +74,7 @@ export default class GameContainer extends Pixi.Container {
         this.monsters.children.forEach((monster) => {
             monster.update(delta)
         })
+        this.monsters.sortChildren()
 
         this.position.x += (this.targetposition.x - this.position.x) / (1 / CAMERA_TRANSITION_FRICTION)
         this.position.y += (this.targetposition.y - this.position.y) / (1 / CAMERA_TRANSITION_FRICTION)

@@ -32,11 +32,7 @@ export default class Input {
         }
     }
     static getButton() {
-        if(Keyb.isJustDown("Z")
-        || Keyb.isJustDown("X")
-        || Keyb.isJustDown("J")
-        || Keyb.isJustDown("K")
-        || Keyb.isJustDown("<space>")) {
+        if(Keyb.isJustDown("<space>")) {
             return true
         } else if(!!this.gamepads[0]) {
             for(var i = 0; i < 4; i++) {

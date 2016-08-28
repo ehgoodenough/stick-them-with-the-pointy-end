@@ -76,7 +76,7 @@ export default class Monster extends Pixi.Sprite {
         this.radius = 16 * (this.scale.x|| 1)
 
         this.isAngered = false
-        this.IsDead = false
+        this.isDead = false
 
         this.isReadyToPounce = false
         this.isPouncing = false
@@ -94,7 +94,7 @@ export default class Monster extends Pixi.Sprite {
     }
     update(delta) {
         if(this.game.hero.mode == "GAME MODE") {
-            if(this.isAngered == true && this.IsDead != true) {
+            if(this.isAngered == true && this.isDead != true) {
                 var positionRelativeToHeroX = this.game.hero.position.x - this.position.x
                 var positionRelativeToHeroY = this.game.hero.position.y - this.position.y
                 var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
@@ -205,7 +205,7 @@ export default class Monster extends Pixi.Sprite {
 
         this.health -= attack.damage || 1
         if(this.health <= 0) {
-            this.IsDead = true
+            this.isDead = true
 
             this.alpha = Math.random() * 0.5 + 0.5
             this.rotation = Math.random() * Math.PI * 2
@@ -264,7 +264,7 @@ export default class Monster extends Pixi.Sprite {
         this.health = this.spawnhealth
 
         this.isAngered = false
-        this.IsDead = false
+        this.isDead = false
 
         this.leavePounceStates()
         this.kickbackCooldown = 0
@@ -274,5 +274,12 @@ export default class Monster extends Pixi.Sprite {
 
         this.position.x = (this.spawnposition.tx + this.anchor.x) * config.tile.size
         this.position.y = (this.spawnposition.ty + this.anchor.y) * config.tile.size
+    }
+    get order() {
+        if(this.isDead == true) {
+            return 1
+        } else {
+            return 2
+        }
     }
 }
