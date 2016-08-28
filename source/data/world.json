@@ -439,5 +439,47 @@
       "ty": 24
     }
   ],
+  "floors": [
+    {
+      "tx": 1,
+      "ty": 1,
+      "textureIndex": 0
+    },
+    {
+      "tx": 0,
+      "ty": 4,
+      "textureIndex": 1
+    },
+    {
+      "tx": 0,
+      "ty": 6,
+      "textureIndex": 2
+    },
+    {
+      "tx": 0,
+      "ty": 8,
+      "textureIndex": 3
+    },
+    {
+      "tx": 0,
+      "ty": 10,
+      "textureIndex": 4
+    },
+    {
+      "tx": 0,
+      "ty": 12,
+      "textureIndex": 5
+    },
+    {
+      "tx": 0,
+      "ty": 14,
+      "textureIndex": 6
+    },
+    {
+      "tx": 0,
+      "ty": 16,
+      "textureIndex": 7
+    }
+  ],
   "savepoints": []
 }

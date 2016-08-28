@@ -7,6 +7,7 @@ import Hero from "scripts/models/Hero.js"
 import Monster from "scripts/models/Monster.js"
 import Tile from "scripts/models/Tile.js"
 import Camera from "scripts/models/Camera.js"
+import Floor from "scripts/models/Floor.js"
 
 import KeyContainer from "scripts/utility/KeyContainer.js"
 
@@ -25,16 +26,22 @@ export default class GameContainer extends Pixi.Container {
         this.tiles = new KeyContainer()
         this.cameras = new KeyContainer()
         this.monsters = new KeyContainer()
+        this.floors = new KeyContainer()
 
         // Add to the container.
 
         this.addChild(this.tiles)
+        this.addChild(this.floors)
         this.addChild(this.cameras)
         this.addChild(this.monsters)
         this.addChild(this.hero)
 
+
         // Load from the data.
 
+        world.floors.forEach((floor) => {
+            this.floors.addChild(new Floor(floor))
+        })
         world.tiles.forEach((tile) => {
             this.tiles.addChild(new Tile(tile))
         })

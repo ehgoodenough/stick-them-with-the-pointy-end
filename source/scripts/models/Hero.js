@@ -43,8 +43,8 @@ export default class Hero extends Pixi.Sprite {
 
         this.spear = null
         this.isAttacking = false
-        this.attackCooldownTime = 0.1
-        this.timeBetweenAttacks = 0.5
+        this.attackCooldownTime = 0.15
+        this.timeBetweenAttacks = 0.3
         this.timeSinceAttack = this.attackCooldownTime
     }
     update(delta) {
