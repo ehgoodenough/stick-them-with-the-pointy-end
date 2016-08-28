@@ -96,8 +96,7 @@ export default class Monster extends Pixi.Sprite {
             }
         }
     }
-    beAttacked(){
-        console.log("blegh! i'm dead :(")
+    beAttacked() {
         this.hasBeenKilled = true
     }
     get visible() {
