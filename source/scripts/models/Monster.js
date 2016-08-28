@@ -5,7 +5,7 @@ import Tile from "scripts/models/Tile.js"
 import config from "config.js"
 
 var MONSTER_TEXTURE = Pixi.Texture.fromImage(require("images/monster1.png"))
-var MAXIMUM_VELOCITY = .5
+var MAXIMUM_VELOCITY = 0.5
 var STUTTER = 12
 
 export default class Monster extends Pixi.Sprite {
@@ -59,8 +59,8 @@ export default class Monster extends Pixi.Sprite {
                 if(!this.isReadyToPounce && !this.isPouncing && !this.isCoolingDown && this.kickbackCooldown <= 0) {
                     // Set velocity toward hero
                     this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
-                    this.velocity.x = velocityUnitVector.x
-                    this.velocity.y = velocityUnitVector.y
+                    this.velocity.x = velocityUnitVector.x * MAXIMUM_VELOCITY
+                    this.velocity.y = velocityUnitVector.y * MAXIMUM_VELOCITY
 
                     // Max velocity check
                     var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
