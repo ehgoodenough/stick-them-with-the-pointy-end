@@ -30,9 +30,9 @@ export default class Monster extends Pixi.Sprite {
 
         this.hasBeenAngered = false
     }
-    update(){
+    update(delta) {
         if(this.game.hero.mode == "GAME MODE") {
-            if(this.hasBeenAngered == true) {
+            if(this.hasBeenAngered == true && this.isDead != true) {
                 this.theHero = this.parent.parent.hero
                 var positionRelativeToHeroX = this.theHero.position.x - this.position.x
                 var positionRelativeToHeroY = this.theHero.position.y - this.position.y
@@ -40,7 +40,6 @@ export default class Monster extends Pixi.Sprite {
                 var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
                 this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
                 this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition || 0
-
 
                 //Max velocity check
                 var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
@@ -94,5 +93,9 @@ export default class Monster extends Pixi.Sprite {
     }
     beAttacked(){
         console.log("blegh! i'm dead :(")
+        this.isDead = true
+    }
+    get visible() {
+        return this.isDead == true
     }
 }

@@ -42,7 +42,7 @@ export default class GameContainer extends Pixi.Container {
             this.cameras.addChild(new Camera(camera))
         })
 
-        this.monsters.addChild(new Monster(4, 9))
+        this.monsters.addChild(new Monster(4, 8))
 
         // Setup the camera.
 

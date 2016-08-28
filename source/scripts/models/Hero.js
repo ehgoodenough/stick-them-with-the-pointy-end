@@ -41,7 +41,8 @@ export default class Hero extends Pixi.Sprite {
 
         this.spear = null
         this.isAttacking = false
-        this.attackCooldownTime = 0.5
+        this.attackCooldownTime = 0.1
+        this.timeBetweenAttacks = 0.5
         this.timeSinceAttack = this.attackCooldownTime
     }
     update(delta) {
@@ -49,7 +50,8 @@ export default class Hero extends Pixi.Sprite {
         Input.update()
         var x = Input.getX()
         var y = Input.getY()
-        if(Geometry.getMagnitude(x, y) > GAMEPAD_THRESHOLD) {
+        if(Geometry.getMagnitude(x, y) > GAMEPAD_THRESHOLD
+            && !this.isAttacking) {
             this.rotation = Geometry.getAngle(x, y)
             this.velocity.y = y * this.maxVelocity * delta.f
             this.velocity.x = x * this.maxVelocity * delta.f
@@ -64,12 +66,6 @@ export default class Hero extends Pixi.Sprite {
         } if(Keyb.isJustDown("3")) {
             this.mode = "DEV MODE: CAMERAS"
             console.log(this.mode)
-        }
-
-        if(Input.getButton() && !this.isAttacking){
-            this.attack()
-        } else if(this.isAttacking){
-            this.spear.update()
         }
 
         // Collide with tiles
@@ -91,6 +87,12 @@ export default class Hero extends Pixi.Sprite {
                     }
                 }
             })
+            if(Input.getButton() && !this.isAttacking && this.timeSinceAttack > this.timeBetweenAttacks){
+                this.attack()
+            }
+            if(this.isAttacking){
+                this.spear.update()
+            }
         }
 
         //Max velocity check
@@ -184,9 +186,11 @@ export default class Hero extends Pixi.Sprite {
             if(this.timeSinceAttack < this.attackCooldownTime){
                 this.timeSinceAttack += delta.s
             }else{
-                this.spear.visible = false;
-                this.isAttacking = false;
+                this.spear.visible = false
+                this.isAttacking = false
             }
+        } else if(this.timeSinceAttack < this.timeBetweenAttacks){
+            this.timeSinceAttack += delta.s
         }
     }
     focus() {
