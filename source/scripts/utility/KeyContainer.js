@@ -18,4 +18,9 @@ export default class KeyContainer extends Pixi.Container {
             return child.data
         })
     }
+    sortChildren() {
+        this.children.sort(function(a, b) {
+            return a.order - b.order
+        })
+    }
 }

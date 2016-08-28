@@ -24,7 +24,7 @@ export default class Spear extends Pixi.Sprite {
 
                 for(var j = 0; j < this.parent.game.monsters.children.length && !this.attackHasVictim; j++){
                     var currentMonster = this.parent.game.monsters.children[j]
-                    if(currentMonster.IsDead != true
+                    if(currentMonster.isDead != true
                     && Geometry.getDistance(currentMonster.position, samplePoint) < currentMonster.radius) {
                         this.attackHasVictim = true
                         currentMonster.beAttacked({
