@@ -4,16 +4,17 @@
 
 import Pixi from "pixi.js"
 import Afloop from "afloop"
-import React from "react"
-import ReactDOM from "react-dom"
-import Screenfull from "screenfull"
 
 ///////////////////////////////////////
 ///// Instantiating the Renderer /////
 /////////////////////////////////////
 
-import Mount from "scripts/render/Mount.js"
-var render = ReactDOM.render(<Mount/>, document.getElementById("mount"))
+import config from "config.js"
+var renderer = Pixi.autoDetectRenderer(config.frame.width, config.frame.height)
+renderer.backgroundColor = 0x222222
+renderer.roundPixels = true
+
+document.body.appendChild(renderer.view)
 
 ////////////////////////////////////////
 ///// Establishing the Game State /////
@@ -41,18 +42,5 @@ var loop = Afloop(function(delta) {
     }
 
     game.update(delta)
-
-    render.setState({
-        game: game
-    })
-})
-
-//////////////////////////
-///// Fullscreening /////
-////////////////////////
-
-document.addEventListener("keydown", (event) => {
-    if(event.ctrlKey && event.keyCode == 70) {
-        Screenfull.toggle()
-    }
+    renderer.render(game)
 })

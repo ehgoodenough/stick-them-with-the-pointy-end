@@ -12,7 +12,7 @@ html {
     background-color: #111;
 }
 
-#frame {
+canvas {
     top: 0px;
     left: 0px;
     right: 0px;
@@ -23,7 +23,7 @@ html {
 }
 
 @media(min-aspect-ratio: 1/1) {
-    #frame {
+    canvas {
         font-size: 100vh;
         width: 100vh;
         height: 100vh;
@@ -31,40 +31,9 @@ html {
 }
 
 @media(max-aspect-ratio: 1/1) {
-    #frame {
+    canvas {
         font-size: 100vw;
         height: 100vw;
         width: 100vw;
     }
-}
-
-canvas {
-    width: 100%;
-    height: 100%;
-}
-
-#uihud {
-    top: 0em;
-    left: 0em;
-    z-index: 99;
-    position: absolute;
-}
-
-#hearts {
-    padding: 0.05em;
-}
-
-.heart {
-    width: 0.1em;
-    height: 0.1em;
-    float: left;
-    margin-right: 0.01em;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url("images/heart.png");
-}
-
-.half.heart {
-    background-image: url("images/halfheart.png");
 }
