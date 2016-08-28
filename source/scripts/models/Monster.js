@@ -45,28 +45,28 @@ export default class Monster extends Pixi.Sprite {
             this.scale.y = 0.5
             this.attack.damage = 1
             this.health = 1
-            this.spawnHealth = 1
+            this.spawnhealth = this.health
         }else if(this.rank == "warrior"){
             this.maxvelocity = 0.5
             this.scale.x = 0.8
             this.scale.y = 0.8
             this.attack.damage = 1
             this.health = 1
-            this.spawnHealth = 2
+            this.spawnhealth = this.health
         }else if(this.rank == "tank"){
             this.maxvelocity = 0.5
             this.scale.x = 1.25
             this.scale.y = 1.25
             this.attack.damage = 1
             this.health = 2
-            this.spawnHealth = 2
+            this.spawnhealth = this.health
         }else if(this.rank == "elite"){
             this.maxvelocity = 0.5
             this.scale.x = 1.8
             this.scale.y = 1.8
             this.attack.damage = 2
             this.health = 2
-            this.spawnHealth =2
+            this.spawnhealth = this.health
         }
 
         this.velocity = new Pixi.Point(0, 0)
