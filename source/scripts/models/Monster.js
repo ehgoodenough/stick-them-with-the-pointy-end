@@ -29,7 +29,7 @@ export default class Monster extends Pixi.Sprite {
         }
     }
     update(){
-        if(this.game.hero.mode == "GAME MODE") {
+        if(this.game.hero.mode == "GAME MODE" && this.visible) {
             this.theHero = this.parent.parent.hero
             var positionRelativeToHeroX = this.theHero.position.x - this.position.x
             var positionRelativeToHeroY = this.theHero.position.y - this.position.y
@@ -83,5 +83,6 @@ export default class Monster extends Pixi.Sprite {
     }
     beAttacked(){
         console.log("blegh")
+        this.visible = false
     }
 }

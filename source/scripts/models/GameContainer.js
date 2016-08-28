@@ -48,7 +48,7 @@ export default class GameContainer extends Pixi.Container {
         // Setup the camera.
 
         this.targetposition = new Pixi.Point()
-        this.hero.update()
+        this.hero.update({s: 0, f: 0, ms: 0})
         this.position.copy(this.targetposition)
 
         // console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
