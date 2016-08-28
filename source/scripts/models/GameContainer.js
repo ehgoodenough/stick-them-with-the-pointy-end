@@ -42,8 +42,7 @@ export default class GameContainer extends Pixi.Container {
             this.cameras.addChild(new Camera(camera))
         })
 
-        var monster1 = new Monster(4, 4)
-        this.monsters.addChild(monster1)
+        this.monsters.addChild(new Monster(4, 9))
 
         // Setup the camera.
 
