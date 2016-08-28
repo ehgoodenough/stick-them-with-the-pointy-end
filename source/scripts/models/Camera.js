@@ -3,6 +3,7 @@ import Pixi from "pixi.js"
 import config from "config.js"
 
 var WHITE_TEXTURE = Pixi.Texture.fromImage(require("images/white.png"))
+var CAMERA_BUFFER = 0.25
 
 export default class Camera extends Pixi.Sprite {
     constructor(camera) {
@@ -65,11 +66,11 @@ export default class Camera extends Pixi.Sprite {
             this.game.targetposition.x = -1 * (this.x - (config.frame.width / 2))
         } else {
             this.game.targetposition.x = this.game.hero.position.x - (config.frame.width / 2)
-            if(this.game.targetposition.x < this.x1 - (config.tile.size / 4)) {
-                this.game.targetposition.x = this.x1 - (config.tile.size / 4)
+            if(this.game.targetposition.x < this.x1 - (config.tile.size * CAMERA_BUFFER)) {
+                this.game.targetposition.x = this.x1 - (config.tile.size * CAMERA_BUFFER)
             }
-            if(this.game.targetposition.x > this.x2 - config.frame.width + (config.tile.size / 4)) {
-                this.game.targetposition.x = this.x2 - config.frame.width + (config.tile.size / 4)
+            if(this.game.targetposition.x > this.x2 - config.frame.width + (config.tile.size * CAMERA_BUFFER)) {
+                this.game.targetposition.x = this.x2 - config.frame.width + (config.tile.size * CAMERA_BUFFER)
             }
             this.game.targetposition.x *= -1
         }
@@ -80,11 +81,11 @@ export default class Camera extends Pixi.Sprite {
             this.game.targetposition.y = -1 * (this.position.y - (config.frame.height / 2))
         } else {
             this.game.targetposition.y = this.game.hero.position.y - (config.frame.height / 2)
-            if(this.game.targetposition.y < this.y1 - (config.tile.size / 4)) {
-                this.game.targetposition.y = this.y1 - (config.tile.size / 4)
+            if(this.game.targetposition.y < this.y1 - (config.tile.size * CAMERA_BUFFER)) {
+                this.game.targetposition.y = this.y1 - (config.tile.size * CAMERA_BUFFER)
             }
-            if(this.game.targetposition.y > this.y2 - config.frame.height + (config.tile.size / 4)) {
-                this.game.targetposition.y = this.y2 - config.frame.height + (config.tile.size / 4)
+            if(this.game.targetposition.y > this.y2 - config.frame.height + (config.tile.size * CAMERA_BUFFER)) {
+                this.game.targetposition.y = this.y2 - config.frame.height + (config.tile.size * CAMERA_BUFFER)
             }
             this.game.targetposition.y *= -1
         }

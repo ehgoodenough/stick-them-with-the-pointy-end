@@ -239,11 +239,23 @@ export default class Hero extends Pixi.Sprite {
 
             this.health -= attack.damage || 1
             if(this.health <= 0) {
-                this.position.copy(this.spawnposition)
-                this.health = this.spawnhealth
+                this.beKilled()
             } else {
                 this.beAttackedCooldown = attack.cooldown || 1
             }
         }
+    }
+    beKilled() {
+        this.position.copy(this.spawnposition)
+        this.health = this.spawnhealth
+
+        this.game.monsters.children.forEach((monster) => {
+            console.log(monster)
+            monster.hasBeenAngered = false
+            monster.hasBeenKilled = false
+
+            monster.position.x = monster.spawnPosition.x * config.tile.size
+            monster.position.y = monster.spawnPosition.y * config.tile.size
+        })
     }
 }

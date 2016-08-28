@@ -27,63 +27,77 @@ export default class Monster extends Pixi.Sprite {
             damage: 1, // halfhearts
             cooldown: 1.5 // seconds
         }
+
+        this.hasBeenAngered = false
+        this.hasBeenKilled = false
     }
-    update(){
-        if(this.game.hero.mode == "GAME MODE" && this.visible) {
-            this.theHero = this.parent.parent.hero
-            var positionRelativeToHeroX = this.theHero.position.x - this.position.x
-            var positionRelativeToHeroY = this.theHero.position.y - this.position.y
-            this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
-            var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
-            this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
-            this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition || 0
+    update(delta) {
+        if(this.game.hero.mode == "GAME MODE") {
+            if(this.hasBeenAngered == true && this.hasBeenKilled != true) {
+                this.theHero = this.parent.parent.hero
+                var positionRelativeToHeroX = this.theHero.position.x - this.position.x
+                var positionRelativeToHeroY = this.theHero.position.y - this.position.y
+                this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
+                var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
+                this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
+                this.velocity.y = positionRelativeToHeroY/magnitudeOfRelativePosition || 0
 
-
-            //Max velocity check
-            var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
-            if(magnitudeOfVelocity > MAXIMUM_VELOCITY){
-                this.velocity.x *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
-                this.velocity.y *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
-            }
-
-            // Collide with tiles
-            this.game.tiles.children.forEach((child) => {
-                if(child instanceof Tile) {
-                    var tile = child
-                    if(tile.containsPoint({
-                        x: this.position.x + this.velocity.x,
-                        y: this.position.y
-                    })) {
-                        this.velocity.x = 0
-                    }
-                    if(tile.containsPoint({
-                        x: this.position.x,
-                        y: this.position.y + this.velocity.y
-                    })) {
-                        this.velocity.y = 0
-                    }
+                //Max velocity check
+                var magnitudeOfVelocity = Geometry.getMagnitude(this.velocity.x, this.velocity.y)
+                if(magnitudeOfVelocity > MAXIMUM_VELOCITY){
+                    this.velocity.x *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
+                    this.velocity.y *= (1/magnitudeOfVelocity)*MAXIMUM_VELOCITY
                 }
-            })
 
-            //Collision detection with Hero
-            var heroRadiusForCollision = this.game.hero.radius
-            heroRadiusForCollision *= .6
-            if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + heroRadiusForCollision) {
-                this.game.hero.beAttacked({
-                    damage: this.attack.damage,
-                    cooldown: this.attack.cooldown,
+                // Collide with tiles
+                this.game.tiles.children.forEach((child) => {
+                    if(child instanceof Tile) {
+                        var tile = child
+                        if(tile.containsPoint({
+                            x: this.position.x + this.velocity.x,
+                            y: this.position.y
+                        })) {
+                            this.velocity.x = 0
+                        }
+                        if(tile.containsPoint({
+                            x: this.position.x,
+                            y: this.position.y + this.velocity.y
+                        })) {
+                            this.velocity.y = 0
+                        }
+                    }
                 })
-                this.velocity = {x: 0, y: 0}
-            }
 
-            //Translation
-            this.position.x += this.velocity.x
-            this.position.y += this.velocity.y
+                //Collision detection with Hero
+                var heroRadiusForCollision = this.game.hero.radius
+                heroRadiusForCollision *= .6
+                if(Geometry.getDistance(this.position, this.game.hero.position) < this.radius + heroRadiusForCollision) {
+                    this.game.hero.beAttacked({
+                        damage: this.attack.damage,
+                        cooldown: this.attack.cooldown,
+                    })
+                    this.velocity = {x: 0, y: 0}
+                }
+
+                //Translation
+                this.position.x += this.velocity.x
+                this.position.y += this.velocity.y
+            } else {
+                if((this.position.x > -1 * this.game.position.x)
+                && (this.position.y > -1 * this.game.position.y)
+                && (this.position.x < -1 * this.game.position.x + config.frame.width)
+                && (this.position.y < -1 * this.game.position.y + config.frame.height)) {
+                    this.hasBeenAngered = true
+                }
+            }
         }
     }
     beAttacked(){
-        console.log("blegh")
-        this.visible = false
+        console.log("blegh! i'm dead :(")
+        this.hasBeenKilled = true
+    }
+    get visible() {
+        return this.hasBeenKilled != true
     }
     get data(){
         return {
