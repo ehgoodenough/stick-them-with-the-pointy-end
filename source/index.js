@@ -6,6 +6,7 @@ import Pixi from "pixi.js"
 import Afloop from "afloop"
 import React from "react"
 import ReactDOM from "react-dom"
+import Screenfull from "screenfull"
 
 ///////////////////////////////////////
 ///// Instantiating the Renderer /////
@@ -44,4 +45,14 @@ var loop = Afloop(function(delta) {
     render.setState({
         game: game
     })
+})
+
+//////////////////////////
+///// Fullscreening /////
+////////////////////////
+
+document.addEventListener("keydown", (event) => {
+    if(event.ctrlKey && event.keyCode == 70) {
+        Screenfull.toggle()
+    }
 })

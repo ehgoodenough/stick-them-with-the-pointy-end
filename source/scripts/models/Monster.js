@@ -11,11 +11,12 @@ export default class Monster extends Pixi.Sprite {
 
     constructor(monster) {
         super(MONSTER_TEXTURE)
-        this.spawnPosition = {x: monster.tx + 0.5, y: monster.ty + 0.5}
-        this.position.x = this.spawnPosition.x * config.tile.size
-        this.position.y = this.spawnPosition.y * config.tile.size
+        this.spawnPosition = {x: monster.tx, y: monster.ty}
+
         this.anchor.x = 0.5
         this.anchor.y = 0.5
+        this.position.x = (monster.tx + this.anchor.x) * config.tile.size
+        this.position.y = (monster.ty + this.anchor.y) * config.tile.size
 
         this.velocity = new Pixi.Point(0, 0)
         this.targetPosition = {x: this.position.x, y: this.position.y}
@@ -34,9 +35,8 @@ export default class Monster extends Pixi.Sprite {
     update(delta) {
         if(this.game.hero.mode == "GAME MODE") {
             if(this.hasBeenAngered == true && this.hasBeenKilled != true) {
-                this.theHero = this.parent.parent.hero
-                var positionRelativeToHeroX = this.theHero.position.x - this.position.x
-                var positionRelativeToHeroY = this.theHero.position.y - this.position.y
+                var positionRelativeToHeroX = this.game.hero.position.x - this.position.x
+                var positionRelativeToHeroY = this.game.hero.position.y - this.position.y
                 this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
                 var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
                 this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
@@ -79,14 +79,18 @@ export default class Monster extends Pixi.Sprite {
                     this.velocity = {x: 0, y: 0}
                 }
 
+                // Stuttering effect
+                var STUTTER = 12
+                this.rotation += (Math.random() * (Math.PI / STUTTER)) - (Math.PI / (STUTTER * 2))
+
                 //Translation
                 this.position.x += this.velocity.x
                 this.position.y += this.velocity.y
             } else {
-                if((this.position.x > -1 * this.game.position.x)
-                && (this.position.y > -1 * this.game.position.y)
-                && (this.position.x < -1 * this.game.position.x + config.frame.width)
-                && (this.position.y < -1 * this.game.position.y + config.frame.height)) {
+                if((this.position.x > -1 * this.game.position.x - config.tile.size)
+                && (this.position.y > -1 * this.game.position.y - config.tile.size)
+                && (this.position.x < -1 * this.game.position.x + config.frame.width + config.tile.size)
+                && (this.position.y < -1 * this.game.position.y + config.frame.height + config.tile.size)) {
                     this.hasBeenAngered = true
                 }
             }
@@ -104,5 +108,8 @@ export default class Monster extends Pixi.Sprite {
             tx: this.spawnPosition.x,
             ty: this.spawnPosition.y
         }
+    }
+    containsPoint(point) {
+        return Geometry.getDistance(this.position, point) < this.radius
     }
 }

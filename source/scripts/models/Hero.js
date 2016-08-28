@@ -21,10 +21,10 @@ export default class Hero extends Pixi.Sprite {
     constructor(hero) {
         super(HERO_TEXTURE)
 
-        this.position.x = hero.tx * config.tile.size
-        this.position.y = hero.ty * config.tile.size
         this.anchor.x = 0.5
         this.anchor.y = 0.5
+        this.position.x = (hero.tx + this.anchor.x) * config.tile.size
+        this.position.y = (hero.ty + this.anchor.y) * config.tile.size
 
         this.maxVelocity = MAXIMUM_VELOCITY
         this.velocity = new Pixi.Point(0,0)
@@ -59,16 +59,16 @@ export default class Hero extends Pixi.Sprite {
             this.velocity.x = x * this.maxVelocity * delta.f
         }
 
-        if(Keyb.isJustDown("1")) {
+        if(Keyb.isJustDown("1") || Input.gamepad.buttons[12].pressed) {
             this.mode = "GAME MODE"
             console.log(this.mode)
-        } if(Keyb.isJustDown("2")) {
+        } if(Keyb.isJustDown("2") || Input.gamepad.buttons[13].pressed) {
             this.mode = "DEV MODE: TILES"
             console.log(this.mode)
-        } if(Keyb.isJustDown("3")) {
+        } if(Keyb.isJustDown("3") || Input.gamepad.buttons[14].pressed) {
             this.mode = "DEV MODE: CAMERAS"
             console.log(this.mode)
-        } if(Keyb.isJustDown("4")) {
+        } if(Keyb.isJustDown("4") || Input.gamepad.buttons[15].pressed) {
             this.mode = "DEV MODE: MONSTERS"
             console.log(this.mode)
         }
@@ -155,13 +155,11 @@ export default class Hero extends Pixi.Sprite {
         } else if(this.mode == "DEV MODE: CAMERAS") {
             if(Input.getButton()) {
                 if(this.firstposition == undefined) {
-                    console.log("1")
                     this.firstposition = {
                         tx: Math.floor(this.position.x / config.tile.size),
                         ty: Math.floor(this.position.y / config.tile.size)
                     }
                 } else {
-                    console.log("2")
                     var secondposition = {
                         tx: Math.floor(this.position.x / config.tile.size),
                         ty: Math.floor(this.position.y / config.tile.size)
@@ -175,19 +173,24 @@ export default class Hero extends Pixi.Sprite {
                     delete this.firstposition
                 }
             } if(Input.getAltButton()) {
-                this.parent.cameras.children.forEach((cameras) => {
-                    if(cameras.containsPoint(this.position)) {
-                        this.parent.cameras.removeChild(cameras)
+                this.parent.cameras.children.forEach((camera) => {
+                    if(camera.containsPoint(this.position)) {
+                        this.parent.cameras.removeChild(camera)
                     }
                 })
             }
         } else if(this.mode == "DEV MODE: MONSTERS"){
             if(Input.getButton()) {
-                console.log(config.monster.size/2)
                 this.parent.monsters.addChild(new Monster({
                     tx: Math.floor(this.position.x / config.monster.size),
                     ty: Math.floor(this.position.y / config.monster.size),
                 }))
+            } if(Input.getAltButton()) {
+                this.parent.monsters.children.forEach((monster) => {
+                    if(monster.containsPoint(this.position)) {
+                        this.parent.monsters.removeChild(monster)
+                    }
+                })
             }
         }
 
