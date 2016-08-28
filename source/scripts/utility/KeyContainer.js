@@ -1,9 +1,17 @@
 import Pixi from "pixi.js"
 
 export default class KeyContainer extends Pixi.Container {
+    constructor() {
+        super()
+        this.childrenByKey = {}
+    }
     addChild(child) {
         super.addChild(child)
         child.game = this.game
+
+        if(child.key != undefined) {
+            this.childrenByKey[child.key] = child
+        }
     }
     get data() {
         return this.children.map((child) => {

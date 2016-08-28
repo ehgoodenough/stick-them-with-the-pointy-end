@@ -39,4 +39,7 @@ export default class Tile extends Pixi.Sprite {
             ty: this.ty
         }
     }
+    get key() {
+        return Math.floor(this.position.x / config.tile.size) + "-" + Math.floor(this.position.y / config.tile.size)
+    }
 }
