@@ -34,9 +34,8 @@ export default class Monster extends Pixi.Sprite {
     update(delta) {
         if(this.game.hero.mode == "GAME MODE") {
             if(this.hasBeenAngered == true && this.hasBeenKilled != true) {
-                this.theHero = this.parent.parent.hero
-                var positionRelativeToHeroX = this.theHero.position.x - this.position.x
-                var positionRelativeToHeroY = this.theHero.position.y - this.position.y
+                var positionRelativeToHeroX = this.game.hero.position.x - this.position.x
+                var positionRelativeToHeroY = this.game.hero.position.y - this.position.y
                 this.rotation = Geometry.getAngle(positionRelativeToHeroX, positionRelativeToHeroY)
                 var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
                 this.velocity.x = positionRelativeToHeroX/magnitudeOfRelativePosition || 0
@@ -78,6 +77,10 @@ export default class Monster extends Pixi.Sprite {
                     })
                     this.velocity = {x: 0, y: 0}
                 }
+
+                // Stuttering effect
+                var STUTTER = 12
+                this.rotation += (Math.random() * (Math.PI / STUTTER)) - (Math.PI / (STUTTER * 2))
 
                 //Translation
                 this.position.x += this.velocity.x
