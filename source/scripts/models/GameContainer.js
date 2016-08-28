@@ -42,7 +42,9 @@ export default class GameContainer extends Pixi.Container {
             this.cameras.addChild(new Camera(camera))
         })
 
-        this.monsters.addChild(new Monster(4, 9))
+        world.monsters.forEach((monster) => {
+            this.monsters.addChild(new Monster(monster))
+        })
 
         // Setup the camera.
 
@@ -72,7 +74,7 @@ export default class GameContainer extends Pixi.Container {
         return {
             tiles: this.tiles.data,
             cameras: this.cameras.data,
-            monsters: [],
+            monsters: this.monsters.data,
             savepoints: [],
         }
     }

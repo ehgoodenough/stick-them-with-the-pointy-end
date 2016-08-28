@@ -717,6 +717,11 @@
       "th": 9
     }
   ],
-  "monsters": [],
+  "monsters": [
+      {
+          "tx": 4,
+          "ty": 4
+      }
+  ],
   "savepoints": []
 }

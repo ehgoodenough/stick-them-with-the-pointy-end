@@ -9,9 +9,9 @@ var MAXIMUM_VELOCITY = .5
 
 export default class Monster extends Pixi.Sprite {
 
-    constructor(spawnPositionX, spawnPositionY) {
+    constructor(monster) {
         super(MONSTER_TEXTURE)
-        this.spawnPosition = {x: spawnPositionX, y: spawnPositionY}
+        this.spawnPosition = {x: monster.tx, y: monster.ty}
         this.position.x = this.spawnPosition.x * config.tile.size
         this.position.y = this.spawnPosition.y * config.tile.size
         this.anchor.x = 0.5
@@ -98,5 +98,11 @@ export default class Monster extends Pixi.Sprite {
     }
     get visible() {
         return this.hasBeenKilled != true
+    }
+    get data(){
+        return {
+            tx: this.spawnPosition.x,
+            ty: this.spawnPosition.y
+        }
     }
 }

@@ -7,10 +7,10 @@ import config from "config.js"
 var SPEAR_TEXTURE = Pixi.Texture.fromImage(require("images/spear.png"))
 var NUMBER_OF_COLLISION_SAMPLES = 4
 export default class Spear extends Pixi.Sprite {
-    constructor(spawnPosition){
+    constructor(spear){
         super(SPEAR_TEXTURE)
-        this.position.x = spawnPosition.x
-        this.position.y = spawnPosition.y
+        this.position.x = spear.x
+        this.position.y = spear.y
         this.anchor.y = 0.25
         this.sampleIntervalLength = this.height/NUMBER_OF_COLLISION_SAMPLES
     }
