@@ -83,6 +83,10 @@ rimraf("./builds/web", function() {
                     test: /\.(png|gif)$/i,
                     loader: "url-loader",
                 },
+                {
+                    test: /\.(mp3|wav|ogg)$/i,
+                    loader: "url-loader"
+                },
             ],
         },
         postcss: function() {
