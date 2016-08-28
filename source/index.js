@@ -54,7 +54,6 @@ var loop = Afloop(function(delta) {
     hearts[1].className = ""
     hearts[2].className = ""
     hearts[3].className = ""
-    console.log(game.hero.health)
     if(game.hero.health >= 1) {
         hearts[1].className = "half heart"
     } if(game.hero.health >= 2) {
