@@ -31,6 +31,8 @@ export default class Monster extends Pixi.Sprite {
             damage: monster.attack && monster.attack.damage || 1, // halfhearts
             cooldown: monster.attack && monster.attack.cooldown || 1.5 // seconds
         }
+        this.scale.x = monster.scale || 1
+        this.scale.y = monster.scale || 1
 
         this.isAngered = false
         this.IsDead = false
@@ -208,7 +210,8 @@ export default class Monster extends Pixi.Sprite {
             tx: this.spawnposition.tx,
             ty: this.spawnposition.ty,
             attack: this.attack,
-            health: this.health
+            health: this.health,
+            scale: this.scale.x
         }
     }
     containsPoint(point) {
