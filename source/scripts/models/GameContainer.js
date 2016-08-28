@@ -42,13 +42,15 @@ export default class GameContainer extends Pixi.Container {
             this.cameras.addChild(new Camera(camera))
         })
 
-        this.monsters.addChild(new Monster(4, 8))
+        this.monsters.addChild(new Monster(4, 9))
 
         // Setup the camera.
 
         this.targetposition = new Pixi.Point()
-        this.hero.update()
-        this.position.copy(this.targetposition)
+        this.hero.update({s: 0, ms: 0, f: 0})
+        this.position.x = this.targetposition.x
+        this.position.y = this.targetposition.y
+        console.log(this.position)
 
         // console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
         // console.log("To copy the world to your clipboard, run copy(game.data)")

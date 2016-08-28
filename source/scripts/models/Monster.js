@@ -96,6 +96,6 @@ export default class Monster extends Pixi.Sprite {
         this.isDead = true
     }
     get visible() {
-        return this.isDead == true
+        return this.isDead != true
     }
 }
