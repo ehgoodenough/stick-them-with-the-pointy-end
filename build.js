@@ -99,7 +99,7 @@ rimraf("./builds/web", function() {
                 width: DATE_MASK.length,
                 complete: chalk.green("O"),
                 incomplete: chalk.red("0"),
-                format: "[:bar] Building for ... (:elapseds)",
+                format: "[:bar] Building (:elapseds)",
                 summary: false, customSummary: function() {},
             }),
             new WebpackDefinePlugin({

@@ -10,6 +10,9 @@ var STUTTER = 12
 var BLOOD_TEXTURES = [
     Pixi.Texture.fromImage(require("images/blood1.png")),
     Pixi.Texture.fromImage(require("images/blood2.png")),
+    Pixi.Texture.fromImage(require("images/blood3.png")),
+    Pixi.Texture.fromImage(require("images/blood4.png")),
+    Pixi.Texture.fromImage(require("images/blood5.png")),
 ]
 
 export default class Monster extends Pixi.Sprite {
