@@ -46,7 +46,6 @@ export default class Hero extends Pixi.Sprite {
         this.attackCooldownTime = 0.1
         this.timeBetweenAttacks = 0.5
         this.timeSinceAttack = this.attackCooldownTime
-        this.attackHasVictim = false
     }
     update(delta) {
         // Poll inputs
@@ -240,7 +239,6 @@ export default class Hero extends Pixi.Sprite {
         this.isAttacking = true
         this.texture = ATTACKING_TEXTURE
         this.timeSinceAttack = 0
-        this.attackHasVictim = false;
     }
     beAttacked(attack) {
         if(this.beAttackedCooldown <= 0) {
