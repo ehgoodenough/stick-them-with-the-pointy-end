@@ -11,7 +11,7 @@ export default class Sound {
         }else{
             this.sound.volume = 0.25
         }
-        this.sound.fastSeek(0)
+        this.sound.fastSeek = 0
 
         this.sound.play()
     }
