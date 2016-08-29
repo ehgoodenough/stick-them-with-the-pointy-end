@@ -337,6 +337,10 @@ export default class Monster extends Pixi.Sprite {
         this.isAngered = false
         this.isDead = false
 
+        if(this.rank == "spawner") {
+            this.spawnpool = 0
+        }
+
         this.leavePounceStates()
         this.kickbackCooldown = 0
         this.alpha = 1
