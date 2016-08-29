@@ -2,6 +2,8 @@
 
 A game for [Ludum Dare 36](http://ludumdare.com).
 
+![](http://i.imgur.com/EtiobAx.png)
+
 ### Getting Started ###
 
 Have node v4 and npm v3.
