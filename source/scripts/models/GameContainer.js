@@ -59,6 +59,8 @@ export default class GameContainer extends Pixi.Container {
 
         // console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
         // console.log("To copy the world to your clipboard, run copy(game.data)")
+
+        this.tags = {}
     }
     jumpCameraToHero() {
         this.hero.considerTheCamera()
@@ -82,6 +84,30 @@ export default class GameContainer extends Pixi.Container {
         // moving camera to the target position
         this.position.x += (this.targetposition.x - this.position.x) / (1 / CAMERA_TRANSITION_FRICTION)
         this.position.y += (this.targetposition.y - this.position.y) / (1 / CAMERA_TRANSITION_FRICTION)
+
+        // open doors (SUPER HACKY HARDCODING BUT WHATEVER IT'S A GAME JAM)
+        if(this.hero.tx == -4
+        && this.hero.ty == 0
+        && this.tags["first-shortcut"] != true) {
+            this.tags["first-shortcut"] = true
+            this.tiles.children.forEach((tile) => {
+                if(tile.tag == "first-door") {
+                    tile.isPassable = true
+                    tile.isVisible = false
+                }
+            })
+        }
+        if(this.hero.tx == 15
+        && this.hero.ty == -1
+        && this.tags["trap"] != true) {
+            this.tags["trap"] = true
+            this.tiles.children.forEach((tile) => {
+                if(tile.tag == "trap") {
+                    tile.isPassable = true
+                    tile.isVisible = false
+                }
+            })
+        }
 
         // win condition
         if(Monster.spawnerCount == 0
@@ -108,6 +134,8 @@ export default class GameContainer extends Pixi.Container {
                 document.getElementById("you-win").style = "opacity: 1; visibility: visible;"
             }, 3000)
         }
+
+        // Some debugging tools
 
         if(this.hero.mode != "GAME MODE") {
             if(Keyb.isJustDown("R")) {

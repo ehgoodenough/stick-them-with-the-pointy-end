@@ -150,9 +150,8 @@ export default class Monster extends Pixi.Sprite {
                     }
 
                     // Collide with tiles
-                    this.game.tiles.children.forEach((child) => {
-                        if(child instanceof Tile) {
-                            var tile = child
+                    this.game.tiles.children.forEach((tile) => {
+                        if(!tile.isPassable) {
                             if(tile.containsPoint({
                                 x: this.position.x + this.velocity.x,
                                 y: this.position.y
