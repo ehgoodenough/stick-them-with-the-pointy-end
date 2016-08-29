@@ -165,17 +165,20 @@ export default class Hero extends Pixi.Sprite {
                 })
             }
         } else if(this.mode == "DEV MODE: MONSTERS"){
-            if(Keyb.isDown("Z")){
+            if(Keyb.isJustDown("Z")){
                 this.monsterRank = "warrior"
                 console.log(this.mode, this.monsterRank)
-            } if(Keyb.isDown("X")){
+            } if(Keyb.isJustDown("X")){
                 this.monsterRank = "grunt"
                 console.log(this.mode, this.monsterRank)
-            } if(Keyb.isDown("C")){
+            } if(Keyb.isJustDown("C")){
                 this.monsterRank = "tank"
                 console.log(this.mode, this.monsterRank)
-            } if(Keyb.isDown("V")){
+            } if(Keyb.isJustDown("V")){
                 this.monsterRank = "elite"
+                console.log(this.mode, this.monsterRank)
+            } if(Keyb.isJustDown("B")){
+                this.monsterRank = "spawner"
                 console.log(this.mode, this.monsterRank)
             }
             if(Input.getButton()) {
@@ -188,6 +191,9 @@ export default class Hero extends Pixi.Sprite {
                 this.parent.monsters.children.forEach((monster) => {
                     if(monster.containsPoint(this.position)) {
                         this.parent.monsters.removeChild(monster)
+                        if(monster.rank == "spawner") {
+                            Monster.decreaseSpawnerCount()
+                        }
                     }
                 })
             }

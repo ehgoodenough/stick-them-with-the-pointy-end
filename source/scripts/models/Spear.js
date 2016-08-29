@@ -41,7 +41,6 @@ export default class Spear extends Pixi.Sprite {
                         this.attackHasVictim = true
                         currentMonster.beAttacked({
                             direction: this.parent.rotation,
-                            duration: 0.05,
                             force: 15
                         })
                     }
