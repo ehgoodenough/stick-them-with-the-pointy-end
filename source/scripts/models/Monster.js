@@ -1,10 +1,14 @@
 import Pixi from "pixi.js"
 import Geometry from "scripts/utility/Geometry.js"
+import Sound from "scripts/utility/Sound.js"
 import Tile from "scripts/models/Tile.js"
 
 import config from "config.js"
 
 var MONSTER_TEXTURE = Pixi.Texture.fromImage(require("images/monster1.png"))
+var SPLAT_SOUND = new Sound([require("sounds/splat1.mp3"), require("sounds/splat2.mp3"), require("sounds/splat3.mp3"), require("sounds/splat4.mp3")])
+var HIT_SOUND = new Sound(require("sounds/hit.mp3"))
+var WHOOSH_SOUND = new Sound(require("sounds/whoosh.mp3"))
 var STUTTER = 12
 
 var BLOOD_TEXTURES = [
@@ -206,10 +210,13 @@ export default class Monster extends Pixi.Sprite {
         this.health -= attack.damage || 1
         if(this.health <= 0) {
             this.isDead = true
+            SPLAT_SOUND.playSound()
 
             this.alpha = Math.random() * 0.5 + 0.5
             this.rotation = Math.random() * Math.PI * 2
             this.texture = BLOOD_TEXTURES[Math.floor(Math.random() * BLOOD_TEXTURES.length)]
+        }else{
+            HIT_SOUND.playSound()
         }
     }
     getReadyToPounce(pounceVector) {
@@ -220,6 +227,7 @@ export default class Monster extends Pixi.Sprite {
         this.velocity = {x: 0, y: 0}
     }
     pounce() {
+        WHOOSH_SOUND.playSound()
         this.timeSincePounce = 0
         this.isReadyToPounce = false
         this.isPouncing = true

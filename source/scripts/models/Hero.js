@@ -5,6 +5,7 @@ import config from "config.js"
 
 import Geometry from "scripts/utility/Geometry.js"
 import Input from "scripts/utility/Input.js"
+import Sound from "scripts/utility/Sound.js"
 
 import Tile from "scripts/models/Tile.js"
 import Monster from "scripts/models/Monster.js"
@@ -14,6 +15,8 @@ import Spear from "scripts/models/Spear.js"
 
 var HERO_TEXTURE = Pixi.Texture.fromImage(require("images/hero1.png"))
 var ATTACKING_TEXTURE = Pixi.Texture.fromImage(require("images/hero1attacking.png"))
+var OUCH_SOUND = new Sound(require("sounds/ouch.mp3"))
+var NOWAY_SOUND = new Sound(require("sounds/noway.mp3"))
 var GAMEPAD_THRESHOLD = 0.05
 var MAXIMUM_VELOCITY = 1
 
@@ -261,9 +264,10 @@ export default class Hero extends Pixi.Sprite {
     }
     beAttacked(attack) {
         if(this.beAttackedCooldown <= 0) {
-
             this.health -= attack.damage || 1
+            OUCH_SOUND.playSound()
             if(this.health <= 0) {
+                NOWAY_SOUND.playSound()
                 this.beKilled()
             } else {
                 this.beAttackedCooldown = attack.cooldown || 1
