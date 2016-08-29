@@ -2,7 +2,7 @@ import Pixi from "pixi.js"
 import config from "config.js"
 
 var FLOOR_TEXTURES = [
-    Pixi.Texture.fromImage(require("images/floor1.png"))
+    Pixi.Texture.fromImage(require("images/firstSixFloors.png"))
     // Pixi.Texture.fromImage(require("images/hero.png")),
     // Pixi.Texture.fromImage(require("images/hero.png")),
     // Pixi.Texture.fromImage(require("images/hero.png")),
