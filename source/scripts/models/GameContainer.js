@@ -91,7 +91,7 @@ export default class GameContainer extends Pixi.Container {
         && this.tags["first-shortcut"] != true) {
             this.tags["first-shortcut"] = true
             this.tiles.children.forEach((tile) => {
-                if(tile.tag == "first-door") {
+                if(tile.tag == "first-shortcut") {
                     tile.isPassable = true
                     tile.isVisible = false
                 }
