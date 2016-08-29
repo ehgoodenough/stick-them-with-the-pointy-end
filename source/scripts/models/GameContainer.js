@@ -11,6 +11,7 @@ import Camera from "scripts/models/Camera.js"
 import Floor from "scripts/models/Floor.js"
 
 import KeyContainer from "scripts/utility/KeyContainer.js"
+import Geometry from "scripts/utility/Geometry.js"
 
 const CAMERA_TRANSITION_FRICTION = 0.05
 
@@ -69,31 +70,61 @@ export default class GameContainer extends Pixi.Container {
         child.game = this
     }
     update(delta) {
+        // updating entities
         this.hero.update(delta)
         this.monsters.children.forEach((monster) => {
             monster.update(delta)
         })
+
+        // fixing render order
         this.monsters.sortChildren()
 
+        // moving camera to the target position
         this.position.x += (this.targetposition.x - this.position.x) / (1 / CAMERA_TRANSITION_FRICTION)
         this.position.y += (this.targetposition.y - this.position.y) / (1 / CAMERA_TRANSITION_FRICTION)
-            if(this.hero.mode != "GAME MODE") {
-                if(Keyb.isJustDown("R")) {
-                    var position = this.hero.position.clone()
-                    this.hero.beKilled()
-                    this.hero.position.copy(position)
-                }
 
-                if(Keyb.isDown("T")) {
-                    this.scale.x = 0.25
-                    this.scale.y = 0.25
-                    this.position.x = 3 * 32
-                    this.position.y = 8 * 32
-                } else {
-                    this.scale.x = 1
-                    this.scale.y = 1
+        // win condition
+        if(Monster.spawnerCount == 0
+        && this.initiateEnding != true) {
+            this.inintiateEnding = true
+            this.monsters.children.forEach((monster) => {
+                if(monster.isAngered) {
+                    var x = monster.position.x - this.hero.position.x
+                    var y = monster.position.y - this.hero.position.y
+                    monster.beAttacked({
+                        direction: Geometry.getAngle(x, y),
+                        force: 30,
+                        isStunned: true,
+                        damage: 0.5
+                    })
+                    var timer = Math.random() * 1000 + 1000
+                    window.setTimeout(function(monster) {
+                        monster.beAttacked({damage: 999})
+                    }.bind(null, monster), timer)
                 }
+            })
+            window.setTimeout(() => {
+                console.log("YOU WIN!!")
+            }, 3000)
+        }
+
+        if(this.hero.mode != "GAME MODE") {
+            if(Keyb.isJustDown("R")) {
+                var position = this.hero.position.clone()
+                this.hero.beKilled()
+                this.hero.position.copy(position)
             }
+
+            if(Keyb.isDown("T")) {
+                this.scale.x = 0.25
+                this.scale.y = 0.25
+                this.position.x = -2 * 32
+                this.position.y = 5 * 32
+            } else {
+                this.scale.x = 1
+                this.scale.y = 1
+            }
+        }
     }
     get data() {
         return {
