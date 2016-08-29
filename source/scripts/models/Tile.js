@@ -34,4 +34,16 @@ export default class Tile extends Pixi.Sprite {
     get key() {
         return Math.floor(this.position.x / config.tile.size) + "-" + Math.floor(this.position.y / config.tile.size)
     }
+    get alpha() {
+        if(this.game.hero.mode != "GAME MODE") {
+            return 1
+        } else {
+            return 0.25
+        }
+    }
+    // Uncomment this method when it's
+    // finally time to hide tiles!!
+    // get visible() {
+    //     return this.game.hero.mode != "GAME MODE"
+    // }
 }
