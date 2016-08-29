@@ -43,7 +43,7 @@ export default class Tile extends Pixi.Sprite {
     }
     // Uncomment this method when it's
     // finally time to hide tiles!!
-    // get visible() {
-    //     return this.game.hero.mode != "GAME MODE"
-    // }
+    get visible() {
+        return this.game.hero.mode != "GAME MODE"
+    }
 }
