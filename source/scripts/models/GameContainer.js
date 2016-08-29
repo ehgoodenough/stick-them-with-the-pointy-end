@@ -87,8 +87,9 @@ export default class GameContainer extends Pixi.Container {
         if(Monster.spawnerCount == 0
         && this.initiateEnding != true) {
             this.inintiateEnding = true
+            var index = 0
             this.monsters.children.forEach((monster) => {
-                if(monster.isAngered) {
+                if(monster.isAngered && !monster.isDead) {
                     var x = monster.position.x - this.hero.position.x
                     var y = monster.position.y - this.hero.position.y
                     monster.beAttacked({
@@ -97,14 +98,14 @@ export default class GameContainer extends Pixi.Container {
                         isStunned: true,
                         damage: 0.5
                     })
-                    var timer = Math.random() * 1000 + 1000
+                    var timer = 1500 + (++index * 100)
                     window.setTimeout(function(monster) {
                         monster.beAttacked({damage: 999})
                     }.bind(null, monster), timer)
                 }
             })
             window.setTimeout(() => {
-                console.log("YOU WIN!!")
+                document.getElementById("you-win").style = "opacity: 1; visibility: visible;"
             }, 3000)
         }
 

@@ -81,6 +81,11 @@ export default class Monster extends Pixi.Sprite {
             this.spawnhealth = this.health
             this.texture = SPAWNER_TEXTURE
             spawnerCount += 1
+
+            this.spawntimer = 0
+            this.maxspawntimer = 1.5
+            this.spawnpool = 0
+            this.maxspawnpool = 3
         }
 
         this.velocity = new Pixi.Point(0, 0)
@@ -105,12 +110,26 @@ export default class Monster extends Pixi.Sprite {
         this.pounceVector = {x:0, y:0}
 
         this.kickbackCooldown = 0
+
+        this.spawnerThatSpawnedMe = monster.spawner
     }
     update(delta) {
         if(this.game.hero.mode == "GAME MODE") {
             if(this.isAngered == true && this.isDead != true) {
                 if(this.rank == "spawner") {
-                    //
+                    if(this.spawnpool < this.maxspawnpool) {
+                        this.spawntimer -= delta.s
+                        if(this.spawntimer <= 0) {
+                            this.spawnpool += 1
+                            this.spawntimer = this.maxspawnpool + (Math.random() * 0.5)
+                            this.game.monsters.addChild(new Monster({
+                                tx: this.spawnposition.tx,
+                                ty: this.spawnposition.ty,
+                                spawner: this,
+                                rank: Math.random() < 0.75 ? "warrior" : "grunt"
+                            }))
+                        }
+                    }
                 } else {
                     var positionRelativeToHeroX = this.game.hero.position.x - this.position.x
                     var positionRelativeToHeroY = this.game.hero.position.y - this.position.y
@@ -230,6 +249,9 @@ export default class Monster extends Pixi.Sprite {
             if(this.rank == "spawner") {
                 spawnerCount -= 1
             }
+            if(this.spawnerThatSpawnedMe != undefined) {
+                this.spawnerThatSpawnedMe.spawnpool -= 1
+            }
 
             SPLAT_SOUND.playSound()
 
@@ -270,11 +292,26 @@ export default class Monster extends Pixi.Sprite {
         this.isCoolingDown = false
     }
     get tint() {
-        if((this.isReadyToPounce || this.isPouncing)
-        && this.isStunned != true) {
-            return 0xCC8800
-        } else{
+        if(this.rank == "spawner") {
+            if(this.health == 5) {
+                return 0xFFFFFF
+            } if(this.health == 4) {
+                return 0xFFC8C8
+            } if(this.health == 3) {
+                return 0xFF8181
+            } if(this.health == 2) {
+                return 0xFF4242
+            } if(this.health == 1) {
+                return 0xFF0C0C
+            }
             return 0xFFFFFF
+        } else {
+            if((this.isReadyToPounce || this.isPouncing)
+            && this.isStunned != true) {
+                return 0xCC8800
+            } else{
+                return 0xFFFFFF
+            }
         }
     }
     get data() {
@@ -317,7 +354,11 @@ export default class Monster extends Pixi.Sprite {
         if(this.isDead == true) {
             return 1
         } else {
-            return 2
+            if(this.rank == "spawner") {
+                return 2
+            } else {
+                return 3
+            }
         }
     }
     static get spawnerCount() {
