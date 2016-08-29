@@ -20,7 +20,8 @@ export default class Camera extends Pixi.Sprite {
         this.name = camera.name || "no-name"
     }
     get alpha() {
-        return this.game.hero.mode.startsWith("DEV MODE") ? 0.25 : 0
+        // return this.game.hero.mode.startsWith("DEV MODE") ? 0.25 : 0
+        return 0
     }
     get x1() {
         return this.x - (this.width / 2)

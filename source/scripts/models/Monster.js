@@ -331,6 +331,11 @@ export default class Monster extends Pixi.Sprite {
             spawnerCount += 1
         }
 
+        if(this.spawnerThatSpawnedMe != undefined) {
+            this.game.monsters.removeChild(this)
+            return
+        }
+
         this.health = this.spawnhealth
 
         this.isAngered = false
@@ -352,6 +357,8 @@ export default class Monster extends Pixi.Sprite {
 
         this.position.x = (this.spawnposition.tx + this.anchor.x) * config.tile.size
         this.position.y = (this.spawnposition.ty + this.anchor.y) * config.tile.size
+
+        this.rotation = 0
     }
     get order() {
         if(this.isDead == true) {
