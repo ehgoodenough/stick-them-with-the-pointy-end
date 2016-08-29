@@ -147,8 +147,8 @@ export default class GameContainer extends Pixi.Container {
             if(Keyb.isDown("T")) {
                 this.scale.x = 0.25
                 this.scale.y = 0.25
-                this.position.x = -2 * 32
-                this.position.y = 5 * 32
+                this.position.x = -1.25 * 32
+                this.position.y = 4 * 32
             } else {
                 this.scale.x = 1
                 this.scale.y = 1
