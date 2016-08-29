@@ -69,12 +69,6 @@ export default class GameContainer extends Pixi.Container {
         child.game = this
     }
     update(delta) {
-        if(this.hero.mode != "GAME MODE") {
-            if(Keyb.isDown("R")) {
-                this.hero.beKilled()
-            }
-        }
-
         this.hero.update(delta)
         this.monsters.children.forEach((monster) => {
             monster.update(delta)
@@ -83,6 +77,23 @@ export default class GameContainer extends Pixi.Container {
 
         this.position.x += (this.targetposition.x - this.position.x) / (1 / CAMERA_TRANSITION_FRICTION)
         this.position.y += (this.targetposition.y - this.position.y) / (1 / CAMERA_TRANSITION_FRICTION)
+            if(this.hero.mode != "GAME MODE") {
+                if(Keyb.isJustDown("R")) {
+                    var position = this.hero.position.clone()
+                    this.hero.beKilled()
+                    this.hero.position.copy(position)
+                }
+
+                if(Keyb.isDown("T")) {
+                    this.scale.x = 0.25
+                    this.scale.y = 0.25
+                    this.position.x = 3 * 32
+                    this.position.y = 8 * 32
+                } else {
+                    this.scale.x = 1
+                    this.scale.y = 1
+                }
+            }
     }
     get data() {
         return {
