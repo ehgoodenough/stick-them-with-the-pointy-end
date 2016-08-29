@@ -55,6 +55,6 @@ export default class Tile extends Pixi.Sprite {
         return Math.floor(this.position.x / config.tile.size) + "-" + Math.floor(this.position.y / config.tile.size)
     }
     get visible() {
-        return this.isVisible || this.game.hero.mode != "GAME MODE"
+        return this.isVisible
     }
 }

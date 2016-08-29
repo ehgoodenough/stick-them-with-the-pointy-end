@@ -76,6 +76,9 @@ export default class Hero extends Pixi.Sprite {
         } if(Keyb.isJustDown("4")) {
             this.mode = "DEV MODE: MONSTERS"
             console.log(this.mode, this.monsterRank)
+        } if(Keyb.isJustDown("5")) {
+            this.mode = "DEV MODE: PAUSE"
+            console.log(this.mode, this.monsterRank)
         }
 
         // Collide with tiles
@@ -215,7 +218,7 @@ export default class Hero extends Pixi.Sprite {
         }
     }
     considerTheCamera() {
-        if(this.mode == "GAME MODE") {
+        if(this.mode == "GAME MODE" || this.mode == "DEV MODE: PAUSE") {
             // If you are currently within a camera zone, focus on that.
             if(this.camera && this.camera.containsPoint(this.position)) {
                 this.camera.focus()
@@ -258,6 +261,8 @@ export default class Hero extends Pixi.Sprite {
 
             return 0xFFFFFF
         }
+
+        return 0xFFFFFF
     }
     attack(){
         var spear = new Spear({x: 0, y: 32})

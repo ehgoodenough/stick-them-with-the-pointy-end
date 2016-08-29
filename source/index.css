@@ -66,7 +66,7 @@ canvas {
     background-image: url("images/halfheart.png");
 }
 
-#you-win {
+.screen {
     top: 0px;
     left: 0px;
     right: 0px;
@@ -74,26 +74,43 @@ canvas {
     z-index: 9999;
     position: absolute;
 
-    padding: 5em 1em;
-
     font-size: 0.05em;
     text-align: center;
     font-family: monospace;
 
-    opacity: 0;
-    visibility: hidden;
     transition-duration: 0.5s;
     transition-property: opacity;
+}
+
+#loading.screen {
+    opacity: 1;
+    padding: 6em 1em;
+    cursor: default;
+    background-color: #111;
+    animation-delay: 3s;
+    animation-duration: 2s;
+    animation-name: fade-out;
+    animation-fill-mode: forwards;
+}
+
+#you-win.screen {
+    opacity: 0;
+    padding: 5em 1em;
+    visibility: hidden;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-h1 {
-    font-size: 3em;
+.gamepad {
+    margin: 2em;
 }
 
 #play-again {
     margin: 1em;
     display: block;
+}
+
+h1 {
+    font-size: 3em;
 }
 
 a {
@@ -102,4 +119,13 @@ a {
 
 a:hover {
     color: #C00;
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
