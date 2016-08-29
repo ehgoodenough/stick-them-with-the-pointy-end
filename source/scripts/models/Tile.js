@@ -5,7 +5,7 @@ import config from "config.js"
 var WALL_TEXTURE = Pixi.Texture.fromImage(require("images/wall1.png"))
 var ACTUAL_WALL_TEXTURES = [
     Pixi.Texture.fromImage(require("images/door1.png")),
-    Pixi.Texture.fromImage(require("images/white.png")),
+    Pixi.Texture.fromImage(require("images/door2.png")),
 ]
 
 export default class Tile extends Pixi.Sprite {

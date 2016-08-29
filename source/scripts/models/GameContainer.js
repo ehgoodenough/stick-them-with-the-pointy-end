@@ -97,12 +97,12 @@ export default class GameContainer extends Pixi.Container {
                 }
             })
         }
-        if(this.hero.tx == 15
-        && this.hero.ty == -1
-        && this.tags["trap"] != true) {
-            this.tags["trap"] = true
+        if(this.hero.tx == 4
+        && this.hero.ty == -2
+        && this.tags["second-shortcut"] != true) {
+            this.tags["second-shortcut"] = true
             this.tiles.children.forEach((tile) => {
-                if(tile.tag == "trap") {
+                if(tile.tag == "second-shortcut") {
                     tile.isPassable = true
                     tile.isVisible = false
                 }

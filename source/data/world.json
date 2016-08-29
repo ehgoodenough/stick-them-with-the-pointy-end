@@ -12,6 +12,13 @@
       "tag": "first-shortcut"
     },
     {
+      "tx": 3,
+      "ty": -2,
+      "isVisible": true,
+      "textureIndex": 1,
+      "tag": "second-shortcut"
+    },
+    {
       "tx": -3,
       "ty": -3
     },
@@ -1902,27 +1909,11 @@
     },
     {
       "tx": 14,
-      "ty": -7
+      "ty": -2
     },
     {
       "tx": 16,
-      "ty": -7
-    },
-    {
-      "tx": 16,
-      "ty": -6
-    },
-    {
-      "tx": 14,
-      "ty": -6
-    },
-    {
-      "tx": 14,
-      "ty": -5
-    },
-    {
-      "tx": 16,
-      "ty": -5
+      "ty": -2
     }
   ],
   "floors": [
@@ -2025,8 +2016,8 @@
   "monsters": [
     {
       "rank": "spawner",
-      "tx": 36,
-      "ty": 5
+      "tx": 32,
+      "ty": 1
     },
     {
       "rank": "spawner",
@@ -2035,8 +2026,8 @@
     },
     {
       "rank": "spawner",
-      "tx": 32,
-      "ty": 1
+      "tx": 36,
+      "ty": 5
     },
     {
       "rank": "spawner",
@@ -2045,13 +2036,23 @@
     },
     {
       "rank": "warrior",
-      "tx": -12,
-      "ty": 18
+      "tx": 21,
+      "ty": -3
     },
     {
       "rank": "warrior",
-      "tx": 20,
-      "ty": -5
+      "tx": 10,
+      "ty": 3
+    },
+    {
+      "rank": "tank",
+      "tx": 9,
+      "ty": -1
+    },
+    {
+      "rank": "warrior",
+      "tx": 9,
+      "ty": -3
     },
     {
       "rank": "warrior",
@@ -2060,28 +2061,18 @@
     },
     {
       "rank": "warrior",
-      "tx": 10,
-      "ty": 3
+      "tx": 9,
+      "ty": 1
     },
     {
       "rank": "warrior",
-      "tx": 19,
+      "tx": 11,
       "ty": -6
     },
     {
-      "rank": "tank",
-      "tx": 21,
-      "ty": -1
-    },
-    {
       "rank": "warrior",
-      "tx": 20,
-      "ty": 3
-    },
-    {
-      "rank": "warrior",
-      "tx": 21,
-      "ty": 1
+      "tx": 13,
+      "ty": -7
     },
     {
       "rank": "warrior",
@@ -2255,8 +2246,8 @@
     },
     {
       "rank": "warrior",
-      "tx": 21,
-      "ty": -3
+      "tx": -20,
+      "ty": 9
     },
     {
       "rank": "warrior",
@@ -2275,8 +2266,8 @@
     },
     {
       "rank": "warrior",
-      "tx": -20,
-      "ty": 9
+      "tx": 21,
+      "ty": 1
     },
     {
       "rank": "warrior",
@@ -2305,13 +2296,13 @@
     },
     {
       "rank": "warrior",
-      "tx": 9,
-      "ty": -3
+      "tx": 19,
+      "ty": 4
     },
     {
       "rank": "warrior",
-      "tx": 9,
-      "ty": 1
+      "tx": 19,
+      "ty": -6
     },
     {
       "rank": "warrior",
@@ -2370,23 +2361,23 @@
     },
     {
       "rank": "warrior",
-      "tx": 13,
-      "ty": -7
-    },
-    {
-      "rank": "warrior",
-      "tx": 11,
-      "ty": -6
-    },
-    {
-      "rank": "warrior",
-      "tx": 10,
+      "tx": 20,
       "ty": -5
     },
     {
       "rank": "tank",
-      "tx": 9,
+      "tx": 21,
       "ty": -1
+    },
+    {
+      "rank": "warrior",
+      "tx": -12,
+      "ty": 18
+    },
+    {
+      "rank": "warrior",
+      "tx": 20,
+      "ty": 3
     },
     {
       "rank": "tank",
@@ -2485,8 +2476,8 @@
     },
     {
       "rank": "warrior",
-      "tx": 19,
-      "ty": 4
+      "tx": 10,
+      "ty": -5
     }
   ]
 }
