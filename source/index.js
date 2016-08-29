@@ -68,3 +68,12 @@ var loop = Afloop(function(delta) {
         hearts[3].className = "heart"
     }
 })
+
+///////////////////////////////
+///// Linking up the DOM /////
+/////////////////////////////
+
+document.getElementById("play-again").addEventListener("click", (event) => {
+    event.preventDefault()
+    window.location = window.location
+})

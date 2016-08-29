@@ -16,7 +16,7 @@ export default class Floor extends Pixi.Sprite {
     constructor(floor) {
         super(FLOOR_TEXTURES[floor.textureIndex])
         this.textureIndex = floor.textureIndex
-        this.spawnPosition = {tx: floor.tx, ty: floor.tx}
+        this.spawnPosition = {tx: floor.tx, ty: floor.ty}
         this.anchor.x = 0
         this.anchor.y = 0
         this.position.x = (floor.tx + this.anchor.x) * config.tile.size

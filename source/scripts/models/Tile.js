@@ -3,6 +3,10 @@ import Pixi from "pixi.js"
 import config from "config.js"
 
 var WALL_TEXTURE = Pixi.Texture.fromImage(require("images/wall1.png"))
+var ACTUAL_WALL_TEXTURES = [
+    Pixi.Texture.fromImage(require("images/door1.png")),
+    Pixi.Texture.fromImage(require("images/white.png")),
+]
 
 export default class Tile extends Pixi.Sprite {
     constructor(tile) {
@@ -14,6 +18,14 @@ export default class Tile extends Pixi.Sprite {
 
         // Used for collision
         this.radius = 8
+
+        this.isVisible = tile.isVisible
+        this.isPassable = false
+        if(tile.textureIndex != undefined) {
+            this.textureIndex = tile.textureIndex
+            this.texture = ACTUAL_WALL_TEXTURES[tile.textureIndex]
+        }
+        this.tag = tile.tag
     }
     containsPoint(point) {
         return this.tx == Math.floor(point.x / config.tile.size)
@@ -26,24 +38,23 @@ export default class Tile extends Pixi.Sprite {
         return Math.floor(this.position.y / config.tile.size)
     }
     get data() {
-        return {
+        var data = {
             tx: this.tx,
             ty: this.ty
         }
+        if(this.isVisible != undefined) {
+            data.isVisible = this.isVisible
+        } if(this.textureIndex != undefined) {
+            data.textureIndex = this.textureIndex
+        } if(this.tag != undefined) {
+            data.tag = this.tag
+        }
+        return data
     }
     get key() {
         return Math.floor(this.position.x / config.tile.size) + "-" + Math.floor(this.position.y / config.tile.size)
     }
-    get alpha() {
-        if(this.game.hero.mode != "GAME MODE") {
-            return 1
-        } else {
-            return 0.25
-        }
-    }
-    // Uncomment this method when it's
-    // finally time to hide tiles!!
     get visible() {
-        return this.game.hero.mode != "GAME MODE"
+        return this.isVisible || this.game.hero.mode != "GAME MODE"
     }
 }

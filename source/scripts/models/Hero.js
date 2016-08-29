@@ -80,9 +80,8 @@ export default class Hero extends Pixi.Sprite {
 
         // Collide with tiles
         if(this.mode == "GAME MODE") {
-            this.parent.tiles.children.forEach((child) => {
-                if(child instanceof Tile) {
-                    var tile = child
+            this.parent.tiles.children.forEach((tile) => {
+                if(!tile.isPassable) {
                     if(tile.containsPoint({
                         x: this.position.x + this.velocity.x,
                         y: this.position.y
@@ -295,5 +294,11 @@ export default class Hero extends Pixi.Sprite {
             tx: Math.floor(this.spawnposition.x / config.tile.size),
             ty: Math.floor(this.spawnposition.y / config.tile.size)
         }
+    }
+    get tx() {
+        return Math.floor(this.position.x / config.tile.size)
+    }
+    get ty() {
+        return Math.floor(this.position.y / config.tile.size)
     }
 }

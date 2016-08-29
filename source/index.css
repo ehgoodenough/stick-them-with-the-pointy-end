@@ -1,7 +1,6 @@
 * {
     margin: 0;
     padding: 0;
-    cursor: default;
     user-select: none;
     box-sizing: border-box;
     image-rendering: pixelated;
@@ -65,4 +64,42 @@ canvas {
 
 .half.heart {
     background-image: url("images/halfheart.png");
+}
+
+#you-win {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 9999;
+    position: absolute;
+
+    padding: 5em 1em;
+
+    font-size: 0.05em;
+    text-align: center;
+    font-family: monospace;
+
+    opacity: 0;
+    visibility: hidden;
+    transition-duration: 0.5s;
+    transition-property: opacity;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    font-size: 3em;
+}
+
+#play-again {
+    margin: 1em;
+    display: block;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    color: #C00;
 }

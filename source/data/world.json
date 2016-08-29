@@ -1,11 +1,18 @@
 {
   "hero": {
-    "tx": 28,
+    "tx": 0,
     "ty": 0
   },
   "tiles": [
     {
       "tx": -3,
+      "ty": 0,
+      "isVisible": true,
+      "textureIndex": 0,
+      "tag": "first-shortcut"
+    },
+    {
+      "tx": -3,
       "ty": -3
     },
     {
@@ -1205,10 +1212,6 @@
       "ty": -14
     },
     {
-      "tx": -6,
-      "ty": -16
-    },
-    {
       "tx": 11,
       "ty": -20
     },
@@ -1529,34 +1532,6 @@
       "ty": 4
     },
     {
-      "tx": 14,
-      "ty": -1
-    },
-    {
-      "tx": 14,
-      "ty": 0
-    },
-    {
-      "tx": 15,
-      "ty": 0
-    },
-    {
-      "tx": 16,
-      "ty": 0
-    },
-    {
-      "tx": 16,
-      "ty": -1
-    },
-    {
-      "tx": 14,
-      "ty": -2
-    },
-    {
-      "tx": 16,
-      "ty": -2
-    },
-    {
       "tx": 22,
       "ty": -1
     },
@@ -1902,7 +1877,52 @@
     },
     {
       "tx": 33,
-      "ty": 11
+      "ty": 11,
+      "tag": "lol"
+    },
+    {
+      "tx": 16,
+      "ty": -1
+    },
+    {
+      "tx": 16,
+      "ty": 0
+    },
+    {
+      "tx": 15,
+      "ty": 0
+    },
+    {
+      "tx": 14,
+      "ty": 0
+    },
+    {
+      "tx": 14,
+      "ty": -1
+    },
+    {
+      "tx": 14,
+      "ty": -7
+    },
+    {
+      "tx": 16,
+      "ty": -7
+    },
+    {
+      "tx": 16,
+      "ty": -6
+    },
+    {
+      "tx": 14,
+      "ty": -6
+    },
+    {
+      "tx": 14,
+      "ty": -5
+    },
+    {
+      "tx": 16,
+      "ty": -5
     }
   ],
   "floors": [
@@ -2004,19 +2024,29 @@
   ],
   "monsters": [
     {
-      "rank": "tank",
-      "tx": 21,
-      "ty": -1
+      "rank": "spawner",
+      "tx": 36,
+      "ty": 5
     },
     {
-      "rank": "warrior",
-      "tx": -14,
-      "ty": -2
-    },
-    {
-      "rank": "warrior",
-      "tx": 21,
+      "rank": "spawner",
+      "tx": 36,
       "ty": 1
+    },
+    {
+      "rank": "spawner",
+      "tx": 32,
+      "ty": 1
+    },
+    {
+      "rank": "spawner",
+      "tx": 32,
+      "ty": 5
+    },
+    {
+      "rank": "warrior",
+      "tx": -12,
+      "ty": 18
     },
     {
       "rank": "warrior",
@@ -2025,43 +2055,38 @@
     },
     {
       "rank": "warrior",
-      "tx": -25,
-      "ty": 2
+      "tx": 17,
+      "ty": -7
     },
     {
       "rank": "warrior",
-      "tx": -21,
-      "ty": 1
-    },
-    {
-      "rank": "warrior",
-      "tx": -7,
-      "ty": 17
-    },
-    {
-      "rank": "warrior",
-      "tx": -18,
-      "ty": 15
-    },
-    {
-      "rank": "warrior",
-      "tx": -23,
-      "ty": 0
-    },
-    {
-      "rank": "warrior",
-      "tx": -27,
-      "ty": 15
-    },
-    {
-      "rank": "warrior",
-      "tx": -22,
+      "tx": 10,
       "ty": 3
     },
     {
       "rank": "warrior",
-      "tx": -11,
-      "ty": 16
+      "tx": 19,
+      "ty": -6
+    },
+    {
+      "rank": "tank",
+      "tx": 21,
+      "ty": -1
+    },
+    {
+      "rank": "warrior",
+      "tx": 20,
+      "ty": 3
+    },
+    {
+      "rank": "warrior",
+      "tx": 21,
+      "ty": 1
+    },
+    {
+      "rank": "warrior",
+      "tx": 11,
+      "ty": 4
     },
     {
       "rank": "warrior",
@@ -2179,6 +2204,11 @@
       "ty": -15
     },
     {
+      "rank": "elite",
+      "tx": 38,
+      "ty": -1
+    },
+    {
       "rank": "grunt",
       "tx": -9,
       "ty": -20
@@ -2205,18 +2235,33 @@
     },
     {
       "rank": "warrior",
+      "tx": 36,
+      "ty": -3
+    },
+    {
+      "rank": "warrior",
       "tx": -9,
+      "ty": -3
+    },
+    {
+      "rank": "warrior",
+      "tx": -14,
+      "ty": -2
+    },
+    {
+      "rank": "warrior",
+      "tx": 2,
+      "ty": -16
+    },
+    {
+      "rank": "warrior",
+      "tx": 21,
       "ty": -3
     },
     {
       "rank": "warrior",
       "tx": -26,
       "ty": 11
-    },
-    {
-      "rank": "warrior",
-      "tx": -12,
-      "ty": 18
     },
     {
       "rank": "warrior",
@@ -2270,13 +2315,13 @@
     },
     {
       "rank": "warrior",
-      "tx": 10,
+      "tx": -22,
       "ty": 3
     },
     {
       "rank": "warrior",
-      "tx": 11,
-      "ty": 4
+      "tx": -23,
+      "ty": 0
     },
     {
       "rank": "warrior",
@@ -2290,13 +2335,13 @@
     },
     {
       "rank": "warrior",
-      "tx": 19,
-      "ty": 4
+      "tx": -11,
+      "ty": 16
     },
     {
       "rank": "warrior",
-      "tx": 20,
-      "ty": 3
+      "tx": -25,
+      "ty": 2
     },
     {
       "rank": "elite",
@@ -2315,13 +2360,13 @@
     },
     {
       "rank": "warrior",
-      "tx": 19,
-      "ty": -6
+      "tx": -27,
+      "ty": 15
     },
     {
       "rank": "warrior",
-      "tx": 17,
-      "ty": -7
+      "tx": -18,
+      "ty": 15
     },
     {
       "rank": "warrior",
@@ -2354,6 +2399,11 @@
       "ty": -13
     },
     {
+      "rank": "elite",
+      "tx": 38,
+      "ty": 7
+    },
+    {
       "rank": "grunt",
       "tx": -12,
       "ty": -16
@@ -2379,9 +2429,44 @@
       "ty": -18
     },
     {
+      "rank": "warrior",
+      "tx": 40,
+      "ty": 1
+    },
+    {
       "rank": "grunt",
       "tx": -7,
       "ty": -18
+    },
+    {
+      "rank": "warrior",
+      "tx": 29,
+      "ty": 6
+    },
+    {
+      "rank": "warrior",
+      "tx": 29,
+      "ty": 8
+    },
+    {
+      "rank": "warrior",
+      "tx": 31,
+      "ty": 8
+    },
+    {
+      "rank": "grunt",
+      "tx": 27,
+      "ty": 10
+    },
+    {
+      "rank": "grunt",
+      "tx": 41,
+      "ty": 10
+    },
+    {
+      "rank": "grunt",
+      "tx": 41,
+      "ty": -4
     },
     {
       "rank": "warrior",
@@ -2390,18 +2475,18 @@
     },
     {
       "rank": "warrior",
-      "tx": 2,
-      "ty": -16
+      "tx": -7,
+      "ty": 17
     },
     {
       "rank": "warrior",
-      "tx": 21,
-      "ty": -3
+      "tx": -21,
+      "ty": 1
     },
     {
-      "rank": "spawner",
-      "tx": 32,
-      "ty": 1
+      "rank": "warrior",
+      "tx": 19,
+      "ty": 4
     }
   ]
 }
