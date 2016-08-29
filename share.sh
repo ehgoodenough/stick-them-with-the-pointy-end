@@ -2,12 +2,12 @@
 
 # To use, run with the "name of your build," like "pr13" or "v0.1.1".
 # The name of your build can be whatever you want. Your build will
-# be hosted at https://ehgoodenough.github.io/ld36/NAME_OF_YOUR_BUILD.
+# be hosted at https://ehgoodenough.github.io/stick-them-with-the-pointy-end/NAME_OF_YOUR_BUILD.
 #
 #    $ ./share.sh NAME_OF_YOUR_BUILD
 #
 
-git clone https://github.com/ehgoodenough/ld36 --branch gh-pages shares
+git clone https://github.com/ehgoodenough/stick-them-with-the-pointy-end --branch gh-pages shares
 
 node build --production
 
@@ -22,5 +22,5 @@ rm -rf shares
 
 echo
 echo Share your build by going to:
-echo https://ehgoodenough.github.io/ld36/$1
+echo https://ehgoodenough.github.io/stick-them-with-the-pointy-end/$1
 echo

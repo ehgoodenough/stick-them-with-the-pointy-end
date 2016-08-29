@@ -111,7 +111,7 @@ rimraf("./builds/web", function() {
                 VERSION: VERSION,
                 STAGE: STAGE,
             }),
-            // new Webpack.optimize.UglifyJsPlugin(),
+            new Webpack.optimize.UglifyJsPlugin(),
             new WebpackStatsPlugin("stats.json"),
             new WebpackExtractPlugin("name", "[name]"),
         ],
