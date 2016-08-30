@@ -83,6 +83,7 @@ export default class Monster extends Pixi.Sprite {
             this.health = 5
             this.spawnhealth = this.health
             this.texture = SPAWNER_TEXTURE
+            this.rotation = Math.random()*Math.PI*2
             spawnerCount += 1
 
             this.spawntimer = 0
@@ -127,7 +128,7 @@ export default class Monster extends Pixi.Sprite {
                         this.spawntimer -= delta.s
                         if(this.spawntimer <= 0) {
                             this.spawnpool += 1
-                            this.spawntimer = this.maxspawnpool + (Math.random() * 0.5)
+                            this.spawntimer = this.maxspawnpool + (Math.random() * 0.125 + 0.125)
                             this.game.monsters.addChild(new Monster({
                                 tx: this.spawnposition.tx,
                                 ty: this.spawnposition.ty,

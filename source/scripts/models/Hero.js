@@ -19,6 +19,7 @@ var OUCH_SOUND = new Sound(require("sounds/ouch.mp3"))
 var NOWAY_SOUND = new Sound(require("sounds/noway.mp3"))
 var GAMEPAD_THRESHOLD = 0.05
 var MAXIMUM_VELOCITY = 1
+var EPSILON = 0.000000001
 
 export default class Hero extends Pixi.Sprite {
     constructor(hero) {
@@ -121,6 +122,10 @@ export default class Hero extends Pixi.Sprite {
         // Deceleration
         this.velocity.y *= (1 / this.friction)
         this.velocity.x *= (1 / this.friction)
+        if(this.velocity.y < EPSILON && this.velocity.x < EPSILON){
+            this.velocity.y = 0
+            this.velocity.x = 0
+        }
 
         // Camera
         this.considerTheCamera()

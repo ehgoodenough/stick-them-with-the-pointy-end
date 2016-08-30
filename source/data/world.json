@@ -2006,23 +2006,83 @@
   "monsters": [
     {
       "rank": "spawner",
-      "tx": 32,
-      "ty": 1
+      "tx": 28,
+      "ty": -3
     },
     {
       "rank": "spawner",
-      "tx": 36,
-      "ty": 1
+      "tx": 31,
+      "ty": -3
     },
     {
       "rank": "spawner",
-      "tx": 36,
-      "ty": 5
+      "tx": 34,
+      "ty": -3
     },
     {
       "rank": "spawner",
-      "tx": 32,
-      "ty": 5
+      "tx": 37,
+      "ty": -3
+    },
+    {
+      "rank": "spawner",
+      "tx": 40,
+      "ty": -3
+    },
+    {
+      "rank": "spawner",
+      "tx": 40,
+      "ty": 0
+    },
+    {
+      "rank": "spawner",
+      "tx": 40,
+      "ty": 3
+    },
+    {
+      "rank": "spawner",
+      "tx": 40,
+      "ty": 6
+    },
+    {
+      "rank": "spawner",
+      "tx": 40,
+      "ty": 9
+    },
+    {
+      "rank": "spawner",
+      "tx": 37,
+      "ty": 9
+    },
+    {
+      "rank": "spawner",
+      "tx": 34,
+      "ty": 9
+    },
+    {
+      "rank": "spawner",
+      "tx": 31,
+      "ty": 9
+    },
+    {
+      "rank": "spawner",
+      "tx": 28,
+      "ty": 9
+    },
+    {
+      "rank": "spawner",
+      "tx": 28,
+      "ty": 6
+    },
+    {
+      "rank": "spawner",
+      "tx": 28,
+      "ty": 3
+    },
+    {
+      "rank": "spawner",
+      "tx": 28,
+      "ty": 0
     },
     {
       "rank": "warrior",
