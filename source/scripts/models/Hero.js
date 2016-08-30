@@ -19,7 +19,7 @@ var OUCH_SOUND = new Sound(require("sounds/ouch.mp3"))
 var NOWAY_SOUND = new Sound(require("sounds/noway.mp3"))
 var GAMEPAD_THRESHOLD = 0.05
 var MAXIMUM_VELOCITY = 1
-var EPSILON = 0.000000001
+var EPSILON = 0.00001
 
 export default class Hero extends Pixi.Sprite {
     constructor(hero) {
