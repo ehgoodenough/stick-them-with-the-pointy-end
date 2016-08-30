@@ -6,7 +6,7 @@ import Tile from "scripts/models/Tile.js"
 import config from "config.js"
 
 var MONSTER_TEXTURE = Pixi.Texture.fromImage(require("images/monster1.png"))
-var SPAWNER_TEXTURE = Pixi.Texture.fromImage(require("images/white.png"))
+var SPAWNER_TEXTURE = Pixi.Texture.fromImage(require("images/spawner1.png"))
 var SPLAT_SOUND = new Sound([require("sounds/splat1.mp3"), require("sounds/splat2.mp3"), require("sounds/splat3.mp3"), require("sounds/splat4.mp3")])
 var HIT_SOUND = new Sound(require("sounds/hit.mp3"))
 var WHOOSH_SOUND = new Sound(require("sounds/whoosh.mp3"))
@@ -43,6 +43,9 @@ export default class Monster extends Pixi.Sprite {
         this.scale.x = 1
         this.scale.y = 1
         this.maxvelocity = 0.5
+
+        this.shouldPounce = false
+        this.collidedLastFrame = false
 
         this.rank = monster.rank
 
@@ -117,7 +120,11 @@ export default class Monster extends Pixi.Sprite {
         if(this.game.hero.mode == "GAME MODE") {
             if(this.isAngered == true && this.isDead != true) {
                 if(this.rank == "spawner") {
-                    if(this.spawnpool < this.maxspawnpool) {
+                    var positionRelativeToHeroX = this.game.hero.position.x - this.position.x
+                    var positionRelativeToHeroY = this.game.hero.position.y - this.position.y
+                    var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
+                    console.log(magnitudeOfRelativePosition)
+                    if(this.spawnpool < this.maxspawnpool && magnitudeOfRelativePosition > config.tile.size*2) {
                         this.spawntimer -= delta.s
                         if(this.spawntimer <= 0) {
                             this.spawnpool += 1
@@ -148,6 +155,7 @@ export default class Monster extends Pixi.Sprite {
                             this.velocity.y *= (1/magnitudeOfVelocity)*this.maxvelocity
                         }
                     }
+                    this.collidedLastFrame = false
 
                     // Collide with tiles
                     this.game.tiles.children.forEach((tile) => {
@@ -157,15 +165,29 @@ export default class Monster extends Pixi.Sprite {
                                 y: this.position.y
                             })) {
                                 this.velocity.x = 0
+                                this.collidedLastFrame = true
+                                if(this.isPouncing){
+                                    this.velocity.y = 0
+                                }
                             }
                             if(tile.containsPoint({
                                 x: this.position.x,
                                 y: this.position.y + this.velocity.y
                             })) {
                                 this.velocity.y = 0
+                                this.collidedLastFrame = true
+                                if(this.isPouncing){
+                                    this.velocity.x = 0
+                                }
                             }
                         }
                     })
+
+                    if(Geometry.getMagnitude(this.velocity.x, this.velocity.y) - this.maxvelocity < 0.0001 && !this.collidedLastFrame){
+                        this.shouldPounce = true
+                    } else{
+                        this.shouldPounce = false
+                    }
 
                     // Collision detection with Hero
                     if(!this.isStunned) {
@@ -173,7 +195,7 @@ export default class Monster extends Pixi.Sprite {
                             var heroRadiusForCollision = this.game.hero.radius * 0.6
                             var distanceToHero = Geometry.getDistance(this.position, this.game.hero.position)
                             if(distanceToHero < this.radius + heroRadiusForCollision * 4) {
-                                if(!this.isPouncing && !this.isCoolingDown && this.kickbackCooldown <= 0 && !this.isStunned) {
+                                if(!this.isPouncing && !this.isCoolingDown && this.kickbackCooldown <= 0 && !this.isStunned && this.shouldPounce) {
                                     this.getReadyToPounce(velocityUnitVector)
                                 }
 

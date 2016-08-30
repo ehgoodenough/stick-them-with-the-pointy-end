@@ -15,12 +15,12 @@ export default class Spear extends Pixi.Sprite {
         this.anchor.y = 0.5
         this.anchor.x = 0.5
         this.sampleIntervalLength = this.height*2/NUMBER_OF_COLLISION_SAMPLES
-        this.attackHasVictim = false
-        this.hasHitAWallBefore = false
+        this.attackHitWall = false
+        this.attackVictims = []
     }
     update() {
         if(!this.attackHasVictim) {
-            for(var i = 0; i < NUMBER_OF_COLLISION_SAMPLES && !this.attackHasVictim; i++){
+            for(var i = 0; i < NUMBER_OF_COLLISION_SAMPLES && !this.attackHitWall; i++){
                 var samplePoint = new Pixi.Point(0,0)
                 samplePoint.x = this.parent.position.x - Math.cos(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
                 samplePoint.y = this.parent.position.y - Math.sin(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
@@ -30,19 +30,25 @@ export default class Spear extends Pixi.Sprite {
                     var currentTile = this.parent.game.tiles.childrenByKey[tileKey]
                     var tooCloseToTileCenter = currentTile != null && Geometry.getDistance(samplePoint, currentTile.position) < config.tile.size/2
                     if(currentTile != null){
-                        console.log(Geometry.getDistance(samplePoint, currentTile.position))
                     }
                     if(currentTile != null && !currentTile.isPassable && tooCloseToTileCenter){
                         WALL_HIT_SOUND.playSound()
-                        this.attackHasVictim = true
+                        this.attackHitWall = true
                     }
                 //}
 
-                for(var j = 0; j < this.parent.game.monsters.children.length && !this.attackHasVictim; j++){
+                for(var j = 0; j < this.parent.game.monsters.children.length && !this.attackHitWall; j++){
                     var currentMonster = this.parent.game.monsters.children[j]
+                    var alreadyAVictim = false
+                    for(var k = 0; k < this.attackVictims.length; k++){
+                        if(currentMonster == this.attackVictims[k]){
+                            alreadyAVictim = true
+                        }
+                    }
                     if(currentMonster.isDead != true
-                    && Geometry.getDistance(currentMonster.position, samplePoint) < currentMonster.radius) {
-                        this.attackHasVictim = true
+                    && Geometry.getDistance(currentMonster.position, samplePoint) < currentMonster.radius
+                    && !alreadyAVictim) {
+                        this.attackVictims.push(currentMonster)
                         currentMonster.beAttacked({
                             direction: this.parent.rotation,
                             force: 15
