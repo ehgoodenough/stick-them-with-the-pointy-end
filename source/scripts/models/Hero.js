@@ -277,7 +277,6 @@ export default class Hero extends Pixi.Sprite {
             this.health -= attack.damage || 1
             OUCH_SOUND.playSound()
             if(this.health <= 0) {
-                NOWAY_SOUND.playSound()
                 this.beKilled()
             } else {
                 this.beAttackedCooldown = attack.cooldown || 1
@@ -285,6 +284,7 @@ export default class Hero extends Pixi.Sprite {
         }
     }
     beKilled() {
+        NOWAY_SOUND.playSound()
         this.position.copy(this.spawnposition)
         this.health = this.spawnhealth
 

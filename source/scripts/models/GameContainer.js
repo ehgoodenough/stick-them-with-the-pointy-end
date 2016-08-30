@@ -12,6 +12,7 @@ import Floor from "scripts/models/Floor.js"
 
 import KeyContainer from "scripts/utility/KeyContainer.js"
 import Geometry from "scripts/utility/Geometry.js"
+import Cartographer from "scripts/utility/Cartographer.js"
 
 const CAMERA_TRANSITION_FRICTION = 0.05
 
@@ -27,6 +28,8 @@ export default class GameContainer extends Pixi.Container {
         this.cameras = new KeyContainer()
         this.monsters = new KeyContainer()
         this.floors = new KeyContainer()
+
+        //this.cartographer = new Cartographer()
 
         // Add to the container.
 
@@ -61,6 +64,8 @@ export default class GameContainer extends Pixi.Container {
         // console.log("To copy the world to your clipboard, run copy(game.data)")
 
         this.tags = {}
+
+        //this.cartographer.createMap(this.tiles)
     }
     jumpCameraToHero() {
         this.hero.considerTheCamera()

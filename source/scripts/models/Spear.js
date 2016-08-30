@@ -28,7 +28,11 @@ export default class Spear extends Pixi.Sprite {
                 if(i < 3){
                     var tileKey = Math.floor(samplePoint.x / config.tile.size) + "-" + Math.floor(samplePoint.y / config.tile.size)
                     var currentTile = this.parent.game.tiles.childrenByKey[tileKey]
-                    if(currentTile != null && !currentTile.isPassable){
+                    var tooCloseToTileCenter = currentTile != null && Geometry.getDistance(samplePoint, currentTile.position) < config.tile.size/2
+                    if(currentTile != null){
+                        console.log(Geometry.getDistance(samplePoint, currentTile.position))
+                    }
+                    if(currentTile != null && !currentTile.isPassable && tooCloseToTileCenter){
                         WALL_HIT_SOUND.playSound()
                         this.attackHasVictim = true
                     }

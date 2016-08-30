@@ -1931,6 +1931,11 @@
       "tx": 5,
       "ty": -11,
       "textureIndex": 2
+    },
+    {
+      "tx": -31,
+      "ty": -24,
+      "textureIndex": 3
     }
   ],
   "cameras": [
