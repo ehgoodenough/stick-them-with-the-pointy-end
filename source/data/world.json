@@ -1918,24 +1918,9 @@
   ],
   "floors": [
     {
-      "tx": -28,
-      "ty": -5,
-      "textureIndex": 0
-    },
-    {
-      "tx": -13,
-      "ty": -21,
-      "textureIndex": 1
-    },
-    {
-      "tx": 5,
-      "ty": -11,
-      "textureIndex": 2
-    },
-    {
       "tx": -31,
       "ty": -24,
-      "textureIndex": 3
+      "textureIndex": 0
     }
   ],
   "cameras": [

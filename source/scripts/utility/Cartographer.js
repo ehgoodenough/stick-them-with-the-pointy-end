@@ -5,7 +5,7 @@ export default class Cartographer {
 	constructor(){
 		this.canvas = document.getElementById("myCanvas")
 		this.ctx = this.canvas.getContext("2d")
-		this.ctx.strokeStyle = "#000"
+		this.ctx.fillStyle = "#000"
 		this.tiles = null
 		this.image = null
 		this.minTX = 0
@@ -58,9 +58,7 @@ export default class Cartographer {
 			var pixelWidth = config.tile.size
 			var pixelHeight = config.tile.size
 			this.ctx.rect(pixelX,pixelY,pixelWidth,pixelHeight);
-			this.ctx.strokeStyle = "#000"
-			this.ctx.stroke();
-			//this.ctx.fill()
+			this.ctx.fill()
 		})
 	}
 	createImage(){

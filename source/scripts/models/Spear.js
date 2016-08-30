@@ -25,7 +25,7 @@ export default class Spear extends Pixi.Sprite {
                 samplePoint.x = this.parent.position.x - Math.cos(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
                 samplePoint.y = this.parent.position.y - Math.sin(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
 
-                if(i < 3){
+                //if(i < 3){
                     var tileKey = Math.floor(samplePoint.x / config.tile.size) + "-" + Math.floor(samplePoint.y / config.tile.size)
                     var currentTile = this.parent.game.tiles.childrenByKey[tileKey]
                     var tooCloseToTileCenter = currentTile != null && Geometry.getDistance(samplePoint, currentTile.position) < config.tile.size/2
@@ -36,7 +36,7 @@ export default class Spear extends Pixi.Sprite {
                         WALL_HIT_SOUND.playSound()
                         this.attackHasVictim = true
                     }
-                }
+                //}
 
                 for(var j = 0; j < this.parent.game.monsters.children.length && !this.attackHasVictim; j++){
                     var currentMonster = this.parent.game.monsters.children[j]
