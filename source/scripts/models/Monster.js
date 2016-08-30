@@ -123,7 +123,6 @@ export default class Monster extends Pixi.Sprite {
                     var positionRelativeToHeroX = this.game.hero.position.x - this.position.x
                     var positionRelativeToHeroY = this.game.hero.position.y - this.position.y
                     var magnitudeOfRelativePosition = Geometry.getMagnitude(positionRelativeToHeroX, positionRelativeToHeroY)
-                    console.log(magnitudeOfRelativePosition)
                     if(this.spawnpool < this.maxspawnpool && magnitudeOfRelativePosition > config.tile.size*2) {
                         this.spawntimer -= delta.s
                         if(this.spawntimer <= 0) {

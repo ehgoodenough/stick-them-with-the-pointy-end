@@ -19,7 +19,7 @@ export default class Spear extends Pixi.Sprite {
         this.attackVictims = []
     }
     update() {
-        if(!this.attackHasVictim) {
+        if(!this.attackHitWall) {
             for(var i = 0; i < NUMBER_OF_COLLISION_SAMPLES && !this.attackHitWall; i++){
                 var samplePoint = new Pixi.Point(0,0)
                 samplePoint.x = this.parent.position.x - Math.cos(this.parent.rotation-Math.PI/2)*i*this.sampleIntervalLength
