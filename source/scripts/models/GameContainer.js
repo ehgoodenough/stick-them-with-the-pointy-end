@@ -16,6 +16,8 @@ import Cartographer from "scripts/utility/Cartographer.js"
 
 const CAMERA_TRANSITION_FRICTION = 0.05
 
+var TRACK_1 = require("sounds/track1.mp3")
+
 export default class GameContainer extends Pixi.Container {
     constructor() {
         super()
@@ -59,6 +61,10 @@ export default class GameContainer extends Pixi.Container {
 
         this.targetposition = new Pixi.Point()
         this.jumpCameraToHero()
+
+        this.music = new Audio(TRACK_1)
+        this.music.loop = true
+        this.music.play()
 
         // console.log("To edit the world, change your mode by hitting 1, 2 or 3.")
         // console.log("To copy the world to your clipboard, run copy(game.data)")
@@ -157,6 +163,14 @@ export default class GameContainer extends Pixi.Container {
             } else {
                 this.scale.x = 1
                 this.scale.y = 1
+            }
+        }
+
+        if(Keyb.isJustDown("M")) {
+            if(this.music.paused){
+                this.music.play()
+            } else{
+                this.music.pause()
             }
         }
     }
