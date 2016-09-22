@@ -57,7 +57,7 @@ export default class Cartographer {
 			var pixelY = tile.ty*config.tile.size + yOffset
 			var pixelWidth = config.tile.size
 			var pixelHeight = config.tile.size
-			this.ctx.rect(pixelX,pixelY,pixelWidth,pixelHeight);
+			this.ctx.rect(pixelX,pixelY,pixelWidth,pixelHeight)
 			this.ctx.fill()
 		})
 	}
