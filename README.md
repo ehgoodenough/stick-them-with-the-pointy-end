@@ -2,7 +2,7 @@
 
 A game for [Ludum Dare 36](http://ludumdare.com).
 
-![](http://i.imgur.com/EtiobAx.png)
+![](http://i.imgur.com/wgHZg8J.gif)
 
 ### Getting Started ###
 
