@@ -17,6 +17,7 @@ import Cartographer from "scripts/utility/Cartographer.js"
 import CircleCollider from "scripts/utility/CircleCollider.js"
 import RectangleCollider from "scripts/utility/RectangleCollider.js"
 import SquarePrimitive from "scripts/utility/SquarePrimitive.js"
+import CirclePrimitive from "scripts/utility/CirclePrimitive.js"
 
 const CAMERA_TRANSITION_FRICTION = 0.05
 
@@ -34,6 +35,7 @@ export default class GameContainer extends Pixi.Container {
         this.cameras = new KeyContainer()
         this.monsters = new KeyContainer()
         this.floors = new KeyContainer()
+        this.colliders = []
 
         //this.cartographer = new Cartographer()
 
@@ -86,10 +88,21 @@ export default class GameContainer extends Pixi.Container {
         var collider1Scale = {x: 4, y: .5}
         var collider1Rotation = Math.PI*1.4
 
-        //this.testCollider1 = new RectangleCollider(collider1Position, collider1Scale, collider1Rotation)
+        var collider2Position = {x: 0, y: 60}
+        var collider2Scale = {x: 1, y: 1}
+        var collider2Rotation = 0
+
         this.testSquare1 = new SquarePrimitive(collider1Position, collider1Scale, -1*collider1Rotation)
+        this.testSquare1.game = this
+        this.colliders.push(this.testSquare1.collider)
+        this.testCircle1 = new CirclePrimitive(collider2Position, collider2Scale, -1*collider2Rotation)
+        this.testCircle1.game = this
+        this.colliders.push(this.testCircle1.collider)
+
+        this.colliders.push(this.hero.collider)
 
         this.addChild(this.testSquare1)
+        this.addChild(this.testCircle1)
     }
     jumpCameraToHero() {
         this.hero.considerTheCamera()
@@ -101,9 +114,6 @@ export default class GameContainer extends Pixi.Container {
         child.game = this
     }
     update(delta) {
-        // DELETE
-        this.testSquare1.update()
-
         // updating entities
         this.hero.update(delta)
 
@@ -193,6 +203,17 @@ export default class GameContainer extends Pixi.Container {
                 this.music.play()
             } else{
                 this.music.pause()
+            }
+        }
+
+        this.testSquare1.update()
+        this.testCircle1.update()
+        for(var i = 0; i < this.colliders.length; i++){
+            var curCollider = this.colliders[i]
+            for(var j = 0; j < this.colliders.length; j++){
+                if(i < j){
+                    this.colliders[i].checkForCollision(this.colliders[j])
+                }
             }
         }
     }

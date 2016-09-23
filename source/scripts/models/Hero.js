@@ -56,6 +56,7 @@ export default class Hero extends Pixi.Sprite {
         this.monsterRank = "warrior"
 
         this.collider = new CircleCollider(this.position, this.scale, this.rotation)
+        this.collider.parent = this
         //this.addChild(this.collider)
     }
     update(delta) {
@@ -212,9 +213,6 @@ export default class Hero extends Pixi.Sprite {
         }
 
         this.collider.update(this.position, {x: this.scale.x, y: this.scale.y}, this.rotation)
-        if(this.collider.checkForCollision(this.parent.testSquare1.collider)){
-            console.log("hit square 1")
-        }
 
         // Cooldowns
         if(this.beAttackedCooldown > 0) {

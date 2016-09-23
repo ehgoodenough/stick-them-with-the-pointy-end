@@ -6,16 +6,23 @@ import config from "config.js"
 export default class RectangleCollider extends Pixi.Sprite{
     constructor(center, scale, rotation) {
         super()
-    	this.shape = "rectangle"
-    	this.center = {x: center.x, y: center.y}
-    	this.xScale = scale.x * config.tile.size
+        this.shape = "rectangle"
+        this.center = {x: center.x, y: center.y}
+        this.xScale = scale.x * config.tile.size
         this.yScale = scale.y * config.tile.size
         this.rotation = rotation
-        this.isColliding = false
+        this.hitList = []
     }
     checkForCollision(otherCollider){
+        for(var i = 0; i < otherCollider.hitList.length; i++){
+            if(otherCollider.hitList[i] == this){
+                this.hitList.push(otherCollider)
+                return true
+            }
+        }
+
         // If it's a rectangle, check if any of its corners are within my rectangle or vice versa
-    	if(otherCollider.shape == "rectangle"){
+        if(otherCollider.shape == "rectangle"){
             var foundACollision = false
 
             // Instantiate the other collider's sample points in its local space
@@ -66,7 +73,7 @@ export default class RectangleCollider extends Pixi.Sprite{
                     }
                 }
             }
-    	} else if(otherCollider.shape == "circle"){
+        } else if(otherCollider.shape == "circle"){
             var foundACollision = false
 
             // Define my corners in my local space
@@ -85,7 +92,6 @@ export default class RectangleCollider extends Pixi.Sprite{
 
                 if(Geometry.getDistance(myCorners[i], otherCollider.position) < otherCollider.scale/2){
                     foundACollision = true
-                    console.log('first way')
                 }
             }
 
@@ -114,20 +120,20 @@ export default class RectangleCollider extends Pixi.Sprite{
                     && circleCorners[i].y > this.yScale *-1/2
                     && circleCorners[i].y < this.yScale * 1/2){
                         foundACollision = true
-                        console.log('second way')
                     }
                 }
             }
         }
+
         if(foundACollision){
-            this.isColliding = true
-            otherCollider.isColliding = true
-        } else{
-            this.isColliding = false
+            this.hitList.push(otherCollider)
+            otherCollider.hitList.push(this)
         }
+
         return foundACollision
     }
     update(position, scale, rotation){
+        this.hitList = []
         this.center = position
         this.xScale = scale.x * config.tile.size
         this.yScale = scale.y * config.tile.size
