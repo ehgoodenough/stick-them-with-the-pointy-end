@@ -82,24 +82,14 @@ export default class GameContainer extends Pixi.Container {
         // var localOffsetVector = Geometry.convertGlobalOffsetToLocalOffset(globalOffsetVector, rotation)
         // console.log('x: ' + localOffsetVector.x +', y: ' + localOffsetVector.y)
 
-        var collider1Position = {x: 20, y: 36}
-        var collider1Scale = {x: .5, y: .5}
+        var collider1Position = {x: 40, y: 100}
+        var collider1Scale = {x: 4, y: .5}
         var collider1Rotation = Math.PI*1.4
-
-        var collider2Position = {x: 32, y: 24}
-        var collider2Scale = {x: .5, y: .5}
-        var collider2Rotation = Math.PI/4
 
         //this.testCollider1 = new RectangleCollider(collider1Position, collider1Scale, collider1Rotation)
         this.testSquare1 = new SquarePrimitive(collider1Position, collider1Scale, -1*collider1Rotation)
 
-        //this.testCollider2 = new RectangleCollider(collider2Position, collider2Scale, collider2Rotation)
-        this.testSquare2 = new SquarePrimitive(collider2Position, collider2Scale, -1*collider2Rotation)
-
         this.addChild(this.testSquare1)
-        this.addChild(this.testSquare2)
-
-        //this.testSquare2.collider.checkForCollision(this.testSquare1.collider)
     }
     jumpCameraToHero() {
         this.hero.considerTheCamera()
@@ -111,6 +101,9 @@ export default class GameContainer extends Pixi.Container {
         child.game = this
     }
     update(delta) {
+        // DELETE
+        this.testSquare1.update()
+
         // updating entities
         this.hero.update(delta)
 

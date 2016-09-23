@@ -11,6 +11,7 @@ export default class RectangleCollider extends Pixi.Sprite{
     	this.xScale = scale.x * config.tile.size
         this.yScale = scale.y * config.tile.size
         this.rotation = rotation
+        this.isColliding = false
     }
     checkForCollision(otherCollider){
         // If it's a rectangle, check if any of its corners are within my rectangle or vice versa
@@ -77,7 +78,8 @@ export default class RectangleCollider extends Pixi.Sprite{
 
             // Convert my corner positions to global space
             for(var i = 0; i < myCorners.length && !foundACollision; i++){
-                myCorners[i] = Geometry.convertLocalOffsetToGlobalOffset(myCorners[i], this.rotation)
+                // I honestly don't understand why I am using negative rotation here. But it works. ¯\_(ツ)_/¯
+                myCorners[i] = Geometry.convertLocalOffsetToGlobalOffset(myCorners[i], -1*this.rotation)
                 myCorners[i] = {x: myCorners[i].x + this.center.x, y: myCorners[i].y + this.center.y}
                 // Check if any of my corners are within the circle
 
@@ -106,7 +108,7 @@ export default class RectangleCollider extends Pixi.Sprite{
                     // Then find the vectors from this collider's center to the circle corners
                     circleCorners[i] = {x: circleCorners[i].x - this.center.x, y: circleCorners[i].y - this.center.y}
                     // redefine those vectors in this collider's local space
-                    circleCorners[i] = Geometry.convertGlobalOffsetToLocalOffset(circleCorners[i], this.rotation)
+                    circleCorners[i] = Geometry.convertLocalOffsetToGlobalOffset(circleCorners[i], this.rotation)
                     if(circleCorners[i].x > this.xScale *-1/2
                     && circleCorners[i].x < this.xScale * 1/2
                     && circleCorners[i].y > this.yScale *-1/2
@@ -117,7 +119,12 @@ export default class RectangleCollider extends Pixi.Sprite{
                 }
             }
         }
-
+        if(foundACollision){
+            this.isColliding = true
+            otherCollider.isColliding = true
+        } else{
+            this.isColliding = false
+        }
         return foundACollision
     }
     update(position, scale, rotation){

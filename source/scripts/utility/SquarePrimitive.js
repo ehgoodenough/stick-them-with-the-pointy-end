@@ -16,4 +16,16 @@ export default class SquarePrimitive extends Pixi.Sprite{
         this.position.y = position.y
         this.collider = new RectangleCollider(position, {x: scale.x, y: scale.y}, -1 * rotation)
     }
+    update(){
+        this.rotation += 0.01
+        this.collider.update(this.position, {x: this.scale.x, y: this.scale.y}, -1 * this.rotation)
+    }
+    get tint() {
+        if(this.collider.isColliding){
+            return 0x000099
+        } else{
+            return 0xFFFFFF
+        }
+    }
+
 }

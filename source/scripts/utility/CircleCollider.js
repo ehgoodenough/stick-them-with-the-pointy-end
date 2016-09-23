@@ -8,17 +8,22 @@ export default class CircleCollider{
     	this.scale = scale.x * config.tile.size
     }
     checkForCollision(otherCollider){
+        var foundACollision = false
     	if(otherCollider.shape == "circle"){
     		var distanceBetweenColliders = Geometry.getDistance(this.position, otherCollider.position)
     		var sumOfRadii = this.scale/2 + otherCollider.scale/2
     		if(distanceBetweenColliders < sumOfRadii){
-    			return true
-    		} else{
-    			return false
+                foundACollision = true
     		}
     	} else if(otherCollider.shape == "rectangle"){
-            return otherCollider.checkForCollision(this)
+            foundACollision = otherCollider.checkForCollision(this)
         }
+        if(foundACollision){
+            this.isColliding = true
+        } else{
+            this.isColliding = false
+        }
+        return foundACollision
     }
     update(position, scale, rotation){
         this.position = position

@@ -213,11 +213,8 @@ export default class Hero extends Pixi.Sprite {
 
         this.collider.update(this.position, {x: this.scale.x, y: this.scale.y}, this.rotation)
         if(this.collider.checkForCollision(this.parent.testSquare1.collider)){
-            //console.log("hit square 1")
+            console.log("hit square 1")
         }
-        // if(this.collider.checkForCollision(this.parent.testSquare2.collider)){
-        //     console.log("hit square 2")
-        // }
 
         // Cooldowns
         if(this.beAttackedCooldown > 0) {
